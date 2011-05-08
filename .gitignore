@@ -1,0 +1,6 @@
+doc
+cache
+out
+.yardoc
+uml
+*.log

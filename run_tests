@@ -1,0 +1,1 @@
+rspec --color --format d ./test/**/*.rb ./test/*.rb -r ./test/rspec_helper.rb

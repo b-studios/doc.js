@@ -1,0 +1,5 @@
+files:
+  - "test/js-files/core-doc.js"
+
+loglevel: "debug"
+output: "out"
