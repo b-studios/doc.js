@@ -1,2 +1,2 @@
 #!/bin/bash
-yardoc --hide-void-return --markup markdown lib/**/*.rb lib/*.rb jsdoc.rb - CONCEPT DOCUMENTATION ARCHITECTURE_OVERVIEW
+yardoc --hide-void-return --markup markdown lib/**/*.rb lib/*.rb jsdoc.rb - CONCEPT.md DOCUMENTATION.md
