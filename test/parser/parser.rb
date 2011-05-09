@@ -1,9 +1,7 @@
-# ../data.img#1799297:1
 #encoding utf-8
 
 require_relative '../../lib/parser/parser'
 
-# @todo Missing second part of this test
 describe Parser::Parser, ".parse" do
 
   context "Parsing a simple File" do
@@ -44,6 +42,7 @@ describe Parser::Parser, ".parse" do
   end
 
 
+
   context "Parsing a File with nested comments" do
 
     before do  
@@ -75,8 +74,8 @@ describe Parser::Parser, ".parse" do
         tokens[0].content.should == "Outer\n"
       end
       
-      it "should start at line 3" do
-        subject.line_start.should == 3  # counting from 0
+      it "should start at line 4" do
+        subject.line_start.should == 4
       end
       
       it "should contain the right filepath" do
@@ -138,8 +137,8 @@ describe Parser::Parser, ".parse" do
         tokens[0].content.should == ".inner\n"
       end
       
-      it "should start at line 9" do
-        subject.line_start.should == 9  # counting from 0
+      it "should start at line 10" do
+        subject.line_start.should == 10
       end
       
       it "should contain the right filepath" do
@@ -160,8 +159,93 @@ describe Parser::Parser, ".parse" do
       it "should have got correct tokenline-contents" do
         tokens = subject.tokenlines        
         tokens[0].token.should == :function        
-        tokens[0].content.should == ".inner\n"
-      end  
+        tokens[0].content.should == ".inner_two\n"
+      end
+      
+      it "should start at line 19" do
+        subject.line_start.should == 19
+      end
+      
+      it "should contain the right filepath" do
+        subject.filepath.should == @path
+      end      
+      
+    end
+    
+    describe "the most inner comment" do
+    
+      subject { @comments.first.children[1].children.first }
+      
+      it "should contain 1 doclines and 1 tokenline" do
+        subject.doclines.length.should == 1
+        subject.tokenlines.length.should == 1
+      end
+      
+      it "should have got correct tokenline-contents" do
+        tokens = subject.tokenlines        
+        tokens[0].token.should == :object        
+        tokens[0].content.should == ".foo\n"
+      end
+      
+      it "should start at line 26" do
+        subject.line_start.should == 26
+      end
+      
+      it "should contain the right filepath" do
+        subject.filepath.should == @path
+      end      
+      
     end
   end
+
+
+
+  context "being confronted with windows-linebreaks \\r \\n" do
+
+    before do  
+      @parser = Parser::Parser.new("/**\r\n *\r\n * @tokenline with something fancy\r\n * @multiline token with\r\n *   continue over line end\r\n *  */")
+      @comments = @parser.parse
+    end  
+
+    it "should parse tokenlines correct" do
+      tokens = @comments.first.tokenlines
+      
+      tokens[0].token.should == :tokenline
+      tokens[1].token.should == :multiline
+      
+      tokens[0].content.should == "with something fancy\n"
+      tokens[1].content.should == "token with\n continue over line end\n"
+    end
+  end
+  
+  context "parsing multibyte character" do
+=begin
+    before do  
+
+      @parser = Parser::Parser.new("/**
+ *
+ * @tokenline ÜÄÖÖüäöüöäßø
+ * @multiline token with
+ *   continue over line end
+ *  
+ */
+Foo Bar")
+      @comments = @parser.parse
+    end  
+
+    subject { @comments.first }
+  
+    it "should find the correct source" do
+      subject.source.should == "Foo Bar"
+    end
+    
+=end
+    pending("There are Problems with utf-8 encoded string")
+  end
+  
+  
 end
+
+
+
+
