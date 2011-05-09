@@ -40,31 +40,15 @@ describe Configs, ".set" do
     Configs.set :prop1 => 1,
                 :prop2 => 2,
                 :prop3 => 3
+                
     Configs.prop1.should == 1
     Configs.prop2.should == 2
     Configs.prop3.should == 3
   end
-end
-
-describe Configs, ".has?" do
   
-  before do
-    Configs.clear
-    Configs.set :foo, 999
+  it "should return nil when trying to access not existing property" do
+    Configs.prop99.should == nil
   end
-  
-  it "should find entry by symbol" do
-    Configs.has?(:foo).should == true 
-  end
-  
-  it "should find entry by string" do
-    Configs.has?('foo').should == true 
-  end
-  
-  it "should not find and existing entry" do
-    Configs.has?('foobarbaz').should == false
-  end
-  
 end
 
 describe Configs, ".clear" do
@@ -75,8 +59,7 @@ describe Configs, ".clear" do
     
     Configs.clear
       
-    Configs.properties.should == []
-    Configs.has?(:foo).should == false    
-    Configs.has?(:bar).should == false
+    Configs.foo.should == nil
+    Configs.bar.should == nil
   end
 end

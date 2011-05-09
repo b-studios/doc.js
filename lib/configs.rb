@@ -20,6 +20,12 @@ module Configs
   def self.method_missing(method_name, *args)
     nil
   end
+  
+  def self.clear
+    class_variables.each do |var|
+      class_variable_set(var, nil)
+    end
+  end
 
   protected
 
