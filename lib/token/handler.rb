@@ -185,6 +185,17 @@ module Token
         @@handlers[tokenname] = default_handler
       end
     end
+    
+    # Remove a registered handler from the list
+    #
+    # @example
+    #   Token::Handler.register :foo
+    #   Token::Handler.unregister :foo
+    #
+    # @param [String, Symbol] tokenname
+    def self.unregister(tokenname)
+      @@handlers.delete(tokenname.to_sym)
+    end
 
     protected
 

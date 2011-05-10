@@ -22,7 +22,7 @@ module CodeObject
       klass = tokenlines.select {|t| self.include? t.token }
       
       if klass.size > 1
-        raise CodeObject::MultipleTypeDeclarations.new "Wrong number of TypeDeclarations: #{klass}"
+        raise CodeObject::MultipleTypeDeclarations.new, "Wrong number of TypeDeclarations: #{klass}"
       elsif klass.size == 0
         # it's not possible to create instance
         return nil
