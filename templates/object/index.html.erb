@@ -1,0 +1,49 @@
+<h1><%= @object.qualified_name %></h1>
+<dl>
+  <dt>Defined in:</dt>
+  <!-- Hier koennte die gehighlightete Version als Link hinterlegt werden -->
+  <dd><%= @object.filepath %></dd>
+  <dd>Line: <%= @object.line_start %></dd>
+</dl>
+
+<%= @object.docs %>
+
+<%= subsection :props, :title => "Properties", :collection => @object.props, :partial => 'tokens/typed_name' %>
+
+
+<% unless @methods.nil? or @methods.size == 0 %>
+<section>
+  <h2>Methods Summary</h2>
+  <ul class="summary collapsed">
+    <% @methods.each do |child| %>
+    <li><%= child.name %></li>
+    <% end %>
+  </ul>
+  <ul class="summary expanded">
+    <%= render :partial => 'function/expanded', :collection => @methods %>
+  </ul>
+</section>
+<% end %>
+
+<% unless @children.nil? or @children.size == 0 %>
+<section>
+  <h2>Children Summary</h2>
+  <ul class="summary collapsed">
+    <%= render :partial => 'object/collapsed', :collection => @children %> 
+  </ul>
+</section>
+<% end %>
+
+<% unless @methods.nil? or @methods.size == 0 %>
+<section>
+  <h2>Methods Details</h2>
+  <%= render :partial => 'function/detail', :collection => @methods %>
+</section>
+<% end %>
+
+<% unless @children.nil? or @children.size == 0 %>
+<section>
+  <h2>Children Details</h2>
+  <%= render :partial => 'object/detail', :collection => @children %>
+</section>
+<% end %>

@@ -1,7 +1,5 @@
-# ../data.img#1770041:1
-#!/usr/bin/env ruby
-require "rubygems" # ruby1.9 doesn't "require" it though
 require "thor"
+#!/usr/bin/ruby1.9
 
 require_relative 'lib/thor'
 require_relative 'lib/logger'
@@ -46,25 +44,28 @@ class JsDoc < Thor
                   { :type => :string, :aliases => '-o', :default => 'out' },
                   
               :templates =>
-                  { :type => :string, :aliases => '-t', :default => Configs.root + 'views' },
+                  { :type => :string, :aliases => '-t', :default => Configs.root + 'templates' },
                   
               :logfile =>
-                  { :type => :string, :aliases => '-L', :default => 'jsdoc.log' },
+                  { :type => :string, :aliases => '-lf', :default => 'jsdoc.log' },
                   
               :loglevel =>
-                  { :type => :string, :aliases => '-l', :default => 'info' }
+                  { :type => :string, :aliases => '-ll', :default => 'info' }
   
   def jsdoc(config_file = nil)
     # @see Thor#merge_options
     configs = config_file ? merge_options(options, config_file) : options
     
-    setup_application configs
-    parse_files
-    
-    #empty_directory '.'
-    render_dom
-    # copy resources
-    directory 'static', '.'
+    begin
+      setup_application configs
+      parse_files    
+      render_dom      
+      Logger.info "Copying template resources to output"
+      directory 'static', '.' # copy resources
+            
+    rescue Exception => error
+      Logger.error error
+    end    
   end  
   
   protected
@@ -72,8 +73,11 @@ class JsDoc < Thor
   def setup_application(options)
         
     # initialize Logger
-    Logger.setup :logfile => File.expand_path(options[:logfile], Dir.pwd),
+    Logger.setup self.shell,
+                 :logfile => File.expand_path(options[:logfile], Dir.pwd),
                  :level   => options[:loglevel].to_sym
+    
+    Logger.info "Setting up Application"
     
     # Process option-values and store them in our Configs-object
     Configs.set :options      => options, # Just store the options for now
@@ -87,18 +91,19 @@ class JsDoc < Thor
     JsDoc.source_root(Configs.templates)
     self.destination_root = Configs.output
     
+    Logger.debug "Given options: #{options}"
     Logger.debug "App Root: #{Configs.root}"
-    Logger.debug "Working Dir #{Configs.wdir}"
-    Logger.debug "Output Dir #{Configs.output}"
+    Logger.debug "Working Dir: #{Configs.wdir}"
+    Logger.debug "Output Dir: #{Configs.output}"
   end
   
   def parse_files
-    
+        
     return if Configs.files.nil?      
     
     Configs.files.each do |file|  
 
-      Logger.debug "trying to load file #{file}"      
+      Logger.info "Processing file #{file}"      
       comments = Parser::Parser.parse_file file      
       comments.map {|comment| Dom.add_node(comment.to_code_object) }.compact      
     end
