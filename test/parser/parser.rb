@@ -4,7 +4,7 @@ require_relative '../../lib/parser/parser'
 
 describe Parser::Parser, ".parse" do
 
-  context "Parsing a simple File" do
+  context "Parsing simple.js" do
 
     before do  
       stream = File.read File.expand_path('../../js-files/simple.js', __FILE__)
@@ -245,7 +245,3 @@ Foo Bar")
   
   
 end
-
-
-
-
