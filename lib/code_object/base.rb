@@ -29,6 +29,7 @@ module CodeObject
       "#<#{self.class}:#{self.name} @parent=#{parent.name if parent} @children=#{@children.keys} @tokens=#{token_names}>"
     end    
     
+    # Automatically converts markdown-documentation to html
     def docs=(docstring)
       @docs = RDiscount.new(docstring.strip).to_html
     end

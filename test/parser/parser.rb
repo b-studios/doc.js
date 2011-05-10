@@ -36,11 +36,9 @@ describe Parser::Parser, ".parse" do
         
         tokens[0].content.should == "tokenline\n"
         tokens[1].content.should == "tokenline, which should be a multiline token\n because it is intended with at least 2 spaces and\n it won't stop, until there is an empty line, or a\n new token\n"
-      end
-      
+      end      
     end
   end
-
 
 
   context "Parsing a File with nested comments" do
@@ -118,9 +116,9 @@ describe Parser::Parser, ".parse" do
       
       it "should contain 2 child-comments" do 
         subject.children.length.should == 2
-      end
-      
+      end      
     end
+    
     
     describe "the first inner comment" do
     
@@ -143,9 +141,10 @@ describe Parser::Parser, ".parse" do
       
       it "should contain the right filepath" do
         subject.filepath.should == @path
-      end      
-      
+      end
+            
     end
+        
         
     describe "the second inner comment" do
     
@@ -168,9 +167,10 @@ describe Parser::Parser, ".parse" do
       
       it "should contain the right filepath" do
         subject.filepath.should == @path
-      end      
+      end  
       
     end
+    
     
     describe "the most inner comment" do
     
@@ -196,6 +196,7 @@ describe Parser::Parser, ".parse" do
       end      
       
     end
+    
   end
 
 
@@ -216,6 +217,7 @@ describe Parser::Parser, ".parse" do
       tokens[0].content.should == "with something fancy\n"
       tokens[1].content.should == "token with\n continue over line end\n"
     end
+    
   end
   
   context "parsing multibyte character" do
@@ -241,7 +243,7 @@ Foo Bar")
     
 =end
     pending("There are Problems with utf-8 encoded string")
-  end
   
+  end  
   
 end
