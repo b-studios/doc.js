@@ -22,10 +22,14 @@ module CodeObject
 end
 
 CodeObject::Type.register :function, CodeObject::Function
-
 Token::Handler.register :function, &Token::NOOP
+
 Token::Handler.register :param, :typed_with_name
 Token::Handler.register :return, :typed
+
+# MethodAlias
+CodeObject::Type.register :method, CodeObject::Function
+Token::Handler.register :function, &Token::NOOP
 
 # @constructor Foo.bar
 CodeObject::Type.register :constructor, CodeObject::Function
