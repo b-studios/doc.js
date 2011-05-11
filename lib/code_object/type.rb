@@ -1,6 +1,6 @@
 require_relative 'exceptions'
 
-module CodeObject
+module CodeObject 
 
   module Type
   
@@ -8,7 +8,14 @@ module CodeObject
   
     def self.register(tokenid, klass)
       @@types[tokenid.to_sym] = klass
+    end  
+    
+    def self.create_matching_object(tokenlines)          
+      klass = self.find_klass(tokenlines) or return nil
+      self[klass.token].new(klass.content)
     end
+    
+    protected
     
     def self.[](tokenid)
       @@types[tokenid.to_sym]
@@ -30,6 +37,7 @@ module CodeObject
       
       klass.first
     end
+    
   end
   
 end

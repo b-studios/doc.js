@@ -9,7 +9,7 @@ module CodeObject
     token_reader :returns, :return
   
     def constructor?
-      !!self.token(:constructor)
+      @constructor || false
     end
     
     # @todo i need a @prototype token in object
@@ -29,4 +29,4 @@ Token::Handler.register :return, :typed
 
 # @constructor Foo.bar
 CodeObject::Type.register :constructor, CodeObject::Function
-Token::Handler.register :constructor
+Token::Handler.register(:constructor) { |token, content| @constructor = true }

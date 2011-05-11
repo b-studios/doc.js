@@ -4,7 +4,6 @@ require_relative '../../lib/dom/dom'
 describe CodeObject::Converter, ".build" do
 
   before do
-    Dom.clear
     stream = File.read File.expand_path('../../js-files/tokens.js', __FILE__)
     @parser = Parser::Parser.new stream
     @comments = @parser.parse

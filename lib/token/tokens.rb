@@ -1,3 +1,6 @@
-Token::Handler.register :todo
-Token::Handler.register :public
-Token::Handler.register :private
+module Token::Handler
+  register :todo
+  register :public
+  register :private
+  register :example # @todo implement
+end

@@ -48,6 +48,8 @@ module Parser
     # @param [String] input
     def initialize(input, args = {})
       
+      raise Exception, "Expected input to be a String, got #{input.class}" unless input.is_a? String
+      
       # Default Values
       @filepath = args[:filepath]  || "No File specified"
       @offset   = args[:offset]    || -1 # we are adding 1 later

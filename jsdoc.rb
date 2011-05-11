@@ -8,6 +8,7 @@ require_relative 'lib/parser/parser'
 require_relative 'lib/code_object/function'
 require_relative 'lib/dom/dom'
 require_relative 'lib/renderer/controller'
+require_relative 'lib/processor'
 
 # @todo The general flow of information should be documented here
 # 
@@ -102,10 +103,8 @@ class JsDoc < Thor
     return if Configs.files.nil?      
     
     Configs.files.each do |file|  
-
       Logger.info "Processing file #{file}"      
-      comments = Parser::Parser.parse_file file      
-      comments.map {|comment| Dom.add_node(comment.to_code_object) }.compact      
+      Processor.process_file(file)     
     end
   end
   

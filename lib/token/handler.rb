@@ -57,7 +57,7 @@ module Token
     Token = Struct.new :content
     TypedToken = Struct.new :types, :content
     NamedTypedToken = Struct.new :name, :types, :content
-
+    
     ALL = /./m
     NO_BR = /((?!\n)\s)/
     IDENTIFIER = /(?:[^\s])*/
@@ -74,7 +74,26 @@ module Token
       (?<content>#{ALL}*)
     /x
     
-    @@handlers = {}
+    @@defaults = {
+      :default => ->(token, content) {
+          self.add_token token, Token.new(content)
+      },
+      
+      :typed => ->(token, stringcontent) {
+        typestring, content = TOKEN_W_TYPE.match(stringcontent).captures
+        types = typestring.split /,\s*/
+        
+        self.add_token token, TypedToken.new(types, content)
+      },
+
+      :typed_with_name => ->(token, stringcontent) {
+        typestring, name, content = TOKEN_W_TYPE_NAME.match(stringcontent).captures
+        types = typestring.split /,\s*/
+        
+        self.add_token token, NamedTypedToken.new(name, types, content)
+      }
+    }   
+    @@handlers = {}    
     
     # Attribute-Reader for all registered `@@handlers`
     #
@@ -175,14 +194,14 @@ module Token
       
       tokenname = tokenname.to_sym
       
-      if block_given?        
+      if block_given?
         @@handlers[tokenname] = handler
-      elsif type == :typed
-        @@handlers[tokenname] = default_handler_with_types
-      elsif type == :typed_with_name
-        @@handlers[tokenname] = default_handler_with_types_and_name
+      elsif type and @@defaults.include?(type)
+        @@handlers[tokenname] = @@defaults[type]
+      elsif type
+        raise Exception, "#{type} has no registered Tokenhandler"
       else
-        @@handlers[tokenname] = default_handler
+        @@handlers[tokenname] = @@defaults[:default]
       end
     end
     
@@ -196,31 +215,10 @@ module Token
     def self.unregister(tokenname)
       @@handlers.delete(tokenname.to_sym)
     end
-
-    protected
-
-    def self.default_handler
-      ->(token, stringcontent) do
-        self.add_token token, Token.new(stringcontent)
-      end
+    
+    def self.add_default_handler(name, &block)
+      @@defaults[name] = block;
     end
 
-    def self.default_handler_with_types
-      ->(token, stringcontent) do
-        typestring, content = TOKEN_W_TYPE.match(stringcontent).captures
-        types = typestring.split /,\s*/
-        
-        self.add_token token, TypedToken.new(types, content)
-      end
-    end
-
-    def self.default_handler_with_types_and_name
-      ->(token, stringcontent) do
-        typestring, name, content = TOKEN_W_TYPE_NAME.match(stringcontent).captures
-        types = typestring.split /,\s*/
-        
-        self.add_token token, NamedTypedToken.new(name, types, content)
-      end
-    end  
   end  
 end
