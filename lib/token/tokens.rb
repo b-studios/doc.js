@@ -1,15 +1,12 @@
 module Token::Handler
 
-  register :todo
+  register :author
+  register :deprecated
   register :public
   register :private
-  register :example do |token, content|
-    rows = content.split(/\n/)
+  register :see
+  register :version
   
-    # use first row as name
-    name = rows.shift.strip
-    code = rows.join("\n")
-  
-    add_token(token, NamedToken.new(name, code))
-  end
+  register :todo, :named_multiline    
+  register :example, :named_multiline
 end

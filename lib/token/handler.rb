@@ -80,20 +80,30 @@ module Token
           self.add_token token, Token.new(content)
       },
       
-      :typed => ->(token, stringcontent) {
-        typestring, content = TOKEN_W_TYPE.match(stringcontent).captures
+      :typed => ->(token, content) {
+        typestring, content = TOKEN_W_TYPE.match(content).captures
         types = typestring.split /,\s*/
         
         self.add_token token, TypedToken.new(types, content)
       },
 
-      :typed_with_name => ->(token, stringcontent) {
-        typestring, name, content = TOKEN_W_TYPE_NAME.match(stringcontent).captures
+      :typed_with_name => ->(token, content) {
+        typestring, name, content = TOKEN_W_TYPE_NAME.match(content).captures
         types = typestring.split /,\s*/
         
         self.add_token token, NamedTypedToken.new(name, types, content)
+      },
+      
+      :named_multiline => ->(token, content) { 
+        rows = content.split(/\n/)
+              
+        # use first row as name
+        name = rows.shift.strip
+        content = rows.join("\n")
+              
+        self.add_token(token, NamedToken.new(name, content))
       }
-    }   
+    } 
     @@handlers = {}    
     
     # Attribute-Reader for all registered `@@handlers`

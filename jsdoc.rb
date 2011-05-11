@@ -69,6 +69,12 @@ class JsDoc < Thor
     end    
   end  
   
+  desc "tokens", "Lists all supported tokens"
+  def tokens
+    puts "These are the supported tokens:"
+    puts Token::Handler.handlers.map{|k,v| "  @#{k}" }.sort.join "\n"
+  end
+  
   protected
   
   def setup_application(options)

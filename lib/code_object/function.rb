@@ -26,6 +26,7 @@ Token::Handler.register :function, &Token::NOOP
 
 Token::Handler.register :param, :typed_with_name
 Token::Handler.register :return, :typed
+Token::Handler.register :throws, :typed
 
 # MethodAlias
 CodeObject::Type.register :method, CodeObject::Function
