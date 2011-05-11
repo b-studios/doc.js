@@ -41,10 +41,8 @@ module Parser
       self.skip LINE_START
       
       if self.check TOKENLINE_START
-        tokenline = parse_token
+        tokenline = parse_token        
         matches = tokenline.match(TOKENLINE)
-        
-        # puts "Tokenline:#{tokenline}"
         
         raise NotValidTokenline.new("Not valid:'#{tokenline}'") if matches.nil?
         
@@ -78,7 +76,7 @@ module Parser
       
       # skip the first two spaces and parse line recursivly
       unless self.skip(/#{LINE_START}#{NO_BR}{2}/).nil?
-        content + " " + parse_token
+        content + parse_token
       else
         content
       end

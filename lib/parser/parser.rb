@@ -31,7 +31,7 @@ module Parser
   TOKENLINE = /
     #{TOKENLINE_START}
       (?<name>\w+)
-      (?:\s(?<content>#{ALL}+)|$)
+      (?:#{NO_BR}?(?<content>#{ALL}+)|$)
     /x
     
   # String delimiter

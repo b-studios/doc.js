@@ -35,7 +35,7 @@ describe Parser::Parser, ".parse" do
         tokens[1].token.should == :second
         
         tokens[0].content.should == "tokenline\n"
-        tokens[1].content.should == "tokenline, which should be a multiline token\n because it is intended with at least 2 spaces and\n it won't stop, until there is an empty line, or a\n new token\n"
+        tokens[1].content.should == "tokenline, which should be a multiline token\nbecause it is intended with at least 2 spaces and\nit won't stop, until there is an empty line, or a\nnew token\n"
       end      
     end
   end
@@ -215,10 +215,34 @@ describe Parser::Parser, ".parse" do
       tokens[1].token.should == :multiline
       
       tokens[0].content.should == "with something fancy\n"
-      tokens[1].content.should == "token with\n continue over line end\n"
+      tokens[1].content.should == "token with\ncontinue over line end\n"
     end
     
   end
+  
+  context "multiline tokens with empty first line" do
+
+    before do  
+      @comments = Parser::Parser.new("
+/**
+ * @multiline
+ *  this is a multiline token with
+ *  empty first line
+ */
+").parse
+    end  
+
+    describe "the multiline token" do
+
+      subject { @comments.first.tokenlines[0] }
+      
+      it "should be named :multiline" do
+        subject.token.should == :multiline
+        subject.content.should == "\nthis is a multiline token with\nempty first line\n"
+      end
+    end  
+  end
+  
   
   context "parsing multibyte character" do
 =begin

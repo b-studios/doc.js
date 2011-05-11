@@ -56,6 +56,7 @@ module Token
     # Default Struct for tokens
     Token = Struct.new :content
     TypedToken = Struct.new :types, :content
+    NamedToken = Struct.new :name, :content
     NamedTypedToken = Struct.new :name, :types, :content
     
     ALL = /./m
