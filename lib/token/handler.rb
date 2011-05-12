@@ -18,8 +18,6 @@
 #
 module Token
 
-  NOOP = ->(tokenid, content) {}
-
   # @note This module is **not** built to be used as a mixin! It should be seen as
   #  a **global singleton** instead.
   # 
@@ -102,7 +100,9 @@ module Token
         content = rows.join("\n")
               
         self.add_token(token, NamedToken.new(name, content))
-      }
+      },
+      
+      :noop => ->(token, content) {}
     } 
     @@handlers = {}    
     

@@ -32,7 +32,7 @@ module CodeObject
     
     # Automatically converts markdown-documentation to html
     def docs=(docstring)
-      @docs = RDiscount.new(docstring.strip).to_html
+      @docs = docstring.strip #RDiscount.new(docstring.strip).to_html
     end
     
     protected

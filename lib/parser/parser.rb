@@ -96,12 +96,10 @@ module Parser
         parse_comment_until(S_END)
         
       else
-        NON_COMMENT_PATTERNS.each do |start_pattern, end_pattern|    
-          if found.match start_pattern
-            @scanner.skip_escaping_until end_pattern         
-            break
-          end    
-        end
+        matched_pattern = NON_COMMENT_PATTERNS.detect do |start_pattern, end_pattern|    
+          found.match start_pattern
+        end       
+        @scanner.skip_escaping_until matched_pattern.last unless matched_pattern.nil?    
       end
       
       if @scanner.eos?

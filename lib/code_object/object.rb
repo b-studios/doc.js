@@ -13,6 +13,6 @@ module CodeObject
 end
 
 CodeObject::Type.register :object, CodeObject::Object
-Token::Handler.register :object, &Token::NOOP
+Token::Handler.register :object, :noop
 
 Token::Handler.register :prop, :typed_with_name
