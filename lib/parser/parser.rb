@@ -41,7 +41,13 @@ module Parser
   REGEXP_START = /\/[^\/]/
   REGEXP_END = /\//
   
-  ESCAPING_PATTERNS = {    
+  NON_COMMENT_PATTERNS = {
+    S_STRING     => S_STRING,
+    D_STRING     => D_STRING,
+    REGEXP_START => REGEXP_END  
+  } 
+  
+  NON_CODE_PATTERNS = {    
     M_START      => M_END,
     S_START      => S_END,
     S_STRING     => S_STRING,
@@ -79,29 +85,30 @@ module Parser
     # @return [Array<Parser::Comment>] the parsed comment-stream
     def parse()
       @scanner.skip /\s/
-      @scanner.skip_until /(#{M_START})|(#{S_START})|(#{S_STRING})|(#{D_STRING})|$/
+      @scanner.skip_until /#{M_START}|#{S_START}|#{NON_COMMENT_PATTERNS.keys.join('|')}|$/
       
-      start = @scanner.matched
+      found = @scanner.matched
       
-      if start.match M_START
+      if found.match M_START
         parse_comment_until(M_END)
         
-      elsif start.match S_START
+      elsif found.match S_START
         parse_comment_until(S_END)
         
-      elsif start.match S_STRING
-        @scanner.skip_until(S_STRING)
-        
-      elsif start.match D_STRING
-        @scanner.skip_until(D_STRING)
-
+      else
+        NON_COMMENT_PATTERNS.each do |start_pattern, end_pattern|    
+          if found.match start_pattern
+            @scanner.skip_escaping_until end_pattern         
+            break
+          end    
+        end
       end
       
       if @scanner.eos?
         return @comments
       else
         parse
-      end      
+      end
     end
     
     def self.parse_file(path)
@@ -114,14 +121,14 @@ module Parser
     def parse_comment_until(ending)
       content = @scanner.scan_until_ahead ending      
       comment = CommentParser.new(content).parse unless content.nil?  
-      
+           
       # only proceed, if it is a tokenized comment
       return parse unless comment.has_tokens?  
       
       # search scope for that comment
       @scanner.skip /\n/
       scope = @scanner.save_scanned { find_scope } 
-        
+              
       code_line = @to_parse.line_of(scope.min) + @offset + 1
       source = @to_parse[scope]     
       
@@ -135,13 +142,14 @@ module Parser
     end    
     
     def find_scope(scope_stack = [], ignore_line_end = false)
-    
+
       if ignore_line_end    
         return if scope_stack.empty?      
         @scanner.skip /\s/
       end
-          
-      @scanner.intelligent_skip_until /(\{)|(\()|(\})|(\))|$/
+      
+      # adding |$ only if we don't ignore line_ends (which is most of the time)
+      @scanner.intelligent_skip_until /\{|\(|\}|\)#{'|$' unless ignore_line_end}/
       
       match = @scanner.matched
       
@@ -211,9 +219,9 @@ class StringScanner
   end
   
   # skips content within comments, strings and regularexpressions
-  def intelligent_skip_until(pattern)     
+  def intelligent_skip_until(pattern)
 
-    self.skip_escaping_until(/#{pattern}|#{Parser::ESCAPING_PATTERNS.keys.join('|')}/)    
+    self.skip_escaping_until(/#{pattern}|#{Parser::NON_CODE_PATTERNS.keys.join('|')}/)
 
     found = self.matched
     
@@ -221,7 +229,7 @@ class StringScanner
     
     return if found.match pattern
     
-    Parser::ESCAPING_PATTERNS.each do |start_pattern, end_pattern|    
+    Parser::NON_CODE_PATTERNS.each do |start_pattern, end_pattern|    
       if found.match start_pattern
         self.skip_escaping_until end_pattern
         return self.intelligent_skip_until pattern
