@@ -37,6 +37,17 @@ module Parser
   # String delimiter
   S_STRING = /'/
   D_STRING = /"/
+  
+  REGEXP_START = /\/[^\/]/
+  REGEXP_END = /\//
+  
+  ESCAPING_PATTERNS = {    
+    M_START      => M_END,
+    S_START      => S_END,
+    S_STRING     => S_STRING,
+    D_STRING     => D_STRING,
+    REGEXP_START => REGEXP_END    
+  } 
    
   class Parser
   
@@ -64,7 +75,7 @@ module Parser
     
     # Recursivly parses the {#initialize given input} and thereby ignores
     # strings.
-    #
+    # @todo Rewrite to use skip_intelligent_until
     # @return [Array<Parser::Comment>] the parsed comment-stream
     def parse()
       @scanner.skip /\s/
@@ -79,10 +90,10 @@ module Parser
         parse_comment_until(S_END)
         
       elsif start.match S_STRING
-        parse_string_until(S_STRING)
+        @scanner.skip_until(S_STRING)
         
       elsif start.match D_STRING
-        parse_string_until(D_STRING)
+        @scanner.skip_until(D_STRING)
 
       end
       
@@ -101,38 +112,27 @@ module Parser
     protected
     
     def parse_comment_until(ending)
-      content = @scanner.scan_until_ahead ending    
-      @scanner.skip /\n/
-      scope = @scanner.save_scanned { 
-        find_scope
-      } 
-        
-      code_line = @to_parse.line_of(scope.min) + @offset + 1
-      source = @to_parse[scope]
-      
-      # DEBUGGING                            
-      # puts "Code-Scope:#{@scanner.string[scope]}"      
-      
+      content = @scanner.scan_until_ahead ending      
       comment = CommentParser.new(content).parse unless content.nil?  
       
-      # for performance reasons, only add meta-data and save, if it is a 
-      # tokenized comment
-      if comment.has_tokens?      
+      # only proceed, if it is a tokenized comment
+      return parse unless comment.has_tokens?  
       
-        # Add Metadata
-        comment.add_meta_data @filepath, source, code_line   
+      # search scope for that comment
+      @scanner.skip /\n/
+      scope = @scanner.save_scanned { find_scope } 
         
-        # Save Comment
-        @comments << comment
-      end
+      code_line = @to_parse.line_of(scope.min) + @offset + 1
+      source = @to_parse[scope]     
+      
+      # Add Metadata
+      comment.add_meta_data @filepath, source, code_line   
+      
+      # Save Comment
+      @comments << comment
       
       comment.add_children Parser.new(source, :filepath => @filepath, :offset => code_line-1).parse      
-    end
-    
-    def parse_string_until(ending)
-      @scanner.skip_until ending
-    end
-    
+    end    
     
     def find_scope(scope_stack = [], ignore_line_end = false)
     
@@ -158,7 +158,7 @@ module Parser
           find_scope(scope_stack, ignore_line_end)
         else
           # currently just ignore non matching closing pairs
-          puts "I'm ignoring #{match}"
+          puts "I'm ignoring #{match} at #{@scanner.pos} of #{@filepath}"
         end      
       else
         
@@ -184,7 +184,7 @@ end
 #
 # @see Parser::Parser
 # @see Parser::CommentParser
-class StringScanner
+class StringScanner  
   
   # returns the string until `pattern` matches, then consums `pattern`
   #
@@ -210,9 +210,23 @@ class StringScanner
     self.scan_until(pattern) or self.scan_until(/$/)
   end
   
-  # @todo skip until while ignoring comments and strings and regular expressions
-  def intelligent_skip_until(pattern)
-    self.skip_until(pattern)
+  # skips content within comments, strings and regularexpressions
+  def intelligent_skip_until(pattern)     
+
+    self.skip_escaping_until(/#{pattern}|#{Parser::ESCAPING_PATTERNS.keys.join('|')}/)    
+
+    found = self.matched
+    
+    raise end_of_string_error(pattern) if self.matched.nil?
+    
+    return if found.match pattern
+    
+    Parser::ESCAPING_PATTERNS.each do |start_pattern, end_pattern|    
+      if found.match start_pattern
+        self.skip_escaping_until end_pattern
+        return self.intelligent_skip_until pattern
+      end    
+    end
   end
   
   def save_scanned
@@ -221,6 +235,25 @@ class StringScanner
     pos_end = self.pos
     Range.new(pos_start, pos_end)
   end
+  
+  def skip_escaping_until(pattern) 
+       
+    self.skip_until(/\\|#{pattern}/)
+    
+    raise end_of_string_error(pattern) if self.matched.nil?
+
+    if self.matched.match /\\/
+      self.getch
+      skip_escaping_until(pattern)
+    end    
+  end
+  
+  protected
+  
+  def end_of_string_error(pattern)
+    Error.new "Unexpected end of String, expected: #{pattern.inspect} in \"#{self.string}\" at pos:#{self.pos}"
+  end  
+
 end
 
 class String

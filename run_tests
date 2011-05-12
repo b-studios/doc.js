@@ -1,5 +1,5 @@
 #!/bin/sh
-if [ $1 != "" ]
-  then rspec --color $1 -r ./test/rspec_helper.rb
+if [ $1 ]
+  then rspec --color $1 -r ./test/rspec_helper.rb -b
   else rspec --color ./test/**/*.rb ./test/*.rb -r ./test/rspec_helper.rb
 fi

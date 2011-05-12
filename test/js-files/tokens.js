@@ -29,5 +29,4 @@
  */
  var FOO.some_function = function(parameter1) {
   // some comment without tokens
-  // @some comment with token, but without type
  };
