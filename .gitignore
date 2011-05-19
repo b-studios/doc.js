@@ -5,7 +5,7 @@ out
 uml
 *.log
 deploy
-.anjuta
+.anjuta*
 *.anjuta
 TODO.tasks
 *~
