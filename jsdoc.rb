@@ -7,7 +7,6 @@ require_relative 'lib/configs'
 require_relative 'lib/parser/parser'
 require_relative 'lib/code_object/function'
 require_relative 'lib/dom/dom'
-require_relative 'lib/renderer/controller'
 require_relative 'lib/processor'
 
 # @todo The general flow of information should be documented here
@@ -59,16 +58,18 @@ class JsDoc < Thor
     
     begin
       setup_application configs
-      parse_files    
-      render_dom      
+      
+      # the configs are now available through our Configs-module      
+      Processor.process_and_render
+        
       Logger.info "Copying template resources to output"
       directory 'static', '.' # copy resources
             
-    rescue Exception => error
-      Logger.error error
+    #rescue Exception => error
+    #  Logger.error error
     end    
   end  
-  
+    
   desc "tokens", "Lists all supported tokens"
   def tokens
     puts "These are the supported tokens:"
@@ -103,21 +104,6 @@ class JsDoc < Thor
     Logger.debug "Working Dir: #{Configs.wdir}"
     Logger.debug "Output Dir: #{Configs.output}"
   end
-  
-  def parse_files
-        
-    return if Configs.files.nil?      
-    
-    Configs.files.each do |file|  
-      Logger.info "Processing file #{file}"      
-      Processor.process_file(file)     
-    end
-  end
-  
-  def render_dom
-    @controller = Controller.new(Configs.templates, 'layout/application')
-    @controller.render_nodes(Dom)
-  end  
   
 end
 

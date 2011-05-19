@@ -1,6 +1,6 @@
 # ../data.img#1800236:1
 require 'pathname'
-module Renderer
+module Helper
 
   module Helper
 
@@ -16,7 +16,7 @@ module Renderer
 
       tag :a, name, :href => path
     end
-
+    
     def tag(sym, content = "", attrs = {})
       attributes = attrs.map{|k,v| "#{k}=\"#{v}\""}.join ' '
       "<#{sym.to_s} #{attributes}>#{content}</#{sym.to_s}>"

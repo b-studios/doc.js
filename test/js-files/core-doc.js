@@ -13,11 +13,11 @@
 var Core = Core || (function(){
  
   var _extensions = {};
-
+  
   var core = {
 
     /**
-     * register new core-extension
+     * register new core-extension 
      * 
      * @function Core.extend
      *
