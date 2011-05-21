@@ -8,7 +8,7 @@ describe Dom, ".add_child" do
     
     before do 
       Dom.clear             
-      Processor.process_file File.expand_path('../../js-files/absolute.js', __FILE__)
+      Processor.process_files_to_dom File.expand_path('../../js-files/absolute.js', __FILE__)
     end
     
     it "should find only one root-object" do

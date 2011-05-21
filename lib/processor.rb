@@ -18,27 +18,28 @@ module Processor
     perform_all_tasks
   end
   
-  def self.process_files_to_dom
-    process_comments parse_files
+  def self.process_files_to_dom(files = nil)
+    process_comments parse_files(files)
   end 
   
   # @group Stage #1 - FileProcessor
   
   # Parsing Files and creating comment stream
-  def self.parse_files
+  def self.parse_files(files = nil)
+    files ||= Configs.files
         
-    return if Configs.files.nil?    
-    
+    return if files.nil?    
+
+    files = [files] unless files.is_a? Array
     comments = []
     
-    Configs.files.each do |file|  
+    files.each do |file|  
       Logger.info "Processing file #{file}"      
       comments += Parser::Parser.parse_file(file)
     end
     
     return comments
-  end
-  
+  end  
   
   # @group Stage #2 - CommentProcessor
   

@@ -1,5 +1,6 @@
+require 'thor/base'
+
 # The logger is using colorizing-functionality from Thor's shell
-# Therefore on initialization it requires the current Thor-Application Object.
 module Logger
   
   LogLevel = Struct.new :numeric, :prefix, :color
@@ -12,13 +13,14 @@ module Logger
     :system => LogLevel.new(10, "",       :black)
   }
    
-  def self.setup(thor_shell, args = {})
-    @@shell = thor_shell
-    @@logfile = args[:file]        || "logfile.log"
+  def self.setup(args = {})
+
+    @@shell = Thor::Base.shell.new
+    @@logfile = args[:file] 
     @@level   = LEVEL[args[:level] || :info]
     
     # write start sequence
-    log LEVEL[:system], ["\n\n== #{Time.now} #{'='*50}"]
+    log LEVEL[:info], ["\n\n== #{Time.now} #{'='*50}"]
   end
 
   def self.method_missing(name, *args)
@@ -35,8 +37,10 @@ module Logger
     
     msg = msg.join "\n"
     
-    File.open(@@logfile, "a") do |f|
-      f.write "#{level.prefix} #{msg}\n"
+    unless @@logfile.nil?      
+      File.open(@@logfile, "a") do |f|
+        f.write "#{level.prefix} #{msg}\n"
+      end
     end
     
     @@shell.say @@shell.set_color(level.prefix, level.color, true) +  msg

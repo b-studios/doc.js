@@ -1,21 +1,5 @@
-require "thor"
 #!/usr/bin/ruby1.9
-
-require_relative 'lib/thor'
-require_relative 'lib/logger'
-require_relative 'lib/configs'
-require_relative 'lib/parser/parser'
-require_relative 'lib/code_object/function'
-require_relative 'lib/dom/dom'
-require_relative 'lib/processor'
-
-# Load Default Tokens
-require_relative 'lib/token/tokens'
-
-# Register Rendertasks
-require_relative 'lib/tasks/typed_task'
-
-
+require_relative 'lib/boot'
 
 # @todo The general flow of information should be documented here
 # 
@@ -67,6 +51,10 @@ class JsDoc < Thor
     begin
       setup_application configs
       
+      # Config Thor settings
+      JsDoc.source_root(Configs.templates)
+      self.destination_root = Configs.output
+      
       # the configs are now available through our Configs-module      
       Processor.process_and_render
         
@@ -91,37 +79,7 @@ class JsDoc < Thor
     task_table = Processor.render_tasks.map{|k,v| [":#{k}","# #{v.description}"] }.sort
     
     print_table task_table, :ident => 2, :colwidth => 20    
-  end
-  
-  protected
-  
-  def setup_application(options)
-        
-    # initialize Logger
-    Logger.setup self.shell,
-                 :logfile => File.expand_path(options[:logfile], Dir.pwd),
-                 :level   => options[:loglevel].to_sym
-    
-    Logger.info "Setting up Application"
-    
-    # Process option-values and store them in our Configs-object
-    Configs.set :options      => options, # Just store the options for now
-                :wdir         => Dir.pwd, # The current working directory
-                :output       => File.absolute_path(options[:output]),
-                :templates    => File.absolute_path(options[:templates]),
-                :files        => options[:files]
-                
-    
-    # Config Thor settings
-    JsDoc.source_root(Configs.templates)
-    self.destination_root = Configs.output
-    
-    Logger.debug "Given options: #{options}"
-    Logger.debug "App Root: #{Configs.root}"
-    Logger.debug "Working Dir: #{Configs.wdir}"
-    Logger.debug "Output Dir: #{Configs.output}"
-  end
-  
+  end  
 end
 
 unless ARGV.first and JsDoc.method_defined?(ARGV.first)

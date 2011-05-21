@@ -1,13 +1,15 @@
 # ../data.img#1774507:1
-require_relative '../../lib/code_object/object'
+require_relative '../../lib/boot'
 
 describe CodeObject::Prototype, ".new" do
 
   context "Parsing prototype.js" do
     
     before do
+      Logger.setup :level => :warn
+    
       Dom.clear
-      Processor.process_file File.expand_path('../../js-files/prototype.js', __FILE__)
+      Processor.process_files_to_dom File.expand_path('../../js-files/prototype.js', __FILE__)
     end
     
     describe "the constructor-function" do    
