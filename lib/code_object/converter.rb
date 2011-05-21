@@ -4,10 +4,6 @@ require_relative 'prototype'
 require_relative 'exceptions'
 require_relative 'type'
 
-# Load Default Tokens
-require_relative '../token/tokens'
-
-
 module CodeObject
 
 

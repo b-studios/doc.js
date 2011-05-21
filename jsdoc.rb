@@ -9,6 +9,14 @@ require_relative 'lib/code_object/function'
 require_relative 'lib/dom/dom'
 require_relative 'lib/processor'
 
+# Load Default Tokens
+require_relative 'lib/token/tokens'
+
+# Register Rendertasks
+require_relative 'lib/tasks/typed_task'
+
+
+
 # @todo The general flow of information should be documented here
 # 
 # --String--> [Parser] --Commentstream--> [CodeObjectFactory] --Objectstream--> [Registry]
@@ -72,8 +80,17 @@ class JsDoc < Thor
     
   desc "tokens", "Lists all supported tokens"
   def tokens
-    puts "These are the supported tokens:"
-    puts Token::Handler.handlers.map{|k,v| "  @#{k}" }.sort.join "\n"
+    say "Supported tokens:"
+    say Token::Handler.handlers.map{|k,v| "  @#{k}" }.sort.join "\n"    
+  end
+  
+  desc "tasks", "Lists all registered render-tasks"
+  def tasks
+    say "Registered render-tasks:"
+    
+    task_table = Processor.render_tasks.map{|k,v| [":#{k}","# #{v.description}"] }.sort
+    
+    print_table task_table, :ident => 2, :colwidth => 20    
   end
   
   protected

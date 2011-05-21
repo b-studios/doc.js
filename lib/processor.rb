@@ -1,6 +1,5 @@
-require_relative 'renderer'
-require_relative 'helper/helper'
 require_relative 'dom/dom'
+require_relative 'tasks/render_task'
 
 module Processor
   
@@ -67,35 +66,7 @@ module Processor
   #     - typed:     renders objects type-dependant
   #     - overview:  renders an overview
   #     - files:     converts specified markdown files and renders them
-  #
-  
-  def self.register_render_task(name, args = {}, &block)
-  
-    name        = name.to_sym
-    templates   = args[:templates]   || ''
-    layout      = args[:layout]      || nil
-    description = args[:description] || 'No description given.'
-    
-    @@render_tasks[name] = RenderTask.new(name, description, ->{
-      renderer = Renderer.new(Configs.templates + templates, layout)
-      
-      # prepare helpers on the fly (this way we can decide later on, which helpers to include)
-      renderer.extend Helper::Helper
-      
-      # For blocks, which expect one parameter, we deliver our Dom
-      if block.arity == 1
-        renderer.instance_exec(Dom.root, &block)
-      else
-        renderer.instance_exec(&block)
-      end
-    })
-    
-  end
-
-  def self.unregister_render_task(name)
-    @@render_tasks.delete(name.to_sym)
-  end
-  
+  #  
   def self.perform_all_tasks
     perform_tasks @@render_tasks.keys
   end
@@ -109,31 +80,17 @@ module Processor
       raise Exception, "No render-task registered with name '#{task}'" unless @@render_tasks.has_key? task
       
       Logger.debug "Rendering task '#{task}'"
-      @@render_tasks[task].block.call
+      @@render_tasks[task].new.perform
     end
-  end  
-end
-
-
-# @todo switch on registered Types to enable dynamic view-changing
-def render_object_recursive(code_object)
+  end 
   
-  unless code_object.is_a? Dom::NoDoc  
-    Logger.info "Rendering CodeObject '#{code_object.name}'"
-        
-    @object = code_object
-    @methods = @object.children.values.select {|c| c.is_a? CodeObject::Function }
-    @children = @object.children.values - @methods
-    
-    # Render has to be documented very well, because it will be used in RenderTasks
-    render 'object/index', :to_file => code_object.file_path + '.html'
-  end
+  # @group RenderTask-Setup
   
-  code_object.children.values.each {|child| render_object_recursive(child) }
-end
-
-Processor.register_render_task :typed,
-  :description => 'renders objects type-dependant',
-  :layout      => 'layout/application' do |dom|  
-    render_object_recursive(dom)
+  def self.register_render_task(name, klass)
+    @@render_tasks[name.to_sym] = klass 
   end
+
+  def self.unregister_render_task(name)
+    @@render_tasks.delete(name.to_sym)
+  end   
+end
