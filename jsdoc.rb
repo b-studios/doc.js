@@ -61,8 +61,8 @@ class JsDoc < Thor
       Logger.info "Copying template resources to output"
       directory 'static', '.' # copy resources
             
-    #rescue Exception => error
-    #  Logger.error error
+    rescue Exception => error
+      Logger.error error.message + "\n" + error.backtrace.map{|l| "  #{l}" }.join("\n")
     end    
   end  
     
