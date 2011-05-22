@@ -17,7 +17,7 @@ var Core = Core || (function(){
   var core = {
 
     /**
-     * register new core-extension
+     * register new {Core}-extension
      *
      * @function .extend
      *
@@ -42,7 +42,7 @@ var Core = Core || (function(){
     }, 
     
     /**
-     * List all registered extensions
+     * List all registered {Core.extension extensions}
      *
      * @function .extensions
      *
@@ -53,14 +53,14 @@ var Core = Core || (function(){
     },    
     
     /**
-     * Adds minimal logging functionality to Core
+     * Adds minimal logging functionality to {Core}
      *
      * @object .logger
      */
     logger: {
     
       /**
-       * Logs a message if the console is present
+       * Logs a message if the console is present. Can be extended with a custom {Core.extension}.
        *
        * @function .log
        * @param [String] msg The message to log

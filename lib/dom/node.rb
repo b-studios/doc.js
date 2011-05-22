@@ -255,8 +255,7 @@ module Dom
     # @overload add_node(node)
     #   @param [Dom::Node] node
     #
-    def add_node(*args)
-      
+    def add_node(*args)      
       
       # Grabbing right overload
       if args.count == 2
@@ -326,17 +325,7 @@ module Dom
       parents.push(self).map{|p| p.name}.join NS_SEP_STRING
     end
     
-    
-    # Returns the relative path (from dom) to this node
-    # 
-    # @example 
-    #   Dom[:Foo][:bar].file_path #=> Foo/bar
-    #   
-    def file_path
-      parents.push(self).map{|p| p.name}.join('/')
-    end
-        
-    
+      
     # Generates a text-output on console, representing the **subtree-structure**
     # of the current node. The current node is **not** being printed.
     #

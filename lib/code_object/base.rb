@@ -2,7 +2,6 @@
 require_relative '../token/container'
 require_relative '../dom/dom'
 require_relative '../parser/meta_container'
-require 'rdiscount'
 
 #
 # ![Code Object Overview](../uml/CodeObject.svg)
@@ -32,7 +31,7 @@ module CodeObject
     
     # Automatically converts markdown-documentation to html
     def docs=(docstring)
-      @docs = docstring.strip #RDiscount.new(docstring.strip).to_html
+      @docs = docstring.strip
     end
     
     protected

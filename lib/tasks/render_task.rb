@@ -18,6 +18,9 @@ module Tasks
     
     def initialize
       super(Configs.templates + @@configs[:templates], @@configs[:layout])
+      
+      # Set Global Context to Dom's root node
+      @_context = Dom.root
     end
     
     def perform
@@ -49,6 +52,22 @@ module Tasks
     
     def self.start_method(method)
       @@configs[:start_method] = method.to_sym
-    end  
+    end
+    
+    # maybe we can use this later on, while linking
+    def in_context(new_context, &block)
+      old_context = @_context
+      @_context = new_context
+      yield
+      @_context = old_context
+    end
+    
+    def context
+      @_context
+    end
+    
+    def resolve(nodename)
+      @_context.resolve nodename
+    end
   end
 end

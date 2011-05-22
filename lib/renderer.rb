@@ -33,7 +33,7 @@ class Renderer
       parts[-1] = "_"+parts.last        
       
       begin
-        template_file = File.read path_to(parts.join('/'))
+        template_file = File.read path_to_template(parts.join('/'))
       rescue Exception
         raise "Could not find Partial '#{opt[:partial]}'"
       end
@@ -72,11 +72,11 @@ class Renderer
       end
 
       # render 'view_name', :option1 => 1, :option2 => 2
-      view = ERB.new(File.read path_to opt[:template]).result(binding)
+      view = ERB.new(File.read path_to_template opt[:template]).result(binding)
       
       # then render with layout
       if opt[:layout]
-        layout = File.read path_to opt[:layout]
+        layout = File.read path_to_template opt[:layout]
         view = render_in_layout(layout) { view }
       end
 
@@ -92,6 +92,7 @@ class Renderer
         return view
       end
     end
+ 
   end
 
   protected
@@ -100,7 +101,7 @@ class Renderer
     ERB.new(layout).result(binding)
   end
 
-  def path_to(file)
+  def path_to_template(file)
     File.expand_path "#{file}.html.erb", @_path
   end
 

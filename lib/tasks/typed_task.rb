@@ -5,25 +5,28 @@ module Tasks
     describe     'renders objects type-dependant'
     layout       'application'
     
-    start_method :render_object_recursive
+    start_method :render_objects
     
     protected
 
+    def render_objects
+      Dom.root.each_child { |o| render_object o }
+    end
+
     # @todo switch on registered Types to enable dynamic view-changing
-    def render_object_recursive(code_object = Dom.root)
+    def render_object(code_object)
+      return if code_object.is_a? Dom::NoDoc  
+    
+      Logger.info "Rendering CodeObject '#{code_object.name}'"
       
-      unless code_object.is_a? Dom::NoDoc  
-        Logger.info "Rendering CodeObject '#{code_object.name}'"
-        
+      in_context code_object do
         @object = code_object
         @methods = @object.children.values.select {|c| c.is_a? CodeObject::Function }
         @children = @object.children.values - @methods
         
         # Render has to be documented very well, because it will be used in RenderTasks
-        render 'object/index', :to_file => code_object.file_path + '.html'
+        render 'object/index', :to_file => path_to(code_object, :format => :html)
       end
-      
-      code_object.children.values.each {|child| render_object_recursive(child) }
     end
   end
 end

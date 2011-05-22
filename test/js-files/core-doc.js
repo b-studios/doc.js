@@ -17,11 +17,11 @@ var Core = Core || (function(){
   var core = {
 
     /**
-     * register new core-extension 
+     * register new {Core.extensions}
      * 
      * @function Core.extend
      *
-     * @param [String] id the id to register the new extension under
+     * @param [String] id the id to register the new {Core.extensions extension} under
      * @param [Function] constructor a callback function, which acts as
      *   constructor
      */
@@ -42,7 +42,7 @@ var Core = Core || (function(){
     }, 
     
     /**
-     * List all registered extensions
+     * List all registered {Core.extensions extensions}
      *
      * @function Core.extensions
      *
