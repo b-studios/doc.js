@@ -18,19 +18,14 @@ describe Dom::Node, "#resolve" do
   end
 
   it "should find existing node in domtree" do
-    @o4.resolve(:bar).should == @o1
-    @o4.resolve(:baz).should == @o2
-    @o4.resolve(:bam).should == @o3
-    @o4.resolve(:poo).should == @o4    
-  end
-  
-  it "should not find childnodes" do
-    @o2.resolve(:bam).should == nil
-    @o1.resolve(:baz).should == nil
+    @o4.resolve('.bar').should == @o1
+    @o4.resolve('.baz').should == @o2
+    @o4.resolve('.bam').should == @o3
+    @o4.resolve('.poo').should == @o4    
   end
   
   it "should not find non existing nodes" do
-    @o1.resolve(:fofofo).should == nil
+    @o1.resolve('fofofo').should == nil
   end
 end
 

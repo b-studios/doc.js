@@ -160,13 +160,10 @@ module Dom
       
     
     # Resolves `nodename` in the current context and tries to find a matching
-    # {Dom::Node}. If `nodename` cannot be found in the list of **siblings**
-    # it will ask it's parents for a resolution.
+    # {Dom::Node}. If `nodename` is not the current name and further cannot be found in the list of 
+    # **children** the parent will be asked for resolution.
     #
-    # Given the following example `log` can resolve each and every node
-    # of the tree, including itself. On the otherhand log cannot be resolved by 
-    # the other tree-nodes, because the resolutionprocess only looks for
-    # **siblings** and **parents**.
+    # Given the following example, each query (except `.log`) can be resolved without ambiguity.
     #
     #     # -Core
     #     #   -extend
@@ -174,28 +171,67 @@ module Dom
     #     #   -logger
     #     #     -log
     #     #   -properties
+    #     #   -log
     #
-    #     Dom[:Core][:logger][:log].resolve 'extensions'
-    #     #=>  #<CodeObject::Function:84707340 @parent=Core @children=[]> 
+    #     Dom[:Core][:logger].resolve '.log'
+    #     #=>  #<CodeObject::Function:log @parent=logger @children=[]> 
     #
-    #     Dom[:Core][:properties].resolve 'extend'
-    #     #=> #<CodeObject::Function:84708090 @parent=Core @children=[]> 
+    #     Dom[:Core][:logger][:log].resolve '.log'
+    #     #=>  #<CodeObject::Function:log @parent=logger @children=[]> 
     #
-    #     Dom[:Core][:logger].resolve 'log'
+    #     Dom[:Core][:logger][:log].resolve '.logger'
+    #     #=>  #<CodeObject::Object:logger @parent=Core @children=[]> 
+    #
+    #     Dom[:Core].resolve '.log'
+    #     #=>  #<CodeObject::Function:log @parent=Core @children=[]> 
+    #
+    #     Dom[:Core][:properties].resolve '.log'
+    #     #=> #<CodeObject::Function:extend @parent=Core @children=[]> 
+    #
+    #     Dom[:Core][:logger].resolve 'foo'
     #     #=> nil
     # 
     # @param [String] nodename
+    #
     # @return [Dom::Node, nil]
     def resolve(nodename)
-      name = nodename.to_sym
       
-      if @parent.nil?
-        nil
-      elsif siblings.has_key? name
-        @parent[name]
-      else
-        @parent.resolve(nodename)
+      return self if nodename == @name
+      return nil if @children.nil? and @parent.nil?
+      
+      path = RELATIVE.match(nodename)
+      
+      if path        
+        first, rest = path.captures
+        
+        # we did find the first part in our list of children
+        if not @children.nil? and @children.has_key? first.to_sym
+          
+          # we have to continue our search  
+          if rest != ""          
+            @children[first.to_sym].resolve rest
+          
+          # Finish
+          else
+            @children[first.to_sym]
+          end
+        
+        else
+          @parent.resolve nodename unless @parent.nil?
+        end
+        
+      # It's absolute?
+      elsif ABSOLUTE.match nodename
+        Dom.root.find nodename
       end
+    end
+    
+    # Iterates recursivly over all children of this node and applies `block` to them
+    #
+    # @param [Block] block
+    def each_child(&block)
+      yield(self)
+      @children.values.each {|child| child.each_child(&block) }
     end
     
     
