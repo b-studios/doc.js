@@ -26,8 +26,15 @@ module Helper
       elsif target.match FILE
         to_relative target.match(FILE).captures.first
       else       
+        
         # use context dependent resolving functionality 
-        to_relative path_to resolve target
+        obj = resolve target
+        
+        if obj.nil?
+          Logger.warn "Could not resolve link to '#{target}'"
+          return text
+        end
+        to_relative path_to obj
       end      
       
       tag :a, text, :href => link      

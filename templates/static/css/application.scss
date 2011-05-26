@@ -1,0 +1,297 @@
+@import 'resets.css';
+
+$grey: #333;
+$blue: #4183C2;
+
+$button-color-from: #7abcff;
+$button-color-to: darken($button-color-from, 25%); /*#4096ee;*/
+
+
+$lightgrey: #a0a0a0;
+$mouse-over: rgba(0,0,0,0.1);
+
+
+$pagesize: 1000px;
+$page-indent: 20px;
+$radius: 10px;
+
+@mixin transition($property, $time) {
+	-webkit-transition: $property $time ease-in-out;
+	-moz-transition: $property $time ease-in-out;
+	-o-transition: $property $time ease-in-out;
+	-ms-transition: $property $time ease-in-out;
+	transition: $property $time ease-in-out;
+}
+
+@mixin gradient($from, $to, $from_pos, $to_pos) {
+  background: $from; /* Old browsers */
+  background: -moz-linear-gradient(top, $from $from_pos, $to $to_pos); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop($from_pos, $from), color-stop($to_pos, $to)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, $from $from_pos,$to $to_pos); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, $from $from_pos,$to $to_pos); /* Opera11.10+ */
+  background: -ms-linear-gradient(top, $from $from_pos,$to $to_pos); /* IE10+ */
+  background: linear-gradient(top, $from $from_pos,$to $to_pos); /* W3C */
+}
+
+@mixin scrollbars() {
+  &::-webkit-scrollbar { width: 7px; height: 9px; }
+  &::-webkit-scrollbar-button:start:decrement, .iScroll ::-webkit-scrollbar-button:end:increment { display: block; height: 0; background-color: transparent; }
+  &::-webkit-scrollbar-track-piece { -webkit-border-radius: 0; -webkit-border-bottom-right-radius: 4px; -webkit-border-bottom-left-radius: 4px; }
+  &::-webkit-scrollbar-thumb:vertical { height: 50px; background-color: rgba(0, 0, 0, 0.15); -webkit-border-radius: 4px; }
+  &::-webkit-scrollbar-thumb:horizontal { width: 50px; background-color: rgba(0, 0, 0, 0.15); -webkit-border-radius: 4px; }
+}
+
+@mixin center() {
+  display: block;
+  margin: 0 auto;
+}
+
+@mixin page-center() {
+  @include center;
+  max-width: $pagesize;
+}
+
+@mixin clearfix() {
+  display: block;
+  overflow: hidden;
+}
+
+@mixin double-border-bottom($size, $color1, $color2) {
+  box-shadow: inset 0 $size*-1 0 $color1;
+  border-bottom: $size solid $color2;
+}
+
+@mixin float($direction) {
+  display: block;
+  float: $direction;
+}
+
+body {
+  background-color: #FBFBFB;
+}
+
+a {
+  color: $blue;  
+  text-decoration: none;
+  
+  &:active, &:visited { color: $blue; }
+  &:hover { color: $blue; text-decoration: underline; } 
+}
+
+#header {
+  @include gradient(#fcfcfc, #f0f0f0, 0px, 200px);
+  @include double-border-bottom(1px, #f6f6f6, #dfdfdf);
+  @include clearfix;
+  padding-bottom: $page-indent + 10px;
+
+  div.wrapper {
+    @include page-center;  
+    overflow: hidden;  
+  }
+
+  nav {    
+    @include clearfix;
+   
+    position: relative;
+   
+    > * {
+      padding: 10px;
+    }
+    
+    h1 {
+      @include float(left);
+      font-size: 20pt;
+      font-family: 'Terminal Dosis Light';      
+      text-shadow: 1px 1px #fff;
+    }
+    
+    form {
+      @include float(right);
+    }
+    
+    input#search {
+      border-radius: $radius;
+      outline: none;
+      padding: 0.2em 0.5em;
+    }
+    
+    #page-menu {
+      @include float(left);
+      margin-left: 20%;
+      padding: 0;       
+      
+      li { 
+        @include float(left);
+        
+        /* rounded corners */
+        &:first-child a { border-radius: 0 0 0 $radius; }
+        &:last-child a { border-radius: 0 0 $radius 0; }        
+      }
+            
+      a {
+        @include gradient($button-color-from, $button-color-to, 0%, 100%);
+        display: block;                      
+        padding: 0.5em 1em;
+        
+        color: #fff;
+        text-shadow: 1px 1px darken($button-color-to, 10%);
+        border-right: 1px solid darken($button-color-to, 10%);
+        border-left: 1px solid darken($button-color-from, 10%);
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+       
+        &:hover {
+          @include gradient(darken($button-color-from, 10%), darken($button-color-to, 10%), 0%, 100%);
+          text-decoration: none;
+          border-left: 1px solid transparent;
+        }
+      }
+      
+    }
+    
+  } 
+  
+  section {  
+    @include float(left);
+    margin-top: 15px;
+    width: 49.5%;
+    
+    > h1 {
+      font-weight: normal;
+      font-size: 14pt;
+      padding: 0 0 0.5em 0.5em;
+    }
+    
+    > ul {
+      @include scrollbars; 
+      
+      border: 1px solid #eee;
+      border-radius: $radius;
+      padding: 0; margin: 0;
+      
+      overflow-y: scroll;      
+    }    
+  }
+  
+  section + section {
+     margin-left: 1%;
+  }
+  
+  #api-browser {}
+  
+  #docs {
+    
+    ul {
+      @include clearfix;
+    }
+    
+    li {
+      @include float(left);
+      width: 50%;
+    }
+    
+    a {
+      display: block;      
+      padding: 0.5em 1em;
+    }
+    
+  }
+  
+  a.collapse, a.expand { 
+    @include float(right);
+    color: $lightgrey;
+    height: 16px;
+    padding-right: 21px;
+    background: url(../img/arrow_up.png) no-repeat center right;    
+  }
+  a.expand { background-image: url(../img/arrow_down.png); }
+}
+
+#header.collapsed {  
+  #api-browser { display: none; }
+  #docs { display:none; }  
+}
+
+#header.search {
+  @include gradient(#7abcff, #4096ee, 0%, 100%);
+  color: #F4F7F9;
+  
+  h1 {
+    text-shadow: 1px 1px #4CB3F7;
+  }
+}
+
+
+#main {
+  @include gradient(#f2f2f2, #ffffff, 0px, 40px);
+  @include page-center;
+
+  margin-top: -$page-indent;
+
+  border-radius: 10px 10px 0 0;
+  box-shadow: 0px -0px 5px rgba(0,0,0,0.1);
+
+  border-top: 1px solid #eee;  
+}
+
+#footer {
+
+  color: $lightgrey;
+  margin-top: 20px;
+
+  .wrapper {
+    @include page-center;
+  }
+}
+
+
+
+/**
+ * API-Treebrowser
+ */
+$iconsize: 16px;
+.treeview {
+
+  ul {
+    margin: 4px 0 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li { 
+	  margin: 0;
+	  padding: 3px 0pt 3px $iconsize;	  
+	  
+	  a {
+	    display: block;
+	    padding-left: $iconsize + 5px;
+	    height: $iconsize;
+	  }
+  }  
+  li.function > a { background: url(../img/script_lightning.png) no-repeat left top; }
+  li.object > a { background: url(../img/package_green.png) no-repeat left top; }
+  
+  .hitarea {
+    @include float(left);
+    height: $iconsize;
+	  width: $iconsize;
+	  margin-left: -$iconsize;
+	  cursor: pointer;
+	  background: url(../img/bullet_toggle_minus.png) no-repeat left center;
+  }
+  .expandable-hitarea { background-image: url(../img/bullet_toggle_plus.png); }
+}
+
+
+body > section {
+  border-top: 1px solid #ccc;
+}
+
+.signature {
+  color: #aaaaff;
+}
+
+code {
+  display: block;
+  white-space: pre-wrap;  
+  background: #f3f3f3;
+}

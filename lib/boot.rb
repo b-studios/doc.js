@@ -29,7 +29,7 @@ def setup_application(options)
               :files        => options[:files]
   
   Logger.debug "Given options: #{options}"
-  Logger.debug "App Root: #{Configs.root}"
-  Logger.debug "Working Dir: #{Configs.wdir}"
-  Logger.debug "Output Dir: #{Configs.output}"
+  Logger.debug "App Root:      #{Configs.root}"
+  Logger.debug "Working Dir:   #{Configs.wdir}"
+  Logger.debug "Output Dir:    #{Configs.output}"
 end

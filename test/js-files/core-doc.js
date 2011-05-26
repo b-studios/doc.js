@@ -4,6 +4,8 @@
  * können. z.B. könnte damit die Hooks-extension die Sandbox erweitern, ohne dass diese von modulen
  * erreichbar wären.
  *
+ * Core contains a simple {Core.logger logger} which only supports one functionality {.log}.
+ *
  * @todo Extensions als Packages: Core.extend('foo.bar') => Core.foo.bar mit foo = foo|| {}
  * @todo Dependency Check der Extensions
  * @todo Extensionloader

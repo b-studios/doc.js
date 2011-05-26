@@ -6,7 +6,7 @@
   <dd>Line: <%= @object.line_start %></dd>
 </dl>
 
-<%=markdown @object.docs %>
+<%= to_html @object.docs %>
 
 <%= subsection :props, :title => "Properties", :collection => @object.props, :partial => 'tokens/typed_name' %>
 
