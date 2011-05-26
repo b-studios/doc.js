@@ -23,9 +23,11 @@ var Core = Core || (function(){
      * 
      * @function Core.extend
      *
-     * @param [String] id the id to register the new {Core.extensions extension} under
+     * @param [String] id the id to register the new {Core.extensionss extension} under
      * @param [Function] constructor a callback function, which acts as
      *   constructor
+     *
+     * @return [Core.extensions] the constructed extension
      */
     extend: function(id, constructor) {
       
@@ -55,7 +57,7 @@ var Core = Core || (function(){
     },    
     
     /**
-     * Adds minimal logging functionality to Core
+     * Adds minimal logging functionality to {Core}
      *
      * @object Core.logger
      */

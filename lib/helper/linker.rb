@@ -5,6 +5,7 @@ module Helper
     FILE = /^file\:(\S+)/
     EXTERNAL = /^((?:http|ftp|https|ssh):\/\/\S+)/
     MAIL = /^(mailto\:\S+)/
+    HASH = /#\S*/
 
     # @note link_to - first argument can be
     #   "file:some/path/to_a.file"
@@ -21,21 +22,22 @@ module Helper
       
       link = if target.is_a? CodeObject::Base
         path_to target
-      elsif target.match EXTERNAL or target.match MAIL
+      elsif target.match EXTERNAL or target.match MAIL or target.match HASH
         target
       elsif target.match FILE
         to_relative target.match(FILE).captures.first
       else       
         
         # use context dependent resolving functionality 
-        obj = resolve target
-        
-        if obj.nil?
-          Logger.warn "Could not resolve link to '#{target}'"
-          return text
-        end
-        to_relative path_to obj
-      end      
+        obj = resolve target       
+        to_relative path_to obj unless obj.nil?  
+      end     
+      
+      
+      if link.nil?
+        Logger.warn "Could not resolve link to '#{target}'"
+        return text 
+      end
       
       tag :a, text, :href => link      
     end
@@ -50,9 +52,6 @@ module Helper
       format = args[:format] || :html      
       object.parents.push(object).map{|p| p.name}.join('/') + ".#{format.to_s}"
     end
-    
-    protected
-
 
     # (see https://github.com/lsegal/yard/blob/master/lib/yard/templates/helpers/html_helper.rb)
     def replace_links(text)

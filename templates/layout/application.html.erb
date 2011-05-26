@@ -8,8 +8,6 @@
     <![endif]-->
     <link href='http://fonts.googleapis.com/css?family=Terminal+Dosis+Light' rel='stylesheet' type='text/css'>
     <%= style "application" %>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-    <%= script "jquery.treeview", "jquery.cookie", "application" %>
   </head>
   <body>
     <header id="header" class="s">
@@ -68,5 +66,12 @@
         Created with JSDoc for Ruby
       </div>
     </footer>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+    <script>
+      var JSDOC = JSDOC || {};
+      JSDOC.root = "<%= to_relative(Configs.output) + '/' %>";
+      window.jQuery || document.write("<script src='"+JSDOC.root+"js/jquery.js'>\x3C/script>")
+    </script>
+    <%= script "jquery.treeview", "jquery.cookie", "application" %>
   <body>
 </html>

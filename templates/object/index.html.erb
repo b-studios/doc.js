@@ -1,10 +1,26 @@
 <h1><%= @object.qualified_name %></h1>
+
+<aside>
 <dl>
   <dt>Defined in:</dt>
   <!-- Hier koennte die gehighlightete Version als Link hinterlegt werden -->
   <dd><%= @object.filepath %></dd>
   <dd>Line: <%= @object.line_start %></dd>
 </dl>
+
+<ul class="direct_environment">
+  <% unless @object.parent.nil? or @object.parent == Dom.root %>
+  <li class="parent"><a href="#"><%= @object.parent.qualified_name %></a>
+  <% end %>
+  <ul>
+    <li class="this"><a href="#"><%= @object.name %></a><ul class="children">
+      <% @children.each do |child| %>
+        <li><a href="#"><%= child.name %></a></li>
+      <% end %>
+    </ul>
+  </ul>
+</ul>
+</aside>
 
 <%= to_html @object.docs %>
 
@@ -16,11 +32,8 @@
   <h2>Methods Summary</h2>
   <ul class="summary collapsed">
     <% @methods.each do |child| %>
-    <li><%= child.name %></li>
+    <li><%= link_to "#method-#{child.name}",child.name %></li>
     <% end %>
-  </ul>
-  <ul class="summary expanded">
-    <%= render :partial => 'function/expanded', :collection => @methods %>
   </ul>
 </section>
 <% end %>
@@ -29,7 +42,9 @@
 <section>
   <h2>Children Summary</h2>
   <ul class="summary collapsed">
-    <%= render :partial => 'object/collapsed', :collection => @children %> 
+    <% @children.each do |child| %>
+      <li><%= link_to "#object-#{child.name}",child.name %></li>
+    <% end %>
   </ul>
 </section>
 <% end %>

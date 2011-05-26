@@ -17,8 +17,8 @@ module Helper
    
     def signature(method)
       params = method.params.map{|p|p.name}.join(', ') unless method.params.nil?
-      return_types = method.returns.first.types.join(', ') unless method.returns.nil? or method.returns.first.nil?
-      "(#{return_types || 'Void'}) #{method.name}(#{params})"
+      return_types = method.returns.first.types.map{|type| link_to(type) }.join(', ') unless method.returns.nil? or method.returns.first.nil?
+      "(#{return_types || 'Void'}) <span class='name'>#{method.name}</span>(<span class='params'>#{params}</span>)"
     end
     
     def subsection(id, opts = {})
@@ -40,16 +40,31 @@ module Helper
     def style(*args)
       html = ""
       args.each do |path|
-        html += tag :link, "", :rel => 'stylesheet', :href => to_relative('css/'+path)
+        html += tag :link, "", :rel => 'stylesheet', :href => to_relative('css/'+path+'.css')
       end
       return html
     end
     
-    def markdown(markdown_text)
-      replace_links RDiscount.new(markdown_text).to_html
+    def script(*args)
+      html = ""
+      args.each do |path|
+        html += tag :script, "", :src => to_relative('js/'+path+'.js')
+      end
+      return html
     end
     
-    protected
+    def code(source)
+    
+      # find minimal intendation
+      intendation = source.lines.map {|line| line.match(/(^\s+)/).captures.first.size }.min
+      
+      # @todo there has to be a better way for that      
+      tag :code, source.lines.map { |line| line[intendation .. line.size] }.join("")
+    end
+    
+    def to_html(markdown_text)
+      replace_links RDiscount.new(markdown_text).to_html
+    end
     
     def to_relative(path)
     

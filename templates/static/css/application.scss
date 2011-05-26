@@ -3,9 +3,10 @@
 $grey: #333;
 $blue: #4183C2;
 
-$button-color-from: #7abcff;
-$button-color-to: darken($button-color-from, 25%); /*#4096ee;*/
+$button-color-from: #88B5E2;
+$button-color-to: darken($button-color-from, 15%); /*#4096ee;*/
 
+$summary-button-color: lighten($blue,45%);
 
 $lightgrey: #a0a0a0;
 $mouse-over: rgba(0,0,0,0.1);
@@ -13,7 +14,10 @@ $mouse-over: rgba(0,0,0,0.1);
 
 $pagesize: 1000px;
 $page-indent: 20px;
+$page-padding: 20px;
+$box-spacing: 12px;
 $radius: 10px;
+
 
 @mixin transition($property, $time) {
 	-webkit-transition: $property $time ease-in-out;
@@ -41,6 +45,10 @@ $radius: 10px;
   &::-webkit-scrollbar-thumb:horizontal { width: 50px; background-color: rgba(0, 0, 0, 0.15); -webkit-border-radius: 4px; }
 }
 
+@mixin terminal() {
+  font-family: "Consolas", "monospace";
+}
+
 @mixin center() {
   display: block;
   margin: 0 auto;
@@ -56,14 +64,41 @@ $radius: 10px;
   overflow: hidden;
 }
 
+@mixin reset-list() {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
 @mixin double-border-bottom($size, $color1, $color2) {
   box-shadow: inset 0 $size*-1 0 $color1;
   border-bottom: $size solid $color2;
 }
 
+@mixin double-border-top($size, $color1, $color2) {
+  box-shadow: inset 0 $size 0 $color1;
+  border-top: $size solid $color2;
+}
+
+@mixin double-border($size, $color1, $color2) {
+  box-shadow: inset 0px 0px 0px $size $color1;
+  border: $size solid $color2;
+}
+
 @mixin float($direction) {
   display: block;
   float: $direction;
+}
+
+@mixin headline() {
+  font-family: 'Terminal Dosis Light', 'Helvetica', 'Arial', 'sans-serif';      
+  font-weight: normal;
+  text-shadow: 1px 1px #fff;
+}
+
+@mixin page-padding() {
+  padding-left: $page-padding;
+  padding-right: $page-padding;
 }
 
 body {
@@ -100,9 +135,9 @@ a {
     
     h1 {
       @include float(left);
+      @include headline;
+      font-weight: bold;
       font-size: 20pt;
-      font-family: 'Terminal Dosis Light';      
-      text-shadow: 1px 1px #fff;
     }
     
     form {
@@ -135,20 +170,18 @@ a {
         
         color: #fff;
         text-shadow: 1px 1px darken($button-color-to, 10%);
-        border-right: 1px solid darken($button-color-to, 10%);
-        border-left: 1px solid darken($button-color-from, 10%);
+        border-right: 1px solid darken($button-color-to, 0%);
+        border-left: 1px solid darken($button-color-from, 0%);
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
        
         &:hover {
-          @include gradient(darken($button-color-from, 10%), darken($button-color-to, 10%), 0%, 100%);
+          @include gradient(darken($button-color-from, 10%), darken($button-color-to, 5%), 0%, 100%);
           text-decoration: none;
           border-left: 1px solid transparent;
         }
-      }
-      
-    }
-    
-  } 
+      }      
+    }    
+  }
   
   section {  
     @include float(left);
@@ -156,7 +189,7 @@ a {
     width: 49.5%;
     
     > h1 {
-      font-weight: normal;
+      @include headline;
       font-size: 14pt;
       padding: 0 0 0.5em 0.5em;
     }
@@ -202,8 +235,9 @@ a {
     height: 16px;
     padding-right: 21px;
     background: url(../img/arrow_up.png) no-repeat center right;    
+    
+    &.expand { background-image: url(../img/arrow_down.png); }
   }
-  a.expand { background-image: url(../img/arrow_down.png); }
 }
 
 #header.collapsed {  
@@ -230,7 +264,111 @@ a {
   border-radius: 10px 10px 0 0;
   box-shadow: 0px -0px 5px rgba(0,0,0,0.1);
 
-  border-top: 1px solid #eee;  
+  border-top: 1px solid #eee;
+  
+  > * {
+    @include page-padding;
+  }
+  h1 {
+    @include headline;
+    padding-top: $page-padding;
+    margin-bottom: $box-spacing;
+    font-size: 20pt;
+  }
+  
+  aside {
+    @include float(right);
+    @include terminal;
+    @include double-border(1px, #ffffff, #E0E0E0);
+    margin: 0 $box-spacing;
+    padding: 0;
+    border-radius: 5px;
+    
+    background: #F3F3F3;    
+    color: #999;
+    font-size: 8pt;
+    
+    > * {
+      padding: 8px;
+      margin: 0;
+    }
+    
+    > * + * {
+      @include double-border-top(1px, #ffffff, #E0E0E0);
+    }
+    
+    .direct_environment {
+      list-style: none;
+      
+      ul { 
+        @include reset-list; 
+        padding-left: 1em;
+      }
+      
+      .this > a { font-weight: bold; }
+    }
+  }
+  
+  > section {
+    margin-bottom: $box-spacing;
+    
+    > h2 {
+      margin-top: $box-spacing;
+      margin-botton: $box-spacing * 0.665;
+      font-size: 14pt;      
+    }
+  }
+  
+  .summary {
+    @include reset-list;
+    @include clearfix;
+    
+    li { @include float(left); }
+    
+    a {
+      @include terminal;
+      display: block;
+      background: $summary-button-color;
+      border: 1px solid darken($summary-button-color, 8%);
+      color: darken($summary-button-color, 40%);
+      border-radius: $radius/2;
+      padding: 0.4em 1em;
+      margin: 0.25em;
+      
+      &:hover {
+        text-decoration: none;
+        color: darken($summary-button-color, 50%);
+      }
+    }    
+  }
+  
+  .section {
+    border-top: 1px solid #efefef;
+    padding-top: $box-spacing;
+    padding-bottom: $box-spacing;
+  
+    h2.signature {
+      @include terminal;
+      font-size: 12pt;
+      
+      .name {
+        font-weight: bold;
+        padding-left: 0.2em;
+      }
+      
+      .params {
+        padding: 0 0.2em;
+      }
+    }
+    
+    code {
+      display: block;
+      white-space: pre-wrap;  
+      background: #f3f3f3;
+      border: 1px solid #f0f0f0;
+      padding: 0.5em;
+    }
+  }
 }
 
 #footer {
@@ -252,9 +390,8 @@ $iconsize: 16px;
 .treeview {
 
   ul {
+    @include reset-list;
     margin: 4px 0 0 0;
-    padding: 0;
-    list-style: none;
   }
 
   li { 
@@ -279,19 +416,4 @@ $iconsize: 16px;
 	  background: url(../img/bullet_toggle_minus.png) no-repeat left center;
   }
   .expandable-hitarea { background-image: url(../img/bullet_toggle_plus.png); }
-}
-
-
-body > section {
-  border-top: 1px solid #ccc;
-}
-
-.signature {
-  color: #aaaaff;
-}
-
-code {
-  display: block;
-  white-space: pre-wrap;  
-  background: #f3f3f3;
 }
