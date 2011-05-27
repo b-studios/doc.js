@@ -1,0 +1,267 @@
+@import 'resets';
+@import 'print';
+@import 'helpers';
+
+/* Global Colors */
+$blue: #4183C2;
+$orange: #D84B0F;
+$grey: #333;
+$lightgrey: #a0a0a0;
+$codegrey: #F3F3F3;
+
+/* Header-colors */
+$button-color-from: #88B5E2;
+$button-color-to: darken($button-color-from, 15%); /*#4096ee;*/
+
+/* Content-colors */
+$signature-color: lighten($blue,45%);
+$flag-color: lighten($orange,45%);
+
+/* Dimensions */
+$pagesize: 1000px;
+$page-indent: 20px;
+$page-padding: 20px;
+$box-spacing: 12px;
+$radius: 10px;
+
+@mixin terminal() {
+  font-family: "Consolas", "monospace";
+}
+
+@mixin page-center() {
+  @include center;
+  max-width: $pagesize;
+}
+
+@mixin headline() {
+  font-family: 'Terminal Dosis Light', 'Helvetica', 'Arial', 'sans-serif';      
+  font-weight: normal;
+  text-shadow: 1px 1px #fff;
+}
+
+@mixin page-padding() {
+  padding-left: $page-padding;
+  padding-right: $page-padding;
+}
+
+@mixin typography() { 
+  h1 { 
+    font-size: 24pt; 
+    color: $orange;
+  }
+  h2 { 
+    font-size: 16pt; 
+    margin: 1.25em 0 0.25em;
+    border-bottom: 1px solid #EFEFEF;
+  }
+  h3 { 
+    font-size: 10pt; 
+    font-weight: bold;
+  }
+  p {
+    line-height: $golden_ratio*1em;
+    margin: 0.5em 0 1.33em;
+  }
+}
+
+@mixin code-box() {
+  @include double-border(1px, #ffffff, darken($codegrey, 10%));
+  @include terminal;
+  background: $codegrey;
+}
+
+@mixin signature-box($color:$signature-color) {
+  @include terminal;
+  display: block;
+  background: $color;
+  border: 1px solid darken($color, 8%);
+  color: darken($color, 40%);
+  border-radius: $radius/2;
+  padding: 0.4em 1em;
+}
+
+body, select, input, textarea {
+  background-color: #FBFBFB;
+  color: #444;
+  font-family: Arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 { font-weight: normal; }
+
+/* No text-shadow: twitter.com/miketaylr/status/12228805301 */
+::-moz-selection { background: $orange; color:#fff; text-shadow: none; }
+::selection { background: $orange; color:#fff; text-shadow: none; }
+
+a {
+  color: $blue;  
+  text-decoration: none;
+  
+  &:active, &:visited { color: $blue; }
+  &:hover { color: $blue; text-decoration: underline; } 
+}
+
+@import 'header';
+@import 'footer';
+
+.icon {
+  @each $icon in function, object, constructor, prototype {    
+    &.#{$icon} { 
+      background: url(../img/#{$icon}.png) no-repeat left center; 
+      padding-left: 24px;
+    }
+  }
+}
+
+#main {
+  @include gradient(#f2f2f2, #ffffff, 0px, 40px);
+  @include page-center;
+  @include typography;
+
+  margin-top: -$page-indent;
+
+  border-radius: 10px 10px 0 0;
+  box-shadow: 0px -0px 5px rgba(0,0,0,0.1);
+
+  border-top: 1px solid #eee;
+  
+  > * {
+    @include page-padding;
+  }
+  
+  header h1 {
+    @include headline;
+    padding-top: $page-padding;
+    margin-bottom: $box-spacing;
+    font-size: 40pt;
+    
+    .flag {
+      @include signature-box($flag-color);
+      @include float(right);
+      font-size: 8pt;
+      text-shadow: none;
+    }
+  }
+  
+  aside {
+    @include float(right);
+    @include code-box;    
+    margin: 0 $box-spacing;
+    padding: 0;
+    border-radius: 5px;
+    font-size: 8pt;
+    color: #999;
+    
+    > * {
+      padding: 8px;
+      margin: 0;
+    }
+    
+    > * + * {
+      @include double-border(1px, #ffffff, darken($codegrey, 10%), top);
+    }
+    
+    .direct_environment {
+      list-style: none;
+      
+      ul { 
+        @include reset-list; 
+        padding-left: 1em;
+      }
+      
+      .this > a { font-weight: bold; }
+    }
+  }
+  
+  > section {
+    margin-bottom: $box-spacing;
+    
+    > h2 {
+      margin-top: $box-spacing;
+      margin-botton: $box-spacing / $golden_ratio;
+      font-size: 14pt;      
+    }
+  }
+  
+  .summary {
+    @include reset-list;
+    @include clearfix;
+    
+    margin-bottom: 1.25em;
+    
+    li { @include float(left); }
+    
+    a {
+      @include signature-box;
+      margin: 0.25em;
+      
+      &:hover {
+        text-decoration: none;
+        color: darken($signature-color, 50%);
+      }
+    }    
+  }
+  
+  .section {
+    padding-bottom: $box-spacing;
+  
+    h2.signature {
+      @include signature-box;
+      color: #000;
+      font-size: 12pt;
+      
+      &.constructor {
+        @include signature-box($flag-color);
+        color: #000;
+      }
+      
+      .name {
+        font-weight: bold;
+        padding-left: 0.2em;
+      }
+      
+      .params {
+        padding: 0 0.2em;
+      }
+    }
+    
+    code {
+      @include code-box;
+      display: block;      
+      padding: 0.5em;      
+      color: #555;
+    }
+  }
+}
+
+/* API-Treebrowser */
+$iconsize: 16px;
+.treeview {
+
+  ul {
+    @include reset-list;
+    margin: 4px 0 0 0;
+  }
+
+  li { 
+	  margin: 0;
+	  padding: 3px 0pt 3px $iconsize;	  
+	  
+	  a {
+	    display: block;
+	    padding-left: $iconsize + 5px;
+	    height: $iconsize;
+	  }
+  }  
+  li.function > a { @extend .icon.function }
+  li.object > a { @extend .icon.object }
+  
+  .hitarea {
+    @include float(left);
+    height: $iconsize;
+	  width: $iconsize;
+	  margin-left: -$iconsize;
+	  cursor: pointer;
+	  background: url(../img/bullet_toggle_minus.png) no-repeat left center;
+  }
+  .expandable-hitarea { background-image: url(../img/bullet_toggle_plus.png); }
+}

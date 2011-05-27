@@ -1,0 +1,10 @@
+#footer {
+
+  color: $lightgrey;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  
+  .wrapper {
+    @include page-center;
+  }
+}

@@ -22,10 +22,14 @@ module Tasks
       in_context code_object do
         @object = code_object
         @methods = @object.children.values.select {|c| c.is_a? CodeObject::Function }
-        @children = @object.children.values - @methods
+        @children = @object.children.values
         
-        # Render has to be documented very well, because it will be used in RenderTasks
-        render 'object/index', :to_file => path_to(code_object, :format => :html)
+        if code_object.is_a? CodeObject::Function
+          render 'function/index', :to_file => path_to(code_object, :format => :html)
+        else
+          # Render has to be documented very well, because it will be used in RenderTasks
+          render 'object/index', :to_file => path_to(code_object, :format => :html)
+        end
       end
     end
   end

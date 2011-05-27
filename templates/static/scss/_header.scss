@@ -1,0 +1,140 @@
+#header {
+  @include gradient(#fcfcfc, #f0f0f0, 0px, 200px);
+  @include double-border(1px, #f6f6f6, #dfdfdf, bottom);
+  @include clearfix;
+  padding-bottom: $page-indent + 10px;
+
+  div.wrapper {
+    @include page-center;  
+    overflow: hidden;  
+  }
+
+  nav {    
+    @include clearfix;
+   
+    position: relative;
+   
+    > * {
+      padding: 10px;
+    }
+    
+    h1 {
+      @include float(left);
+      @include headline;
+      font-weight: bold;
+      font-size: 24pt;
+    }
+    
+    form {
+      @include float(right);
+    }
+    
+    input#search {
+      border-radius: $radius;
+      outline: none;
+      padding: 0.2em 0.5em;
+    }
+    
+    #page-menu {
+      @include float(left);
+      margin-left: 20%;
+      padding: 0;       
+      
+      li { 
+        @include float(left);
+        
+        /* rounded corners */
+        &:first-child a { border-radius: 0 0 0 $radius; }
+        &:last-child a { border-radius: 0 0 $radius 0; }        
+      }
+            
+      a {
+        @include gradient($button-color-from, $button-color-to);
+        display: block;                      
+        padding: 0.5em 1em;
+        
+        color: #fff;
+        text-shadow: 1px 1px darken($button-color-to, 10%);
+        border-right: 1px solid darken($button-color-to, 0%);
+        border-left: 1px solid darken($button-color-from, 0%);
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+       
+        &:hover {
+          @include gradient(darken($button-color-from, 10%), darken($button-color-to, 5%));
+          text-decoration: none;
+          border-left: 1px solid transparent;
+        }
+      }      
+    }    
+  }
+  
+  section {  
+    @include float(left);
+    margin-top: 15px;
+    width: 49.5%;
+    
+    > h1 {
+      @include headline;
+      font-size: 16pt;
+      padding: 0 0 0.5em 0.5em;
+    }
+    
+    > ul {
+      @include scrollbars; 
+      
+      border: 1px solid #eee;
+      border-radius: $radius;
+      padding: 0; margin: 0;
+      
+      overflow-y: scroll;      
+    }    
+  }
+  
+  section + section {
+    margin-left: 1%;
+  }
+  
+  #api-browser {}
+  
+  #docs {
+    
+    ul {
+      @include clearfix;
+    }
+    
+    li {
+      @include float(left);
+      width: 50%;
+    }
+    
+    a {
+      display: block;      
+      padding: 0.5em 1em;
+    }
+    
+  }
+  
+  a.collapse, a.expand { 
+    @include float(right);
+    color: $lightgrey;
+    height: 16px;
+    padding-right: 21px;
+    background: url(../img/arrow_up.png) no-repeat center right;    
+    
+    &.expand { background-image: url(../img/arrow_down.png); }
+  }
+}
+
+#header.collapsed {  
+  #api-browser { display: none; }
+  #docs { display:none; }  
+}
+
+#header.search {
+  @include gradient(#7abcff, #4096ee);
+  color: #F4F7F9;
+  
+  h1 {
+    text-shadow: 1px 1px #4CB3F7;
+  }
+}

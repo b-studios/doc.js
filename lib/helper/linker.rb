@@ -21,7 +21,7 @@ module Helper
       Logger.debug "Trying to link #{target}"
       
       link = if target.is_a? CodeObject::Base
-        path_to target
+        to_relative path_to target
       elsif target.match EXTERNAL or target.match MAIL or target.match HASH
         target
       elsif target.match FILE

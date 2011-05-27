@@ -1,0 +1,63 @@
+$golden_ratio: 1.618;
+
+@mixin transition($property, $time) {
+	-webkit-transition: $property $time ease-in-out;
+	-moz-transition: $property $time ease-in-out;
+	-o-transition: $property $time ease-in-out;
+	-ms-transition: $property $time ease-in-out;
+	transition: $property $time ease-in-out;
+}
+
+@mixin gradient($from, $to, $from_pos: 0%, $to_pos: 100%) {
+  background: $from; /* Old browsers */
+  background: -moz-linear-gradient(top, $from $from_pos, $to $to_pos); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop($from_pos, $from), color-stop($to_pos, $to)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, $from $from_pos,$to $to_pos); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, $from $from_pos,$to $to_pos); /* Opera11.10+ */
+  background: -ms-linear-gradient(top, $from $from_pos,$to $to_pos); /* IE10+ */
+  background: linear-gradient(top, $from $from_pos,$to $to_pos); /* W3C */
+}
+
+@mixin scrollbars() {
+  &::-webkit-scrollbar { width: 7px; height: 9px; }
+  &::-webkit-scrollbar-button:start:decrement, .iScroll ::-webkit-scrollbar-button:end:increment { display: block; height: 0; background-color: transparent; }
+  &::-webkit-scrollbar-track-piece { -webkit-border-radius: 0; -webkit-border-bottom-right-radius: 4px; -webkit-border-bottom-left-radius: 4px; }
+  &::-webkit-scrollbar-thumb:vertical { height: 50px; background-color: rgba(0, 0, 0, 0.15); -webkit-border-radius: 4px; }
+  &::-webkit-scrollbar-thumb:horizontal { width: 50px; background-color: rgba(0, 0, 0, 0.15); -webkit-border-radius: 4px; }
+}
+
+@mixin center() {
+  display: block;
+  margin: 0 auto;
+}
+
+@mixin clearfix() {
+  display: block;
+  overflow: hidden;
+}
+
+@mixin reset-list() {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@mixin double-border($size, $color1, $color2, $position:all) {
+  @if $position == all {
+    box-shadow: inset 0px 0px 0px $size $color1;
+    border: $size solid $color2;
+  } 
+  @else if $position == bottom {
+    box-shadow: inset 0 $size*-1 0 $color1;
+    border-bottom: $size solid $color2;
+  }
+  @else if $position == top {
+    box-shadow: inset 0 $size 0 $color1;
+    border-top: $size solid $color2;
+  }
+}
+
+@mixin float($direction) {
+  display: block;
+  float: $direction;
+}

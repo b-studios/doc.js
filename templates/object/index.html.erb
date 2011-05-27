@@ -1,53 +1,59 @@
-<h1><%= @object.qualified_name %></h1>
+<article>
+  <header>
+    <h1><%= @object.qualified_name %></h1>
+  </header>
+  
+  <aside>
+    <p><%= @object.filepath %>:<%= @object.line_start %></p>
 
-<aside>
-<dl>
-  <dt>Defined in:</dt>
-  <!-- Hier koennte die gehighlightete Version als Link hinterlegt werden -->
-  <dd><%= @object.filepath %></dd>
-  <dd>Line: <%= @object.line_start %></dd>
-</dl>
+    <ul class="direct_environment">
+      <% unless @object.parent.nil? or @object.parent == Dom.root %>
+      <li class="parent"><%= link_to @object.parent, @object.parent.qualified_name %>
+      <% end %>
+      <ul>
+        <li class="this"><%= link_to @object, @object.name %><ul class="children">
+          <% @children.each do |child| %>
+            <li><%= link_to child, child.name %></li>
+          <% end %>
+        </ul>
+      </ul>
+    </ul>
+    
+    <ul>
+      <li>Methods</li>
+      <li>Children</li>
+    </ul>
+  </aside>
 
-<ul class="direct_environment">
-  <% unless @object.parent.nil? or @object.parent == Dom.root %>
-  <li class="parent"><a href="#"><%= @object.parent.qualified_name %></a>
-  <% end %>
-  <ul>
-    <li class="this"><a href="#"><%= @object.name %></a><ul class="children">
-      <% @children.each do |child| %>
-        <li><a href="#"><%= child.name %></a></li>
+  <%= to_html @object.docs %>
+
+<!-- SUMMARY -->
+<% unless @methods.nil? or @methods.size == 0 %>
+  <section>
+    <h3 class="icon function">Methods</h3>
+    <ul class="summary collapsed">
+      <% @methods.each do |child| %>
+      <li><%= link_to "#method-#{child.name}", '.' + child.name + '()' %></li>
       <% end %>
     </ul>
-  </ul>
-</ul>
-</aside>
+  </section>
+<% end %>
 
-<%= to_html @object.docs %>
+<% unless @children.nil? or (@children - @methods).size == 0 %>
+  <section>
+   <h3 class="icon object">Children</h3>
+    <ul class="summary collapsed">
+      <% (@children - @methods).each do |child| %>
+        <li><%= link_to "#object-#{child.name}", '.' + child.name %></li>
+      <% end %>
+    </ul>
+  </section>
+<% end %>
 
 <%= subsection :props, :title => "Properties", :collection => @object.props, :partial => 'tokens/typed_name' %>
 
 
-<% unless @methods.nil? or @methods.size == 0 %>
-<section>
-  <h2>Methods Summary</h2>
-  <ul class="summary collapsed">
-    <% @methods.each do |child| %>
-    <li><%= link_to "#method-#{child.name}",child.name %></li>
-    <% end %>
-  </ul>
-</section>
-<% end %>
-
-<% unless @children.nil? or @children.size == 0 %>
-<section>
-  <h2>Children Summary</h2>
-  <ul class="summary collapsed">
-    <% @children.each do |child| %>
-      <li><%= link_to "#object-#{child.name}",child.name %></li>
-    <% end %>
-  </ul>
-</section>
-<% end %>
+<!-- DETAILS -->
 
 <% unless @methods.nil? or @methods.size == 0 %>
 <section>
@@ -62,3 +68,6 @@
   <%= render :partial => 'object/detail', :collection => @children %>
 </section>
 <% end %>
+
+
+</article>
