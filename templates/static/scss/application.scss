@@ -1,7 +1,3 @@
-@import 'resets';
-@import 'print';
-@import 'helpers';
-
 $default-fonts: Arial, sans-serif;
 
 /* Global Colors */
@@ -25,6 +21,11 @@ $page-indent: 20px;
 $page-padding: 20px;
 $box-spacing: 12px;
 $radius: 10px;
+$element-margin: 1.33em;
+
+@import 'resets';
+@import 'print';
+@import 'helpers';
 
 @mixin terminal() {
   font-family: "Consolas", "monospace";
@@ -82,6 +83,10 @@ $radius: 10px;
   padding: 0.4em 1em;
 }
 
+@import 'header';
+@import 'footer';
+@import 'tooltip';
+
 body, select, input, textarea {
   background-color: #FBFBFB;
   color: #444;
@@ -101,10 +106,6 @@ a {
   &:active, &:visited { color: $blue; }
   &:hover { color: $blue; text-decoration: underline; } 
 }
-
-@import 'header';
-@import 'footer';
-@import 'tooltip';
 
 .icon {
   @each $icon in function, object, constructor, prototype {    
@@ -195,7 +196,7 @@ a {
     
     > h2 {
       margin-top: $box-spacing;
-      margin-botton: $box-spacing / $golden_ratio;
+      margin-bottom: $box-spacing / $golden_ratio;
       font-size: 14pt;      
     }
   }
@@ -204,7 +205,7 @@ a {
     @include reset-list;
     @include clearfix;
     
-    margin-bottom: 1.25em;
+    margin-bottom: $element-margin;
     
     li { @include float(left); }
     
@@ -219,43 +220,19 @@ a {
     }    
   }
   
-  .section {
-    padding-bottom: $box-spacing;
+  code.block {
+    @include code-box;
+    display: block;      
+    padding: 0.5em;      
+    color: #555;
+    margin-bottom: $element-margin;
+  }
   
-    h2.signature {
-      @include signature-box;
-      color: #000;
-      font-size: 12pt;
-      margin-bottom: 1em;
-      
-      &.constructor {
-        @include signature-box($flag-color);
-        color: #000;
-      }
-      
-      .name {
-        font-weight: bold;
-        padding-left: 0.2em;
-      }
-      
-      .params {
-        padding: 0 0.2em;
-        
-        .param {
-          cursor: help;
-        }        
-      }      
-    }
-    
-    > code {
-      @include code-box;
-      display: block;      
-      padding: 0.5em;      
-      color: #555;
-      margin-bottom: 1.33em;
-    }
-    
-    ul.subsection {      
+  .section {
+    padding-bottom: $box-spacing;    
+  }
+  
+  .subsection {      
       margin-left: 0;
       border: 1px solid #efefef;
       
@@ -280,6 +257,31 @@ a {
         padding: 0 0.2em;
       }
       
+    }
+  
+  .signature {
+    @include signature-box;
+    color: #000;
+    font-size: 12pt;
+    font-weight: normal;
+    margin-bottom: $element-margin;
+    
+    &.constructor {
+      @include signature-box($flag-color);
+      color: #000;
+    }
+    
+    .name {
+      font-weight: bold;
+      padding-left: 0.2em;
+    }
+    
+    .params {
+      padding: 0 0.2em;
+      
+      .param {
+        cursor: help;
+      }        
     }
   }
 }

@@ -51,11 +51,11 @@ abbr[title], dfn[title] { border-bottom: 1px dotted; cursor: help; }
 
 table { border-collapse: collapse; border-spacing: 0; }
 
-hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin: 1em 0; padding: 0; }
+hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin: $element-margin 0; padding: 0; }
 
 
 /* Font normalization inspired by YUI Library's fonts.css: developer.yahoo.com/yui/ */
-body { font:13px/1.231 sans-serif; *font-size:small; } /* Hack retained to preserve specificity */
+body { font:13px/1.231 $default-fonts; *font-size:small; } /* Hack retained to preserve specificity */
 
 /* Normalize monospace sizing: en.wikipedia.org/wiki/MediaWiki_talk:Common.css/Archive_11#Teletype_style_fix_for_Chrome */
 pre, code, kbd, samp { 
@@ -75,12 +75,12 @@ a:hover, a:active { outline: none; }
 
 ul, ol { 
   margin-left: 2em; 
-  margin-bottom: 1.25em;
+  margin-bottom: $element-margin;
 }
 ol { list-style-type: decimal; }
 
 dl {
-  margin-bottom: 1.25em;
+  margin-bottom: $element-margin;
 }
 
 /* Remove margins for navigation lists */

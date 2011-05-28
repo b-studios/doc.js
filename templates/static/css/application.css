@@ -1,4 +1,9 @@
 @charset "UTF-8";
+/* Global Colors */
+/* Header-colors */
+/*#4096ee;*/
+/* Content-colors */
+/* Dimensions */
 /**
  * HTML5 ✰ Boilerplate
  *
@@ -67,12 +72,12 @@ hr {
   height: 1px;
   border: 0;
   border-top: 1px solid #ccc;
-  margin: 1em 0;
+  margin: 1.33em 0;
   padding: 0; }
 
 /* Font normalization inspired by YUI Library's fonts.css: developer.yahoo.com/yui/ */
 body {
-  font: 13px/1.231 sans-serif;
+  font: 13px/1.231 Arial, sans-serif;
   *font-size: small; }
 
 /* Hack retained to preserve specificity */
@@ -98,13 +103,13 @@ a:hover, a:active {
 
 ul, ol {
   margin-left: 2em;
-  margin-bottom: 1.25em; }
+  margin-bottom: 1.33em; }
 
 ol {
   list-style-type: decimal; }
 
 dl {
-  margin-bottom: 1.25em; }
+  margin-bottom: 1.33em; }
 
 /* Remove margins for navigation lists */
 nav ul, nav li {
@@ -238,39 +243,6 @@ input:invalid, textarea:invalid {
 
   h2, h3 {
     page-break-after: avoid; } }
-/* Global Colors */
-/* Header-colors */
-/*#4096ee;*/
-/* Content-colors */
-/* Dimensions */
-body, select, input, textarea {
-  background-color: #FBFBFB;
-  color: #444;
-  font-family: Arial, sans-serif; }
-
-h1, h2, h3, h4, h5, h6 {
-  font-weight: normal; }
-
-/* No text-shadow: twitter.com/miketaylr/status/12228805301 */
-::-moz-selection {
-  background: #d84b0f;
-  color: #fff;
-  text-shadow: none; }
-
-::selection {
-  background: #d84b0f;
-  color: #fff;
-  text-shadow: none; }
-
-a {
-  color: #4183c2;
-  text-decoration: none; }
-  a:active, a:visited {
-    color: #4183c2; }
-  a:hover {
-    color: #4183c2;
-    text-decoration: underline; }
-
 #header {
   background: #fcfcfc;
   /* Old browsers */
@@ -493,6 +465,34 @@ a {
     font-family: "Consolas", "monospace";
     padding: 0 0.2em; }
 
+body, select, input, textarea {
+  background-color: #FBFBFB;
+  color: #444;
+  font-family: Arial, sans-serif; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal; }
+
+/* No text-shadow: twitter.com/miketaylr/status/12228805301 */
+::-moz-selection {
+  background: #d84b0f;
+  color: #fff;
+  text-shadow: none; }
+
+::selection {
+  background: #d84b0f;
+  color: #fff;
+  text-shadow: none; }
+
+a {
+  color: #4183c2;
+  text-decoration: none; }
+  a:active, a:visited {
+    color: #4183c2; }
+  a:hover {
+    color: #4183c2;
+    text-decoration: underline; }
+
 .icon.function, .treeview li.function > a {
   background: url(../img/function.png) no-repeat left center;
   padding-left: 24px; }
@@ -605,7 +605,7 @@ a {
     margin-bottom: 12px; }
     #main > section > h2 {
       margin-top: 12px;
-      margin-botton: 7.417px;
+      margin-bottom: 7.417px;
       font-size: 14pt; }
   #main .summary {
     list-style: none;
@@ -613,7 +613,7 @@ a {
     padding: 0;
     display: block;
     overflow: hidden;
-    margin-bottom: 1.25em; }
+    margin-bottom: 1.33em; }
     #main .summary li {
       display: block;
       float: left; }
@@ -629,60 +629,61 @@ a {
       #main .summary a:hover {
         text-decoration: none;
         color: #3976b1; }
+  #main code.block {
+    box-shadow: inset 0px 0px 0px 1px white;
+    border: 1px solid #d9d9d9;
+    font-family: "Consolas", "monospace";
+    background: #f3f3f3;
+    display: block;
+    padding: 0.5em;
+    color: #555;
+    margin-bottom: 1.33em; }
   #main .section {
     padding-bottom: 12px; }
-    #main .section h2.signature {
+  #main .subsection {
+    margin-left: 0;
+    border: 1px solid #efefef;
+    /* first element*/
+    /* all but first li */ }
+    #main .subsection li {
+      list-style: none;
+      padding: 5px 15px; }
+    #main .subsection h4 {
+      font-weight: bold;
+      display: inline; }
+    #main .subsection * + li {
+      border-top: 1px solid #efefef; }
+    #main .subsection .types {
+      font-family: "Consolas", "monospace";
+      padding: 0 0.2em; }
+  #main .signature {
+    font-family: "Consolas", "monospace";
+    display: block;
+    background: #eff4fa;
+    border: 1px solid #d0e0f0;
+    color: #5490c8;
+    border-radius: 5px;
+    padding: 0.4em 1em;
+    color: #000;
+    font-size: 12pt;
+    font-weight: normal;
+    margin-bottom: 1.33em; }
+    #main .signature.constructor {
       font-family: "Consolas", "monospace";
       display: block;
-      background: #eff4fa;
-      border: 1px solid #d0e0f0;
-      color: #5490c8;
+      background: #fcded1;
+      border: 1px solid #f9c2ab;
+      color: #ef5412;
       border-radius: 5px;
       padding: 0.4em 1em;
-      color: #000;
-      font-size: 12pt;
-      margin-bottom: 1em; }
-      #main .section h2.signature.constructor {
-        font-family: "Consolas", "monospace";
-        display: block;
-        background: #fcded1;
-        border: 1px solid #f9c2ab;
-        color: #ef5412;
-        border-radius: 5px;
-        padding: 0.4em 1em;
-        color: #000; }
-      #main .section h2.signature .name {
-        font-weight: bold;
-        padding-left: 0.2em; }
-      #main .section h2.signature .params {
-        padding: 0 0.2em; }
-        #main .section h2.signature .params .param {
-          cursor: help; }
-    #main .section > code {
-      box-shadow: inset 0px 0px 0px 1px white;
-      border: 1px solid #d9d9d9;
-      font-family: "Consolas", "monospace";
-      background: #f3f3f3;
-      display: block;
-      padding: 0.5em;
-      color: #555;
-      margin-bottom: 1.33em; }
-    #main .section ul.subsection {
-      margin-left: 0;
-      border: 1px solid #efefef;
-      /* first element*/
-      /* all but first li */ }
-      #main .section ul.subsection li {
-        list-style: none;
-        padding: 5px 15px; }
-      #main .section ul.subsection h4 {
-        font-weight: bold;
-        display: inline; }
-      #main .section ul.subsection * + li {
-        border-top: 1px solid #efefef; }
-      #main .section ul.subsection .types {
-        font-family: "Consolas", "monospace";
-        padding: 0 0.2em; }
+      color: #000; }
+    #main .signature .name {
+      font-weight: bold;
+      padding-left: 0.2em; }
+    #main .signature .params {
+      padding: 0 0.2em; }
+      #main .signature .params .param {
+        cursor: help; }
 
 /* API-Treebrowser */
 .treeview ul {

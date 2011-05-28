@@ -64,7 +64,7 @@ module Helper
       intendation = source.lines.map {|line| line.match(/(^\s+)/) && line.match(/(^\s+)/).captures.first.size || 0 }.min
       
       # @todo there has to be a better way for that      
-      tag :code, source.lines.map { |line| line[intendation .. line.size] }.join("")
+      tag :code, source.lines.map { |line| line[intendation .. line.size] }.join(""), :class => 'block'
     end
     
     def to_html(markdown_text)
