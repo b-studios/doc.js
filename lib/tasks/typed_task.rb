@@ -22,7 +22,7 @@ module Tasks
       in_context code_object do
         @object = code_object
         @methods = @object.children.values.select {|c| c.is_a? CodeObject::Function }
-        @children = @object.children.values
+        @children = @object.children.values - @methods
         
         if code_object.is_a? CodeObject::Function
           render 'function/index', :to_file => path_to(code_object, :format => :html)

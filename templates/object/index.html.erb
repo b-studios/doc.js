@@ -6,23 +6,19 @@
   <aside>
     <p><%= @object.filepath %>:<%= @object.line_start %></p>
 
-    <ul class="direct_environment">
-      <% unless @object.parent.nil? or @object.parent == Dom.root %>
-      <li class="parent"><%= link_to @object.parent, @object.parent.qualified_name %>
-      <% end %>
-      <ul>
-        <li class="this"><%= link_to @object, @object.name %><ul class="children">
-          <% @children.each do |child| %>
-            <li><%= link_to child, child.name %></li>
-          <% end %>
-        </ul>
-      </ul>
-    </ul>
+    <div class="hierarchy">
+      <h3>Hierarchy</h3>
+      <%= print_hierarchy @object %>
+    </div>
     
-    <ul>
-      <li>Methods</li>
-      <li>Children</li>
-    </ul>
+    <div class="method-list">
+      <h3>Methods</h3>
+      <ul>
+        <% @methods.each do |child| %>
+        <li><%= link_on_page child %></li>
+        <% end %>
+      </ul>
+    </div>
   </aside>
 
   <%= to_html @object.docs %>
@@ -33,18 +29,18 @@
     <h3 class="icon function">Methods</h3>
     <ul class="summary collapsed">
       <% @methods.each do |child| %>
-      <li><%= link_to "#method-#{child.name}", '.' + child.name + '()' %></li>
+      <li><%= link_on_page child %></li>
       <% end %>
     </ul>
   </section>
 <% end %>
 
-<% unless @children.nil? or (@children - @methods).size == 0 %>
+<% unless @children.nil? or @children.size == 0 %>
   <section>
    <h3 class="icon object">Children</h3>
     <ul class="summary collapsed">
-      <% (@children - @methods).each do |child| %>
-        <li><%= link_to "#object-#{child.name}", '.' + child.name %></li>
+      <% @children.each do |child| %>
+      <li><%= link_to child, ".#{child.name}" %></li>
       <% end %>
     </ul>
   </section>
@@ -56,18 +52,10 @@
 <!-- DETAILS -->
 
 <% unless @methods.nil? or @methods.size == 0 %>
-<section>
-  <h2>Methods Details</h2>
+<section id="methods">
+  <h2>Methods</h2>
   <%= render :partial => 'function/detail', :collection => @methods %>
 </section>
 <% end %>
-
-<% unless @children.nil? or @children.size == 0 %>
-<section>
-  <h2>Children Details</h2>
-  <%= render :partial => 'object/detail', :collection => @children %>
-</section>
-<% end %>
-
 
 </article>

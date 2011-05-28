@@ -2,6 +2,8 @@
 @import 'print';
 @import 'helpers';
 
+$default-fonts: Arial, sans-serif;
+
 /* Global Colors */
 $blue: #4183C2;
 $orange: #D84B0F;
@@ -83,7 +85,7 @@ $radius: 10px;
 body, select, input, textarea {
   background-color: #FBFBFB;
   color: #444;
-  font-family: Arial, sans-serif;
+  font-family: $default-fonts;
 }
 
 h1, h2, h3, h4, h5, h6 { font-weight: normal; }
@@ -102,6 +104,7 @@ a {
 
 @import 'header';
 @import 'footer';
+@import 'tooltip';
 
 .icon {
   @each $icon in function, object, constructor, prototype {    
@@ -160,15 +163,30 @@ a {
       @include double-border(1px, #ffffff, darken($codegrey, 10%), top);
     }
     
-    .direct_environment {
+    h3 {
+      font-size: 1em;
+      text-transform: uppercase;
+      padding-bottom: 0.5em;
+    }
+    
+    .hierarchy {
       list-style: none;
-      
+           
       ul { 
         @include reset-list; 
         padding-left: 1em;
       }
       
+      /* first node */
+      > ul {
+        padding-left: 0;  
+      }
+      
       .this > a { font-weight: bold; }
+    }
+    
+    .method-list ul {
+      @include reset-list;
     }
   }
   
@@ -208,6 +226,7 @@ a {
       @include signature-box;
       color: #000;
       font-size: 12pt;
+      margin-bottom: 1em;
       
       &.constructor {
         @include signature-box($flag-color);
@@ -221,7 +240,11 @@ a {
       
       .params {
         padding: 0 0.2em;
-      }
+        
+        .param {
+          cursor: help;
+        }        
+      }      
     }
     
     code {
@@ -229,6 +252,33 @@ a {
       display: block;      
       padding: 0.5em;      
       color: #555;
+    }
+    
+    ul.subsection {      
+      margin-left: 0;
+      border: 1px solid #efefef;
+      
+      li {
+        list-style: none;
+        padding: 5px 15px;
+      }
+      
+      /* first element*/
+      h4 {        
+        font-weight: bold;
+        display: inline;
+      }
+      
+      /* all but first li */
+      * + li {
+        border-top: 1px solid #efefef;
+      }
+      
+      .types {
+        @include terminal;
+        padding: 0 0.2em;
+      }
+      
     }
   }
 }

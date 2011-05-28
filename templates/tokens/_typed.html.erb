@@ -1,4 +1,4 @@
 <li>
-  <span class="type">(<%= typed.types.join(', ') %>)</span>
+  <span class="types">(<%= typed.types.map {|t| link_to(t) }.join ', ' %>)</span>
   <span class="desc"><%=replace_links typed.content %></span>
 </li>

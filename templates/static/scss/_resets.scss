@@ -79,6 +79,10 @@ ul, ol {
 }
 ol { list-style-type: decimal; }
 
+dl {
+  margin-bottom: 1.25em;
+}
+
 /* Remove margins for navigation lists */
 nav ul, nav li { margin: 0; list-style:none; list-style-image: none; }
 

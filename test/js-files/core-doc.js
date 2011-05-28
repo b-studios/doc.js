@@ -43,9 +43,15 @@ var Core = Core || (function(){
      * 
      * @function Core.extend
      *
+     * @example Testextension
+     *   Core.extend('testextension', function() {
+     *     return {};
+     *   });
+     *
+     *
      * @param [String] id the id to register the new {Core.extensionss extension} under
      * @param [Function] constructor a callback function, which acts as
-     *   constructor
+     *   constructor for {Core.extensions}
      *
      * @return [Core.extensions] the constructed extension
      */

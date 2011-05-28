@@ -18,6 +18,16 @@ $golden_ratio: 1.618;
   background: linear-gradient(top, $from $from_pos,$to $to_pos); /* W3C */
 }
 
+@mixin gradient-horizontal($from, $to, $from_pos: 0%, $to_pos: 100%) {
+  background: $from; /* Old browsers */
+  background: -moz-linear-gradient(left, $from $from_pos, $to $to_pos); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right top, color-stop($from_pos, $from), color-stop($to_pos, $to)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(left, $from $from_pos,$to $to_pos); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(left, $from $from_pos,$to $to_pos); /* Opera11.10+ */
+  background: -ms-linear-gradient(left, $from $from_pos,$to $to_pos); /* IE10+ */
+  background: linear-gradient(left, $from $from_pos,$to $to_pos); /* W3C */
+}
+
 @mixin scrollbars() {
   &::-webkit-scrollbar { width: 7px; height: 9px; }
   &::-webkit-scrollbar-button:start:decrement, .iScroll ::-webkit-scrollbar-button:end:increment { display: block; height: 0; background-color: transparent; }

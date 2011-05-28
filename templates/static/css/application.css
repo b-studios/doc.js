@@ -103,6 +103,9 @@ ul, ol {
 ol {
   list-style-type: decimal; }
 
+dl {
+  margin-bottom: 1.25em; }
+
 /* Remove margins for navigation lists */
 nav ul, nav li {
   margin: 0;
@@ -457,6 +460,39 @@ a {
     margin: 0 auto;
     max-width: 1000px; }
 
+.tooltip {
+  /*@include double-border(1px, #fff, #ccc);*/
+  background: #333333;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #333333 0%, #555555 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #333333), color-stop(100%, #555555));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #333333 0%, #555555 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #333333 0%, #555555 100%);
+  /* Opera11.10+ */
+  background: -ms-linear-gradient(top, #333333 0%, #555555 100%);
+  /* IE10+ */
+  background: linear-gradient(top, #333333 0%, #555555 100%);
+  /* W3C */
+  display: none;
+  position: absolute;
+  padding: 0.5em;
+  max-width: 200px;
+  z-index: 50;
+  font-family: Arial, sans-serif;
+  font-size: 9pt;
+  color: #eee;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); }
+  .tooltip a {
+    color: #8eb5db; }
+  .tooltip .types {
+    font-family: "Consolas", "monospace";
+    padding: 0 0.2em; }
+
 .icon.function, .treeview li.function > a {
   background: url(../img/function.png) no-repeat left center;
   padding-left: 24px; }
@@ -545,15 +581,26 @@ a {
     #main aside > * + * {
       box-shadow: inset 0 1px 0 white;
       border-top: 1px solid #d9d9d9; }
-    #main aside .direct_environment {
-      list-style: none; }
-      #main aside .direct_environment ul {
+    #main aside h3 {
+      font-size: 1em;
+      text-transform: uppercase;
+      padding-bottom: 0.5em; }
+    #main aside .hierarchy {
+      list-style: none;
+      /* first node */ }
+      #main aside .hierarchy ul {
         list-style: none;
         margin: 0;
         padding: 0;
         padding-left: 1em; }
-      #main aside .direct_environment .this > a {
+      #main aside .hierarchy > ul {
+        padding-left: 0; }
+      #main aside .hierarchy .this > a {
         font-weight: bold; }
+    #main aside .method-list ul {
+      list-style: none;
+      margin: 0;
+      padding: 0; }
   #main > section {
     margin-bottom: 12px; }
     #main > section > h2 {
@@ -593,7 +640,8 @@ a {
       border-radius: 5px;
       padding: 0.4em 1em;
       color: #000;
-      font-size: 12pt; }
+      font-size: 12pt;
+      margin-bottom: 1em; }
       #main .section h2.signature.constructor {
         font-family: "Consolas", "monospace";
         display: block;
@@ -608,6 +656,8 @@ a {
         padding-left: 0.2em; }
       #main .section h2.signature .params {
         padding: 0 0.2em; }
+        #main .section h2.signature .params .param {
+          cursor: help; }
     #main .section code {
       box-shadow: inset 0px 0px 0px 1px white;
       border: 1px solid #d9d9d9;
@@ -616,6 +666,22 @@ a {
       display: block;
       padding: 0.5em;
       color: #555; }
+    #main .section ul.subsection {
+      margin-left: 0;
+      border: 1px solid #efefef;
+      /* first element*/
+      /* all but first li */ }
+      #main .section ul.subsection li {
+        list-style: none;
+        padding: 5px 15px; }
+      #main .section ul.subsection h4 {
+        font-weight: bold;
+        display: inline; }
+      #main .section ul.subsection * + li {
+        border-top: 1px solid #efefef; }
+      #main .section ul.subsection .types {
+        font-family: "Consolas", "monospace";
+        padding: 0 0.2em; }
 
 /* API-Treebrowser */
 .treeview ul {

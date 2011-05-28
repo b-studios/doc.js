@@ -15,9 +15,7 @@ module Helper
     #   instance_of_code_object
     #
     def link_to(target, text = nil, args = {})
-      
-      text ||= target 
-      
+           
       Logger.debug "Trying to link #{target}"
       
       link = if target.is_a? CodeObject::Base
@@ -31,8 +29,9 @@ module Helper
         # use context dependent resolving functionality 
         obj = resolve target       
         to_relative path_to obj unless obj.nil?  
-      end     
-      
+      end
+        
+      text ||= target 
       
       if link.nil?
         Logger.warn "Could not resolve link to '#{target}'"
@@ -71,7 +70,14 @@ module Helper
         link_to(name, title)
       end
     end
-
+    
+    def link_on_page(object)
+      if object.is_a? CodeObject::Function
+         link_to "#method-#{object.name}", ".#{object.name}()"
+      else
+        link_to "#object-#{object.name}", ".#{object.name}"
+      end
+    end
   end
   
 end
