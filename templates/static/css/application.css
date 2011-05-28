@@ -658,14 +658,15 @@ a {
         padding: 0 0.2em; }
         #main .section h2.signature .params .param {
           cursor: help; }
-    #main .section code {
+    #main .section > code {
       box-shadow: inset 0px 0px 0px 1px white;
       border: 1px solid #d9d9d9;
       font-family: "Consolas", "monospace";
       background: #f3f3f3;
       display: block;
       padding: 0.5em;
-      color: #555; }
+      color: #555;
+      margin-bottom: 1.33em; }
     #main .section ul.subsection {
       margin-left: 0;
       border: 1px solid #efefef;

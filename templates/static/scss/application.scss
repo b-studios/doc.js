@@ -247,11 +247,12 @@ a {
       }      
     }
     
-    code {
+    > code {
       @include code-box;
       display: block;      
       padding: 0.5em;      
       color: #555;
+      margin-bottom: 1.33em;
     }
     
     ul.subsection {      

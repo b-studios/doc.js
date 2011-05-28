@@ -61,7 +61,7 @@ module Helper
     def code(source)
     
       # find minimal intendation
-      intendation = source.lines.map {|line| line.match(/(^\s+)/).captures.first.size }.min
+      intendation = source.lines.map {|line| line.match(/(^\s+)/) && line.match(/(^\s+)/).captures.first.size || 0 }.min
       
       # @todo there has to be a better way for that      
       tag :code, source.lines.map { |line| line[intendation .. line.size] }.join("")

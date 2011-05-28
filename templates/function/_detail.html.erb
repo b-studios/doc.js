@@ -3,7 +3,9 @@
   <%= subsection :params, :title => "Parameters", :collection => detail.params, :partial => 'tokens/typed_name' %>
   <%= subsection :returns, :title => "Returns", :collection => detail.returns, :partial => 'tokens/typed' %>
   <%= to_html detail.docs %>
-  <%= detail.tokens[:example].inspect %>
+
+  <%= render :partial => 'tokens/example', :collection => detail.tokens[:example] unless detail.tokens[:example].nil? %>
+  
   <h3>Source</h3>
   <%= code detail.source %>
 </section>
