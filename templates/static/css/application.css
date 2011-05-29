@@ -505,6 +505,15 @@ a {
 .icon.prototype {
   background: url(../img/prototype.png) no-repeat left center;
   padding-left: 24px; }
+.icon.arrow_right, #main .source.collapsed {
+  background: url(../img/arrow_right.png) no-repeat left center;
+  padding-left: 24px; }
+.icon.arrow_up {
+  background: url(../img/arrow_up.png) no-repeat left center;
+  padding-left: 24px; }
+.icon.arrow_down, #main .source {
+  background: url(../img/arrow_down.png) no-repeat left center;
+  padding-left: 24px; }
 
 #main {
   background: #f2f2f2;
@@ -524,6 +533,8 @@ a {
   display: block;
   margin: 0 auto;
   max-width: 1000px;
+  display: block;
+  overflow: hidden;
   margin-top: -20px;
   border-radius: 10px 10px 0 0;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
@@ -656,6 +667,11 @@ a {
     #main .subsection .types {
       font-family: "Consolas", "monospace";
       padding: 0 0.2em; }
+  #main .source {
+    cursor: pointer; }
+    #main .source.collapsed {
+      border-bottom: 1px solid #d9d9d9;
+      margin-bottom: 1.33em; }
   #main .signature {
     font-family: "Consolas", "monospace";
     display: block;

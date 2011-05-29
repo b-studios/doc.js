@@ -8,14 +8,14 @@
 
     <div class="hierarchy">
       <h3>Hierarchy</h3>
-      <%= print_hierarchy @object %>
+      <%= hierarchy @object %>
     </div>
     
     <div class="method-list">
       <h3>Methods</h3>
       <ul>
         <% @methods.each do |child| %>
-        <li><%= link_on_page child %></li>
+        <li><%= link_to child %></li>
         <% end %>
       </ul>
     </div>

@@ -108,9 +108,9 @@ a {
 }
 
 .icon {
-  @each $icon in function, object, constructor, prototype {    
+  @each $icon in function, object, constructor, prototype, arrow_right, arrow_up, arrow_down {    
     &.#{$icon} { 
-      background: url(../img/#{$icon}.png) no-repeat left center; 
+      background: url(../img/#{$icon}.png) no-repeat left center;
       padding-left: 24px;
     }
   }
@@ -120,6 +120,7 @@ a {
   @include gradient(#f2f2f2, #ffffff, 0px, 40px);
   @include page-center;
   @include typography;
+  @include clearfix;
 
   margin-top: -$page-indent;
 
@@ -258,6 +259,16 @@ a {
       }
       
     }
+  
+  .source {
+    @extend .icon.arrow_down; 
+    cursor: pointer;   
+    &.collapsed { 
+      @extend .icon.arrow_right; 
+      border-bottom: 1px solid darken($codegrey, 10%);
+      margin-bottom: $element-margin;
+    }
+  }
   
   .signature {
     @include signature-box;

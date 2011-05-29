@@ -19,6 +19,14 @@ module Helper
       Logger.debug "Trying to link #{target}"
       
       link = if target.is_a? CodeObject::Base
+      
+        if text.nil? and target.parent == context and context != Dom.root
+          text = ".#{target.name}"
+          text += "()" if target.is_a? CodeObject::Function
+        elsif text.nil?
+          text = target.qualified_name
+        end
+      
         to_relative path_to target
       elsif target.match EXTERNAL or target.match MAIL or target.match HASH
         target

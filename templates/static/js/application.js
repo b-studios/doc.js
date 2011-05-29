@@ -89,4 +89,21 @@ $(function() {
         return false;
     });
   }); 
+  
+  $('h3.source').each(function(i, el) {
+    var header = $(el);
+    var code = header.next('code').hide();
+    
+    header.addClass('collapsed');
+    
+    header.click(function(){
+      if(header.hasClass('collapsed')) {
+        code.slideDown();
+        header.removeClass('collapsed'); 
+      } else {
+        code.slideUp();
+        header.addClass('collapsed');
+      }
+    });
+  });
 });

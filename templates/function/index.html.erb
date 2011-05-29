@@ -8,7 +8,7 @@
 
     <div class="hierarchy">
       <h3>Hierarchy</h3>
-      <%= print_hierarchy @function %>
+      <%= hierarchy @function %>
     </div>
     
     <% unless @prototype.nil? %>
@@ -30,7 +30,7 @@
   
   <%= render :partial => 'tokens/example', :collection => @function.tokens[:example] unless @function.tokens[:example].nil? %>
   
-  <h3>Source</h3>
+  <h3 class="source">Source</h3>
   <%= code @function.source %>
  
 </article> 

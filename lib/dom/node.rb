@@ -230,8 +230,10 @@ module Dom
     #
     # @param [Block] block
     def each_child(&block)
-      yield(self)
-      @children.values.each {|child| child.each_child(&block) }
+      @children.values.each do |child| 
+        yield(child)
+        child.each_child(&block) 
+      end
     end
     
     

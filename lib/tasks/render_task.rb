@@ -32,6 +32,10 @@ module Tasks
       self.send @@configs[:start_method]
     end
     
+    def context
+      @_context
+    end
+    
     def self.description
       @@configs[:description]
     end
