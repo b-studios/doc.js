@@ -8,15 +8,15 @@ module Document
     
     FILE_ENDINGS = /\.(markdown|mdown|md|mkd|mkdn)$/i
     
-    attr_reader :name, :content
+    attr_reader :name, :path, :content
   
     def initialize(path, content)
       
-      name = File.basename(path).gsub(FILE_ENDINGS, '')
+      path = File.basename(path).gsub(FILE_ENDINGS, '')
       
       # please do not confuse Filepath of Document (like docs/README.md) with path in Dom
       # an .md will be stripped from the name and README.SOMEMORE.md can be used as path information
-      @name, @content = name, content
+      @path, @name, @content = ".#{path}", extract_name_from(path), content
       super()
     end
     

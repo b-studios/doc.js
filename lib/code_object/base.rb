@@ -40,25 +40,7 @@ module CodeObject
       define_method name do
         self.token(token)
       end
-    end
-    
-    # path can be absolute like `Foo.bar`, `Foo` or it can be relative like
-    # `.foo`, `.foo.bar`.
-    # in both cases we need to extract the name from the string and save it
-    # as name. After doing this we can use the path to save to dom. 
-    #
-    # @example absolute path
-    #   Node.extract_name_from("Foo.bar.baz") #=> 'baz'
-    #   Node.extract_name_from("Foo.bar.baz") #=> 'baz'
-    #    
-    # @param [String] path relative or absolute path of node
-    # @return [String] the extracted name
-    def extract_name_from(path)
-      name = path.split('.').last
-      raise NoNameInPath.new(path) if name.nil?
-      
-      return name
-    end 
+    end   
   
   end
  

@@ -5,7 +5,8 @@ module Helper
     FILE = /^file\:(\S+)/
     EXTERNAL = /^((?:http|ftp|https|ssh):\/\/\S+)/
     MAIL = /^(mailto\:\S+)/
-    HASH = /#\S*/
+    HASH = /^#\S*/
+    DOCUMENTATION = /^doc\:([^\s#]+)(#\S+)?/
 
     # @note link_to - first argument can be
     #   "file:some/path/to_a.file"
@@ -33,13 +34,28 @@ module Helper
         end
       
         to_relative path_to target
+        
       elsif target.match EXTERNAL or target.match MAIL or target.match HASH
         target
+        
       elsif target.match FILE
         to_relative target.match(FILE).captures.first
-      else       
         
-        # use context dependent resolving functionality 
+      elsif target.match DOCUMENTATION
+        puts target + " matched DOCUMENTATION"
+      
+        doc_name, hash = target.match(DOCUMENTATION).captures
+        obj = Dom.docs.find doc_name        
+        text ||= obj.name
+        
+        puts "DOCNAME: #{doc_name}"
+        puts "HASH:    #{hash}"
+        
+        # find relative path to our object and reattach hash to path
+        to_relative(path_to obj) + (hash || "") unless obj.nil?        
+        
+      else        
+        # use context dependent resolving functionality as specified in {Tasks::RenderTask}
         obj = resolve target       
         to_relative path_to obj unless obj.nil?  
       end

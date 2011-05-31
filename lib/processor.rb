@@ -99,7 +99,8 @@ module Processor
       contents = File.read(doc_path)
       
       # Those documents get registered in a special {Dom::Node} Dom.docs
-      Dom.docs.add_node(Document::Document.new(doc_path, contents))
+      document = Document::Document.new(doc_path, contents)
+      Dom.docs.add_node(document.path, document)
       
       # The docs can be accessed via Dom later on
     end

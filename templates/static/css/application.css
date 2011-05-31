@@ -507,17 +507,17 @@ a {
 .icon.prototype {
   background: url(../img/prototype.png) no-repeat left center;
   padding-left: 24px; }
-.icon.arrow_right, #main .source.collapsed {
+.icon.arrow_right, div#main .source.collapsed {
   background: url(../img/arrow_right.png) no-repeat left center;
   padding-left: 24px; }
 .icon.arrow_up {
   background: url(../img/arrow_up.png) no-repeat left center;
   padding-left: 24px; }
-.icon.arrow_down, #main .source {
+.icon.arrow_down, div#main .source {
   background: url(../img/arrow_down.png) no-repeat left center;
   padding-left: 24px; }
 
-.level-one-heading, #main header h1, #main .documentation h1 {
+.level-one-heading, div#main header h1, div#main .documentation h1 {
   font-family: 'Terminal Dosis Light', 'Helvetica', 'Arial', 'sans-serif';
   font-weight: normal;
   text-shadow: 1px 1px #fff;
@@ -525,7 +525,7 @@ a {
   margin-bottom: 12px;
   font-size: 40pt; }
 
-#main {
+div#main {
   background: #f2f2f2;
   /* Old browsers */
   background: -moz-linear-gradient(top, #f2f2f2 0px, white 40px);
@@ -549,23 +549,23 @@ a {
   border-radius: 10px 10px 0 0;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
   border-top: 1px solid #eee; }
-  #main h1 {
+  div#main h1 {
     font-size: 24pt;
     color: #d84b0f; }
-  #main h2 {
+  div#main h2 {
     font-size: 16pt;
     margin: 1.25em 0 0.25em;
     border-bottom: 1px solid #EFEFEF; }
-  #main h3 {
+  div#main h3 {
     font-size: 10pt;
     font-weight: bold; }
-  #main p {
+  div#main p {
     line-height: 1.618em;
     margin: 0.5em 0 1.33em; }
-  #main > * {
+  div#main > * {
     padding-left: 20px;
     padding-right: 20px; }
-  #main header h1 .flag {
+  div#main header h1 .flag {
     font-family: "Consolas", "monospace";
     display: block;
     background: #fcded1;
@@ -577,7 +577,7 @@ a {
     float: right;
     font-size: 8pt;
     text-shadow: none; }
-  #main nav {
+  div#main nav {
     display: block;
     float: right;
     box-shadow: inset 0px 0px 0px 1px white;
@@ -589,49 +589,49 @@ a {
     border-radius: 5px;
     font-size: 8pt;
     color: #999; }
-    #main nav > * {
+    div#main nav > * {
       padding: 8px;
       margin: 0; }
-    #main nav > * + * {
+    div#main nav > * + * {
       box-shadow: inset 0 1px 0 white;
       border-top: 1px solid #d9d9d9; }
-    #main nav h3 {
+    div#main nav h3 {
       text-transform: uppercase;
       padding-bottom: 0.5em;
       font-size: 8pt; }
-    #main nav .hierarchy {
+    div#main nav .hierarchy {
       list-style: none;
       /* first node */ }
-      #main nav .hierarchy ul {
+      div#main nav .hierarchy ul {
         list-style: none;
         margin: 0;
         padding: 0;
         padding-left: 1em; }
-      #main nav .hierarchy > ul {
+      div#main nav .hierarchy > ul {
         padding-left: 0; }
-      #main nav .hierarchy .this > a {
+      div#main nav .hierarchy .this > a {
         font-weight: bold; }
-    #main nav .method-list ul {
+    div#main nav .method-list ul {
       list-style: none;
       margin: 0;
       padding: 0; }
-  #main > section {
+  div#main > section {
     margin-bottom: 12px; }
-    #main > section > h2 {
+    div#main > section > h2 {
       margin-top: 12px;
       margin-bottom: 7.417px;
       font-size: 14pt; }
-  #main .summary {
+  div#main .summary {
     list-style: none;
     margin: 0;
     padding: 0;
     display: block;
     overflow: hidden;
     margin-bottom: 1.33em; }
-    #main .summary li {
+    div#main .summary li {
       display: block;
       float: left; }
-    #main .summary a {
+    div#main .summary a {
       font-family: "Consolas", "monospace";
       display: block;
       background: #eff4fa;
@@ -640,10 +640,10 @@ a {
       border-radius: 5px;
       padding: 0.4em 1em;
       margin: 0.25em; }
-      #main .summary a:hover {
+      div#main .summary a:hover {
         text-decoration: none;
         color: #3976b1; }
-  #main code.block {
+  div#main code.block {
     box-shadow: inset 0px 0px 0px 1px white;
     border: 1px solid #d9d9d9;
     font-family: "Consolas", "monospace";
@@ -652,30 +652,30 @@ a {
     padding: 0.5em;
     color: #555;
     margin-bottom: 1.33em; }
-  #main .section {
+  div#main .section {
     padding-bottom: 12px; }
-  #main .subsection {
+  div#main .subsection {
     margin-left: 0;
     border: 1px solid #efefef;
     /* first element*/
     /* all but first li */ }
-    #main .subsection li {
+    div#main .subsection li {
       list-style: none;
       padding: 5px 15px; }
-    #main .subsection h4 {
+    div#main .subsection h4 {
       font-weight: bold;
       display: inline; }
-    #main .subsection * + li {
+    div#main .subsection * + li {
       border-top: 1px solid #efefef; }
-    #main .subsection .types {
+    div#main .subsection .types {
       font-family: "Consolas", "monospace";
       padding: 0 0.2em; }
-  #main .source {
+  div#main .source {
     cursor: pointer; }
-    #main .source.collapsed {
+    div#main .source.collapsed {
       border-bottom: 1px solid #d9d9d9;
       margin-bottom: 1.33em; }
-  #main .signature {
+  div#main .signature {
     font-family: "Consolas", "monospace";
     display: block;
     background: #eff4fa;
@@ -687,7 +687,7 @@ a {
     font-size: 12pt;
     font-weight: normal;
     margin-bottom: 1.33em; }
-    #main .signature.constructor {
+    div#main .signature.constructor {
       font-family: "Consolas", "monospace";
       display: block;
       background: #fcded1;
@@ -696,28 +696,28 @@ a {
       border-radius: 5px;
       padding: 0.4em 1em;
       color: #000; }
-    #main .signature .name {
+    div#main .signature .name {
       font-weight: bold;
       padding-left: 0.2em; }
-    #main .signature .params {
+    div#main .signature .params {
       padding: 0 0.2em; }
-      #main .signature .params .param {
+      div#main .signature .params .param {
         cursor: help; }
 
-#main .documentation nav .table-of-contents {
+div#main .documentation nav .table-of-contents {
   font-family: Arial, sans-serif;
   font-size: 10pt; }
-  #main .documentation nav .table-of-contents ul {
+  div#main .documentation nav .table-of-contents ul {
     list-style: none;
     margin: 0;
     padding: 0;
     padding-left: 2em;
     margin: 0.25em 0 0.5em; }
-  #main .documentation nav .table-of-contents ul ul li {
+  div#main .documentation nav .table-of-contents ul ul li {
     list-style: decimal-leading-zero; }
-  #main .documentation nav .table-of-contents > ul {
+  div#main .documentation nav .table-of-contents > ul {
     padding-left: 0; }
-  #main .documentation nav .table-of-contents li {
+  div#main .documentation nav .table-of-contents li {
     margin-bottom: 0.25em; }
 
 /* API-Treebrowser */
