@@ -5,11 +5,11 @@ module Tasks
     describe     'renders all specified Markdown files to static documentation'
     layout       'application'
     
-    start_method :render_objects
+    start_method :render_docs
     
     protected
 
-    def render_objects
+    def render_docs
       Dom.docs.each_child do |doc| 
         next if doc.is_a? Dom::NoDoc 
                
