@@ -1,14 +1,14 @@
 .tooltip {
   /*@include double-border(1px, #fff, #ccc);*/
   @include gradient(#333, #555);
-  
+  @include reset-fonts;
+    
   display: none;
   position: absolute;
   padding: 0.5em;
   max-width: 200px;
-  z-index: 50;
+  z-index: 50;  
   
-  font-family: $default-fonts;
   font-size: 9pt;
   color: #eee;
   border: 1px solid #fff;

@@ -77,7 +77,7 @@ module Dom
     
     
     # searches all parents recursivly and returns an array, starting with the
-    # highest order parent (for example the {Dom.root}) and ending with the  
+    # highest order parent (excluding the {Dom.root}) and ending with the  
     # immediate parent.
     #
     # @example
@@ -93,7 +93,7 @@ module Dom
     #
     # @return [Array<Dom::Node>] the associated parents
     def parents
-      return [] if @parent.nil? or @parent == Dom.root
+      return [] if @parent.nil? or @parent.parent.nil?
       @parent.parents << @parent
     end
     

@@ -1,4 +1,6 @@
 $default-fonts: Arial, sans-serif;
+$font-size: 10pt;
+
 
 /* Global Colors */
 $blue: #4183C2;
@@ -58,13 +60,19 @@ $element-margin: 1.33em;
     border-bottom: 1px solid #EFEFEF;
   }
   h3 { 
-    font-size: 10pt; 
+    font-size: $font-size; 
     font-weight: bold;
   }
   p {
     line-height: $golden_ratio*1em;
     margin: 0.5em 0 1.33em;
   }
+}
+
+
+@mixin reset-fonts() {
+  font-family: $default-fonts;
+  font-size: $font-size;
 }
 
 @mixin code-box() {
@@ -88,9 +96,9 @@ $element-margin: 1.33em;
 @import 'tooltip';
 
 body, select, input, textarea {
+  @include reset-fonts;
   background-color: #FBFBFB;
   color: #444;
-  font-family: $default-fonts;
 }
 
 h1, h2, h3, h4, h5, h6 { font-weight: normal; }
@@ -116,6 +124,13 @@ a {
   }
 }
 
+.level-one-heading {
+  @include headline;
+  padding-top: $page-padding;
+  margin-bottom: $box-spacing;
+  font-size: 40pt;
+}
+
 #main {
   @include gradient(#f2f2f2, #ffffff, 0px, 40px);
   @include page-center;
@@ -134,10 +149,7 @@ a {
   }
   
   header h1 {
-    @include headline;
-    padding-top: $page-padding;
-    margin-bottom: $box-spacing;
-    font-size: 40pt;
+    @extend .level-one-heading;
     
     .flag {
       @include signature-box($flag-color);
@@ -146,11 +158,12 @@ a {
       text-shadow: none;
     }
   }
-  
-  aside {
+
+  nav {
     @include float(right);
-    @include code-box;    
-    margin: 0 $box-spacing;
+    @include code-box;
+        
+    margin: 2*$page-padding 0 $box-spacing $box-spacing;
     padding: 0;
     border-radius: 5px;
     font-size: 8pt;
@@ -165,10 +178,10 @@ a {
       @include double-border(1px, #ffffff, darken($codegrey, 10%), top);
     }
     
-    h3 {
-      font-size: 1em;
+    h3 {      
       text-transform: uppercase;
       padding-bottom: 0.5em;
+      font-size: 8pt;
     }
     
     .hierarchy {
@@ -297,6 +310,36 @@ a {
   }
 }
 
+#main .documentation {
+  
+  h1 { @extend .level-one-heading; }
+  
+  nav {
+  
+    .table-of-contents {
+      
+      @include reset-fonts;
+      
+      ul { 
+        @include reset-list; 
+        padding-left: 2em;
+        margin: 0.25em 0 0.5em;
+      }
+      
+      ul ul li {
+        list-style: decimal-leading-zero;
+      }
+      
+      > ul { padding-left: 0; }
+      
+      li {
+        margin-bottom: 0.25em;        
+      }
+    }
+  
+  }
+  
+}
 /* API-Treebrowser */
 $iconsize: 16px;
 .treeview {

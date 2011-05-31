@@ -1,26 +1,37 @@
-<article class="function">
+<article class="function"> 
+  
   <header>
+    <nav>
+      <p><%= @function.filepath %>:<%= @function.line_start %></p>
+
+      <div class="hierarchy">
+        <h3>Hierarchy</h3>
+        <%= hierarchy @function %>
+      </div>
+      
+      <% unless @prototype.nil? %>
+      <div>
+        <h3>Prototype</h3>
+        <%= link_to @prototype %>
+      </div>    
+      <% end %>
+      
+      <% unless @methods.empty? %>
+      <div class="method-list">
+        <h3>Methods</h3>
+        <ul>
+          <% @methods.each do |child| %>
+          <li><%= link_to child %></li>
+          <% end %>
+        </ul>
+      </div>
+      <% end %>
+    </nav>
+  
     <h1><%= @function.qualified_name %></h1>
   </header>
   
-  <aside>
-    <p><%= @function.filepath %>:<%= @function.line_start %></p>
-
-    <div class="hierarchy">
-      <h3>Hierarchy</h3>
-      <%= hierarchy @function %>
-    </div>
-    
-    <% unless @prototype.nil? %>
-    
-    <div>
-      <h3>Prototype</h3>
-      <%= link_to @prototype %>
-    </div>    
-    <% end %>
-  </aside>
-  
-  <%= to_html detail.docs %>
+  <%= to_html @function.docs %>
   
   <!--span class="flag">constructor</span-->
   

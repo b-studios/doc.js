@@ -12,6 +12,7 @@ require_relative 'token/tokens'
 
 # Register Rendertasks
 require_relative 'tasks/typed_task'
+require_relative 'tasks/docs_task'
 
 def setup_application(options)
         
@@ -26,7 +27,8 @@ def setup_application(options)
               :wdir         => Dir.pwd, # The current working directory
               :output       => File.absolute_path(options[:output]),
               :templates    => File.absolute_path(options[:templates]),
-              :files        => options[:files]
+              :files        => options[:files].map {|path| Dir.glob(path) }.flatten,
+              :docs         => options[:docs].map {|path| Dir.glob(path) }.flatten
   
   Logger.debug "Given options: #{options}"
   Logger.debug "App Root:      #{Configs.root}"

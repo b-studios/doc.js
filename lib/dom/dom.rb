@@ -114,6 +114,8 @@ module Dom
   @@cache_path = File.expand_path("../../../cache/dom.cache", __FILE__)
   
   @@root = NoDoc.new('__ROOT__')
+  @@docs = NoDoc.new('__DOCUMENTS__')
+  
   
   # @group Dom Access-Methods
   
@@ -154,6 +156,13 @@ module Dom
   # @param [String] file the filepath from which to load the Dom
   def self.load(file = @@cache_path)
     @@root = Marshal.load(File.read(file))
+  end
+  
+  # @group Document Objects
+  
+  # @return [Dom::NoDoc] the root of the Documenttree, consisting of {Document::Document}
+  def self.docs
+    @@docs
   end
   
   protected

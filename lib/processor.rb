@@ -1,11 +1,13 @@
+require 'rdiscount'
 require_relative 'dom/dom'
 require_relative 'tasks/render_task'
+require_relative 'document/document'
 
 module Processor
   
   RenderTask = Struct.new :name, :description, :block
   @@render_tasks = {}
-  
+    
   # Accessor Method for RenderTasks
   def self.render_tasks
     @@render_tasks
@@ -85,6 +87,26 @@ module Processor
     end
   end 
   
+  # @group Stage #4 - Document Processor
+    
+  def self.prepare_documents
+    # underscores will be replaced with whitespaces as title
+    Configs.docs.each do |doc|
+    
+      doc_path = File.expand_path(doc, Configs.wdir)    
+      Logger.debug "Working with Document #{doc_path}"
+      
+      contents = File.read(doc_path)
+      
+      # Those documents get registered in a special {Dom::Node} Dom.docs
+      Dom.docs.add_node(Document::Document.new(doc_path, contents))
+      
+      # The docs can be accessed via Dom later on
+    end
+  end
+  
+  
+  
   # @group RenderTask-Setup
   
   def self.register_render_task(name, klass)
@@ -94,4 +116,7 @@ module Processor
   def self.unregister_render_task(name)
     @@render_tasks.delete(name.to_sym)
   end   
+  
+  
+  
 end

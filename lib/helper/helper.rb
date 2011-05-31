@@ -50,8 +50,12 @@ module Helper
       tag :code, source.lines.map { |line| line[intendation .. line.size] }.join(""), :class => 'block'
     end
     
-    def to_html(markdown_text)
-      replace_links RDiscount.new(markdown_text).to_html
+    def to_html(markdown_text, *markdown_opts)
+      replace_links RDiscount.new(markdown_text, *markdown_opts).to_html
+    end
+    
+    def toc(markdown_text)
+      RDiscount.new(markdown_text, :generate_toc).toc_content
     end
     
     def to_relative(path)

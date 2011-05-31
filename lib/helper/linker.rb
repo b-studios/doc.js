@@ -18,7 +18,12 @@ module Helper
            
       Logger.debug "Trying to link #{target}"
       
-      link = if target.is_a? CodeObject::Base
+      link = if target.is_a? Document::Document
+        
+        text = target.name if text.nil?     
+        to_relative path_to target        
+      
+      elsif target.is_a? CodeObject::Base
       
         if text.nil? and target.parent == context and context != Dom.root
           text = ".#{target.name}"
@@ -50,14 +55,26 @@ module Helper
     end
     
     # Returns the relative path (from dom) to this node
+    # The Node can be either a {CodeObject::Base CodeObject} or a {Document::Document Document}.
     # 
+    # @param [CodeObject::Base, Document::Document] object
+    #
     # @example 
     #   Dom[:Foo][:bar].file_path #=> Foo/bar
     #   
     def path_to(object, args = {})
-      return "" if object.nil?
+
+      return "" if object.nil? 
       format = args[:format] || :html      
-      object.parents.push(object).map{|p| p.name}.join('/') + ".#{format.to_s}"
+      path = object.parents.push(object).map{|p| p.name}.join('/') + ".#{format.to_s}"
+    
+      # object can be either a CodeObject or a Document
+      # maybe source this one out later on in Configs.some_path
+      if object.is_a? CodeObject::Base
+        "api/" + path
+      else
+        "docs/" + path
+      end      
     end
 
     # (see https://github.com/lsegal/yard/blob/master/lib/yard/templates/helpers/html_helper.rb)

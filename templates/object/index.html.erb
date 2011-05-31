@@ -1,25 +1,28 @@
 <article>
-  <header>
-    <h1><%= @object.qualified_name %></h1>
-  </header>
-  
-  <aside>
-    <p><%= @object.filepath %>:<%= @object.line_start %></p>
 
-    <div class="hierarchy">
-      <h3>Hierarchy</h3>
-      <%= hierarchy @object %>
-    </div>
-    
-    <div class="method-list">
-      <h3>Methods</h3>
-      <ul>
-        <% @methods.each do |child| %>
-        <li><%= link_to child %></li>
-        <% end %>
-      </ul>
-    </div>
-  </aside>
+  <header>
+     <nav>
+      <p><%= @object.filepath %>:<%= @object.line_start %></p>
+
+      <div class="hierarchy">
+        <h3>Hierarchy</h3>
+        <%= hierarchy @object %>
+      </div>
+      
+      <% unless @methods.empty? %>
+      <div class="method-list">
+        <h3>Methods</h3>
+        <ul>
+          <% @methods.each do |child| %>
+          <li><%= link_to child %></li>
+          <% end %>
+        </ul>
+      </div>
+      <% end %>
+    </nav>
+  
+    <h1><%= @object.qualified_name %></h1>
+  </header> 
 
   <%= to_html @object.docs %>
 

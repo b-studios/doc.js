@@ -1,0 +1,11 @@
+<article class="documentation">
+  
+  <nav>
+    <div class="table-of-contents">
+      <h3>Table of Contents</h3>
+      <%= toc @document.content %>
+    </div>
+  </nav>
+
+  <%= to_html @document.content, :generate_toc %>
+</article>

@@ -31,6 +31,9 @@ class JsDoc < Thor
   desc "jsdoc", "Starts documentation process"
   set_options :files =>
                   { :type => :array,  :aliases => '-f', :default => [], :required => true },
+               
+              :docs =>
+                  { :type => :array,  :aliases => '-d', :default => ['README.md'], :required => true },
   
               :output =>
                   { :type => :string, :aliases => '-o', :default => 'out' },
@@ -54,6 +57,10 @@ class JsDoc < Thor
       # Config Thor settings
       JsDoc.source_root(Configs.templates)
       self.destination_root = Configs.output
+      
+      Processor.prepare_documents
+      # let's check our Documents tree
+      Dom.docs.print_tree
       
       # the configs are now available through our Configs-module      
       Processor.process_and_render

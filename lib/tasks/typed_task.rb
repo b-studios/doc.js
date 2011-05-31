@@ -2,6 +2,9 @@ module Tasks
 
   class TypedTask < RenderTask
 
+
+    # @todo those methods and therefore all class-variables @@configs are shared with all inheriting
+    #   classes. i.e. The last change will be applied to all
     describe     'renders objects type-dependant'
     layout       'application'
     
@@ -37,9 +40,13 @@ module Tasks
     
     def render_function(code_object)
       Logger.info "Rendering Function '#{code_object.name}'"
-      @function = code_object
-      @prototype = code_object.prototype
-      render 'function/index', :to_file => path_to(code_object, :format => :html)
+      
+      in_context code_object do
+        @function = code_object
+        @prototype = code_object.prototype
+        @methods = @function.children.values.select {|c| c.is_a? CodeObject::Function }
+        render 'function/index', :to_file => path_to(code_object, :format => :html)
+      end
     end    
   end
 end

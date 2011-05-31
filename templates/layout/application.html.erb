@@ -28,12 +28,9 @@
         <section id="docs">
           <h1>Documents</h1>
           <ul>
-            <li><a href="#"><span>Getting started</span></a></li>
-            <li><a href="#"><span>Components</span></a></li>
-            <li><a href="#"><span>Class system</span></a></li>
-            <li><a href="#"><span>Architecture</span></a></li>
-            <li><a href="#"><span>Customization</span></a></li>
-            <li><a href="#"><span>Extension</span></a></li>
+           <% Dom.docs.each_child do |doc| %>
+             <%= link_to doc %>
+           <% end %>
           </ul>
         </section>        
         <section id="api-browser">

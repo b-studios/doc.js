@@ -448,12 +448,13 @@ input:invalid, textarea:invalid {
   /* IE10+ */
   background: linear-gradient(top, #333333 0%, #555555 100%);
   /* W3C */
+  font-family: Arial, sans-serif;
+  font-size: 10pt;
   display: none;
   position: absolute;
   padding: 0.5em;
   max-width: 200px;
   z-index: 50;
-  font-family: Arial, sans-serif;
   font-size: 9pt;
   color: #eee;
   border: 1px solid #fff;
@@ -466,9 +467,10 @@ input:invalid, textarea:invalid {
     padding: 0 0.2em; }
 
 body, select, input, textarea {
+  font-family: Arial, sans-serif;
+  font-size: 10pt;
   background-color: #FBFBFB;
-  color: #444;
-  font-family: Arial, sans-serif; }
+  color: #444; }
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: normal; }
@@ -515,6 +517,14 @@ a {
   background: url(../img/arrow_down.png) no-repeat left center;
   padding-left: 24px; }
 
+.level-one-heading, #main header h1, #main .documentation h1 {
+  font-family: 'Terminal Dosis Light', 'Helvetica', 'Arial', 'sans-serif';
+  font-weight: normal;
+  text-shadow: 1px 1px #fff;
+  padding-top: 20px;
+  margin-bottom: 12px;
+  font-size: 40pt; }
+
 #main {
   background: #f2f2f2;
   /* Old browsers */
@@ -555,60 +565,53 @@ a {
   #main > * {
     padding-left: 20px;
     padding-right: 20px; }
-  #main header h1 {
-    font-family: 'Terminal Dosis Light', 'Helvetica', 'Arial', 'sans-serif';
-    font-weight: normal;
-    text-shadow: 1px 1px #fff;
-    padding-top: 20px;
-    margin-bottom: 12px;
-    font-size: 40pt; }
-    #main header h1 .flag {
-      font-family: "Consolas", "monospace";
-      display: block;
-      background: #fcded1;
-      border: 1px solid #f9c2ab;
-      color: #ef5412;
-      border-radius: 5px;
-      padding: 0.4em 1em;
-      display: block;
-      float: right;
-      font-size: 8pt;
-      text-shadow: none; }
-  #main aside {
+  #main header h1 .flag {
+    font-family: "Consolas", "monospace";
+    display: block;
+    background: #fcded1;
+    border: 1px solid #f9c2ab;
+    color: #ef5412;
+    border-radius: 5px;
+    padding: 0.4em 1em;
+    display: block;
+    float: right;
+    font-size: 8pt;
+    text-shadow: none; }
+  #main nav {
     display: block;
     float: right;
     box-shadow: inset 0px 0px 0px 1px white;
     border: 1px solid #d9d9d9;
     font-family: "Consolas", "monospace";
     background: #f3f3f3;
-    margin: 0 12px;
+    margin: 40px 0 12px 12px;
     padding: 0;
     border-radius: 5px;
     font-size: 8pt;
     color: #999; }
-    #main aside > * {
+    #main nav > * {
       padding: 8px;
       margin: 0; }
-    #main aside > * + * {
+    #main nav > * + * {
       box-shadow: inset 0 1px 0 white;
       border-top: 1px solid #d9d9d9; }
-    #main aside h3 {
-      font-size: 1em;
+    #main nav h3 {
       text-transform: uppercase;
-      padding-bottom: 0.5em; }
-    #main aside .hierarchy {
+      padding-bottom: 0.5em;
+      font-size: 8pt; }
+    #main nav .hierarchy {
       list-style: none;
       /* first node */ }
-      #main aside .hierarchy ul {
+      #main nav .hierarchy ul {
         list-style: none;
         margin: 0;
         padding: 0;
         padding-left: 1em; }
-      #main aside .hierarchy > ul {
+      #main nav .hierarchy > ul {
         padding-left: 0; }
-      #main aside .hierarchy .this > a {
+      #main nav .hierarchy .this > a {
         font-weight: bold; }
-    #main aside .method-list ul {
+    #main nav .method-list ul {
       list-style: none;
       margin: 0;
       padding: 0; }
@@ -700,6 +703,22 @@ a {
       padding: 0 0.2em; }
       #main .signature .params .param {
         cursor: help; }
+
+#main .documentation nav .table-of-contents {
+  font-family: Arial, sans-serif;
+  font-size: 10pt; }
+  #main .documentation nav .table-of-contents ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    padding-left: 2em;
+    margin: 0.25em 0 0.5em; }
+  #main .documentation nav .table-of-contents ul ul li {
+    list-style: decimal-leading-zero; }
+  #main .documentation nav .table-of-contents > ul {
+    padding-left: 0; }
+  #main .documentation nav .table-of-contents li {
+    margin-bottom: 0.25em; }
 
 /* API-Treebrowser */
 .treeview ul {
