@@ -1,28 +1,41 @@
-
-
 $(function() {  
 
   var header = $("#header"),
       showButton = header.find("a.expand"),
       hideButton = header.find("a.collapse");
 
+  // for not flickering
+  header.addClass("collapsed");
+
   header.find("#api-browser > ul").treeview({
     collapsed: true, 
     animated: 'fast',
     persist: 'cookie'
   });
+
+  if($.cookie("header-collapsed") == "true") {
+    header.addClass("collapsed");
+    hideButton.hide();
+    showButton.show();
+  }
+    
+
   
   hideButton.click(function() {
     header.addClass("collapsed");
+    $.cookie("header-collapsed", "true", { path: '/' });
     hideButton.hide();
     showButton.show();
   });
   
   showButton.click(function() {
     header.removeClass("collapsed");
+    $.cookie("header-collapsed", "false", { path: '/' });
     hideButton.show();
     showButton.hide();
   });
+  
+  
     
     
     /* @todo refactor this one as jquery plugin, reference to http://jqueryfordesigners.com/coda-popup-bubbles/ */
