@@ -42,14 +42,18 @@ module Helper
         to_relative target.match(FILE).captures.first
         
       elsif target.match DOCUMENTATION
-        puts target + " matched DOCUMENTATION"
+        Logger.debug target + " matched DOCUMENTATION"
       
         doc_name, hash = target.match(DOCUMENTATION).captures
         obj = Dom.docs.find doc_name        
         text ||= obj.name
         
-        puts "DOCNAME: #{doc_name}"
-        puts "HASH:    #{hash}"
+        Dom.docs.print_tree
+        
+        p obj
+        
+        Logger.debug "DOCNAME: #{doc_name}"
+        Logger.debug "HASH:    #{hash}"
         
         # find relative path to our object and reattach hash to path
         to_relative(path_to obj) + (hash || "") unless obj.nil?        
@@ -68,6 +72,10 @@ module Helper
       end
       
       tag :a, text, :href => link      
+    end
+    
+    def relative_link(path, text)
+      tag :a, text, :href => to_relative(path)
     end
     
     # Returns the relative path (from dom) to this node

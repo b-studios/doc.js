@@ -1,0 +1,21 @@
+<article class="api-index">  
+  <header>
+    <h1>Alphabetic API-Overview</h1>
+  </header>
+  
+  <section class="api-list">
+  <% @elements.sort {|a,b| a.name.downcase <=> b.name.downcase }
+              .group_by {|n| n.name.upcase.chr }
+              .each do |letter, elements| %>
+  <%= tag :h2, letter %>
+  <ul>
+    <% elements.each do |element| %>
+      <li><%= link_to element, element.name %> 
+        <% if element.namespace != "" %>
+          <span class="namespace">(<%= element.namespace %>)</span>
+        <% end %>      
+    <% end %>
+  </ul>
+  <% end %>
+  </section>
+</article>

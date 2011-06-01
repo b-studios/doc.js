@@ -72,7 +72,6 @@ module Helper
       
       Logger.debug "Relative path '#{path}' from '#{base}'"
       path.relative_path_from(base).to_s
-    end
-   
+    end       
   end
 end

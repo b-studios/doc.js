@@ -36,6 +36,15 @@ $golden_ratio: 1.618;
   &::-webkit-scrollbar-thumb:horizontal { width: 50px; background-color: rgba(0, 0, 0, 0.15); -webkit-border-radius: 4px; }
 }
 
+@mixin columns($count: 2, $gap: 20px) {
+  -moz-column-count: $count;
+	-moz-column-gap: $gap;
+	-webkit-column-count: $count;
+	-webkit-column-gap: $gap;
+	column-count: $count;
+	column-gap: $gap;
+}
+
 @mixin center() {
   display: block;
   margin: 0 auto;

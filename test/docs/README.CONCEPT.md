@@ -51,7 +51,7 @@ But a function can be an object at the same time. For example:
     my_func_two.message = "Say hello to Mr. Foo";
 
 Most important a function can contain one special property **prototype**.
-Linktest: {Core.logger The logger} and another doc-link: {doc:CONCEPT}
+Linktest: {Core.logger The logger} and another doc-link: {doc:README.CONCEPT}
 
   Remember: In this case the function has to be a constructor. Otherwise prototype would be useless, because it is only used when creating instances of the function using new. After creating an instance the prototype-object is accessible in the this-context of the instance.
 

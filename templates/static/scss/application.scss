@@ -337,9 +337,19 @@ div#main .documentation {
       }
     }
   
-  }
-  
+  }  
 }
+
+.api-index {
+  .api-list {
+    @include columns(2);
+    
+    ul {
+      @include reset-list;
+    }
+  }
+}
+
 /* API-Treebrowser */
 $iconsize: 16px;
 .treeview {

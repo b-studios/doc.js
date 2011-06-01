@@ -720,6 +720,18 @@ div#main .documentation nav .table-of-contents {
   div#main .documentation nav .table-of-contents li {
     margin-bottom: 0.25em; }
 
+.api-index .api-list {
+  -moz-column-count: 2;
+  -moz-column-gap: 20px;
+  -webkit-column-count: 2;
+  -webkit-column-gap: 20px;
+  column-count: 2;
+  column-gap: 20px; }
+  .api-index .api-list ul {
+    list-style: none;
+    margin: 0;
+    padding: 0; }
+
 /* API-Treebrowser */
 .treeview ul {
   list-style: none;

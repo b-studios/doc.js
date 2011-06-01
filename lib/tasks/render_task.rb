@@ -41,7 +41,11 @@ module Tasks
     end
   
     def self.layout(layout_view)    
-      self.set_config(:layout, 'layout/' + layout_view)
+      unless layout_view.nil?
+        self.set_config(:layout, 'layout/' + layout_view)
+      else
+        self.set_config(:layout, nil)
+      end
     end
   
     def self.templates(path_to_templates)

@@ -16,9 +16,8 @@
           <h1>MyLogo</h1>
           
           <ul id="page-menu">
-            <li><a href="/index.html">Documentation</a></li>
-            <li><a href="/index.html">Fudel</a></li>
-            <li><a href="#alphabetical overview">Api-Docs</a></li>
+            <li><%= link_to 'doc:README', 'Documentation' %>
+            <li><%= relative_link 'api_index.html', 'Api-Docs' %>
           </ul>
           
           <form>
