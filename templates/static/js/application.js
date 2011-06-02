@@ -1,122 +1,159 @@
-$(function() {  
+J.modules = J.modules || {}; 
 
-  var header = $("#header"),
-      showButton = header.find("a.expand"),
-      hideButton = header.find("a.collapse");
+J.create('Module', {
 
-  // for not flickering
-  header.addClass("collapsed");
-
-  header.find("#api-browser > ul").treeview({
-    collapsed: true, 
-    animated: 'fast',
-    persist: 'cookie'
-  });
-
-  if($.cookie("header-collapsed") == "true") {
-    header.addClass("collapsed");
-    hideButton.hide();
-    showButton.show();
-  }
-    
-
-  
-  hideButton.click(function() {
-    header.addClass("collapsed");
-    $.cookie("header-collapsed", "true", { path: '/' });
-    hideButton.hide();
-    showButton.show();
-  });
-  
-  showButton.click(function() {
-    header.removeClass("collapsed");
-    $.cookie("header-collapsed", "false", { path: '/' });
-    hideButton.show();
-    showButton.hide();
-  });
-  
-  
-    
-    
-    /* @todo refactor this one as jquery plugin, reference to http://jqueryfordesigners.com/coda-popup-bubbles/ */
-    
-  $('.signature .params .param').each(function (i, el) {
-
-    var props = {
-      distance: 10,
-      time: 250,
-      hideDelay: 500,
-      tooltipSelector: '.tooltip'
-    };
-    
-    var hideDelayTimer = null;
-
-    var beingShown = false;
-    var shown = false;
-    var trigger = $(el);
-    var info = trigger.next(props.tooltipSelector);
-
-    $([trigger.get(0), info.get(0)]).mouseover(function (evt) {
-    
-        // calculate target position    
-        var targetLeft = (evt.pageX - trigger.offset().left) + trigger.position().left - (info.width()/2);
-        var targetTop = trigger.position().top - info.height();
-    
-        if (hideDelayTimer) clearTimeout(hideDelayTimer);
-        if (beingShown || shown) {
-            // don't trigger the animation again
-            return;
-        } else {
-            // reset position of info box
-            beingShown = true;
-
-            info.css({
-                top: targetTop,
-                left: targetLeft,
-                display: 'block'
-            }).animate({
-                top: '-=' + props.distance + 'px',
-                opacity: 1
-            }, props.time, 'swing', function() {
-                beingShown = false;
-                shown = true;
-            });
-        }
-
-        return false;
+  constructor: function(name, module_init, options) {
         
-    }).mouseout(function () {
-        if (hideDelayTimer) clearTimeout(hideDelayTimer);
-        hideDelayTimer = setTimeout(function () {
-            hideDelayTimer = null;
-            info.animate({
-                top: '-=' + props.distance + 'px',
-                opacity: 0
-            }, props.time, 'swing', function () {
-                shown = false;
-                info.css('display', 'none');
-            });
+    options = J.merge({
+      
+      selector: '__no-valid-selector__',
+      plugins: {} 
+    
+    }, options || {});
+   
+    // register at J.modules
+    return J.modules[name] = {
+      name: name,
+      init: function() {
+        
+        sandbox = {
+          dom: $(options.selector)
+        };
+      
+        var reveal = module_init(sandbox);
+        
+        for(var key in this.plugins) {
+          if(this.plugins.hasOwnProperty(key) && typeof this.plugins[key] === 'function')
+            this.plugins[key](sandbox, reveal);
+        }
+                        
+      },
+      plugins: options.plugins
+    };
+  }
+});
 
-        }, props.hideDelay);
 
-        return false;
-    });
-  }); 
+
+Module('Header', function(my) {
+
+  my.settings = {};
   
-  $('h3.source').each(function(i, el) {
-    var header = $(el);
-    var code = header.next('code').hide();
+  return {
+    settings: my.settings
+  };
+  
+}, {
+
+  selector: '#header',
+  plugins: {
+  
+    /**
+     * @mixin treeview
+     */
+    treeview: function(my, reveal) {
+
+      my.settings.treeview = {
+        collapsed: true, 
+        animated: 'fast',
+        persist: 'cookie',
+        cookieOptions: {
+          path: '/'
+        }
+      };
+      
+      var apiTree = my.dom.find("#api-browser > ul");
+      
+      apiTree.treeview(my.settings.treeview);
+    },
     
-    header.addClass('collapsed');
-    
-    header.click(function(){
-      if(header.hasClass('collapsed')) {
-        code.slideDown();
-        header.removeClass('collapsed'); 
-      } else {
-        code.slideUp();
-        header.addClass('collapsed');
+    /**
+     * @mixin collapsible
+     */
+    collapsible: function(my, reveal) {
+
+      // @section Filling private variables  
+
+      my.settings.collapsible = {
+        cookieId: 'header-collapsed'
       }
-    });
-  });
+
+      var buttons = {
+        show: my.dom.find('a.expand'),
+        hide: my.dom.find('a.collapse')
+      };  
+      
+      var settings = my.settings.collapsible;
+      
+      // @section Defining functions
+      
+      function collapse() {
+        $.cookie(settings.cookieId, 'true', { path: '/' });
+        my.dom.addClass('collapsed');
+        buttons.hide.hide();
+        buttons.show.show();
+      }
+      
+      function uncollapse() {
+        $.cookie(settings.cookieId, 'false', { path: '/' });
+        my.dom.removeClass('collapsed');
+        buttons.hide.show();
+        buttons.show.hide();
+      }
+      
+      // @section Event Attachment  
+      
+      buttons.hide.click(collapse);
+      buttons.show.click(uncollapse);
+      
+      // @section Initialization
+      
+      if($.cookie(settings.cookieId) == 'true')
+        collapse();
+      
+      else uncollapse();
+      
+      J.merge(reveal, {
+        collapse: collapse,
+        uncollapse: uncollapse
+      });
+    }  
+  }
+});
+
+
+Module('Body', function(my) {
+  
+  var tooltip_ables = my.dom.find('.signature .params .param');
+  tooltip_ables.tooltip();  
+
+}, {
+  selector: '#main > article',
+  plugins: {
+  
+    source_code: function(my, reveal) {
+
+      my.dom.find('h3.source').each(function(i, el) {
+        
+        var header = $(el).addClass('collapsed'),
+            code = header.next('code').hide();
+        
+        header.toggle(function(){
+          header.removeClass('collapsed');
+          code.slideDown();
+        }, function() {      
+          code.slideUp(function() { header.addClass('collapsed'); });
+        });
+      }); 
+    }  
+  }
+});
+
+
+$(function() {    
+  // initialize Modules
+  for(var key in J.modules) {
+    if(J.modules.hasOwnProperty(key))
+      J.modules[key].init();
+  }
 });

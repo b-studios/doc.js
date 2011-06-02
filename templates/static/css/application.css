@@ -244,7 +244,7 @@ input:invalid, textarea:invalid {
   h2, h3 {
     page-break-after: avoid; } }
 #header {
-  background: #fcfcfc;
+  background: #f0f0f0;
   /* Old browsers */
   background: -moz-linear-gradient(top, #fcfcfc 0px, #f0f0f0 200px);
   /* FF3.6+ */
@@ -303,7 +303,7 @@ input:invalid, textarea:invalid {
         #header nav #page-menu li:last-child a {
           border-radius: 0 0 10px 0; }
       #header nav #page-menu a {
-        background: #88b5e2;
+        background: #4a8fd3;
         /* Old browsers */
         background: -moz-linear-gradient(top, #88b5e2 0%, #4a8fd3 100%);
         /* FF3.6+ */
@@ -325,7 +325,7 @@ input:invalid, textarea:invalid {
         border-left: 1px solid #88b5e2;
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); }
         #header nav #page-menu a:hover {
-          background: #5f9bd8;
+          background: #3682ce;
           /* Old browsers */
           background: -moz-linear-gradient(top, #5f9bd8 0%, #3682ce 100%);
           /* FF3.6+ */
@@ -405,7 +405,7 @@ input:invalid, textarea:invalid {
   display: none; }
 
 #header.search {
-  background: #7abcff;
+  background: #4096ee;
   /* Old browsers */
   background: -moz-linear-gradient(top, #7abcff 0%, #4096ee 100%);
   /* FF3.6+ */
@@ -434,7 +434,7 @@ input:invalid, textarea:invalid {
 
 .tooltip {
   /*@include double-border(1px, #fff, #ccc);*/
-  background: #333333;
+  background: #555555;
   /* Old browsers */
   background: -moz-linear-gradient(top, #333333 0%, #555555 100%);
   /* FF3.6+ */
@@ -526,7 +526,7 @@ a {
   font-size: 40pt; }
 
 div#main {
-  background: #f2f2f2;
+  background: white;
   /* Old browsers */
   background: -moz-linear-gradient(top, #f2f2f2 0px, white 40px);
   /* FF3.6+ */
