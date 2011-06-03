@@ -17,30 +17,36 @@ module Tasks
         objects = []
         
         Dom.root.each_child do |child|
+        
+          code_object = {
+              :namespace    => child.namespace,
+              :fullname     => child.qualified_name,
+              :path         => path_to(child , :format => :html)
+          }
+        
+          # it's a root level element
+          if child.namespace.nil? or child.namespace == ""
+            code_object[:name] = child.name            
+          else
+            code_object[:name] = '.'+child.name        
+          end
+        
           if child.is_a? CodeObject::Function
-            functions << {
-              :name         => child.name,
-              :namespace    => child.namespace,
-              :constructor  => child.constructor?,
-              :fullname     => child.qualified_name,
-              :path         => path_to(child , :format => :html)
-            }
+            functions << code_object.merge({
+              :constructor  => child.constructor?              
+            })
           elsif child.is_a? CodeObject::Base
-            objects << {
-              :name         => child.name,
-              :namespace    => child.namespace,
-              :fullname     => child.qualified_name,
-              :path         => path_to(child , :format => :html)
-            }
+            objects << code_object
           end
         end
         
+        @varname = 'apisearch'
         @data = {
-          :functions => functions,
-          :objects   => objects
+          :functions => functions.sort {|a,b| a[:name] <=> b[:name] },
+          :objects   => objects.sort {|a,b| a[:name] <=> b[:name] }
         }
         
-        render 'layout/json', :to_file => 'js/data.json'
+        render 'layout/json', :to_file => 'js/apisearch-data.js'
       end    
     end
   end

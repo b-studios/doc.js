@@ -124,33 +124,155 @@ Module('Header', function(my) {
     apisearch: function(my, reveal) {
     
       // @section Filling private variables  
+     
+      my.apisearch = {
+        data: JSDOC.data.apisearch
+      };
       
       my.settings.apisearch = {
         
+      }      
+      
+      var search_input = my.dom.find('input#search'),
+          function_list = $('<ul>'),
+          object_list = $('<ul>');
+      
+      
+      
+      function createObject(data) {
+      
+        var el = $('<li>', {              
+                  // forward click to first a
+                  click: function() {
+                    window.location.href = $(this).find('a:first').attr('href');
+                    return false;
+                  }        
+                })
+                .hide()
+                .data(data)        
+                .append($('<a>', {
+                  href: JSDOC.root + data.path,
+                  html: data.name
+                }));
+        
+        
+        if(data.namespace != '') {
+          el.append($('<span>', {
+            html: ' (' + data.namespace + ')',
+            'class': 'namespace'
+          }));          
+        }        
+        return el;
       }
       
-      var search_input = my.dom.find('input#search');
       
-      // @section Attach events    
+      // returns an { included: [], excluded: [] }
+      function filter(list, filterString) {        
+      
+        var included = [],
+            excluded = [];
+      
+        try {
+          var regexp = RegExp(filterString, 'i');
+          
+          $.each(list, function(i, el) {
+            // maybe to slow - check for performance improvements later on
+            if(regexp.test($(el).data('fullname')))
+              included.push(el)
+            else
+              excluded.push(el)
+          });
+        } catch(e) {
+          included = list;
+        }    
+        
+        return {
+          included: included,
+          excluded: excluded
+        };
+      }
+      
+      // shuffles the two lists, like two stacks of cards and invokes callback on each element.
+      // the cards are delayed with timer ms.
+      function shuffle(list1, list2, timer, callback) {
+      
+        var args = arguments;
+      
+        if(list1.length > list2.length)
+          callback(list1.shift());
+        
+        else if(list2.length > 0)
+          callback(list2.shift());
+          
+        else if(list1.length > 0)
+          callback(list1.shift());
+        
+        else return;
+          
+        setTimeout(function() {
+          shuffle.apply(this, args);
+        }, timer);  
+      }
+          
+      // @section Attach events
       
       search_input.bind('keyup change click', function() {
+        
+        var val = search_input.val();            
       
-        if(search_input.val() == "")
-          my.dom.removeClass("search");
+        if(search_input.val() == "") {
+          my.dom.removeClass('search');
       
-        else
-          my.dom.addClass("search");
+        } else {
+          my.dom.addClass('search');
+          
+          var filtered_functions = filter(function_list.children(), val);          
+          var filtered_objects = filter(object_list.children(), val);  
+          
+          shuffle(filtered_functions.included, filtered_objects.included, 25, function(el) {
+            $(el).slideDown();
+          });
+
+          shuffle(filtered_functions.excluded, filtered_objects.excluded, 25, function(el) {
+            $(el).slideUp();
+          });       
+                    
+
+          /*
+          function_list.children(':visible').first().addClass('first');
+          object_list.children(':visible').first().addClass('first');
+          */
+       }
       });
+      
+      search_input.keydown(function(evt) {
+         
+        switch(evt.keyCode) { 
+        
+        case 27:        
+          $(this).val('').trigger('change');
+        
+        case 13:
+          return false;
+        }         
+      });
+      
+      // @section Initialize
     
+      
+      // On initialization create all elements and then filter them     
+      $.each(my.apisearch.data.functions, function(i, el) { 
+        function_list.append(createObject(el));
+      });
+      $.each(my.apisearch.data.objects, function(i, el) {
+        object_list.append(createObject(el));
+      });
+      
+      my.dom.find('.functions').append(function_list);
+      my.dom.find('.objects').append(object_list);      
     }
   }
 });
-
-J.modules.Header.plugins.search = function(my, reveal) {
-
-  console.log(my, reveal);
-
-}
 
 
 Module('Body', function(my) {

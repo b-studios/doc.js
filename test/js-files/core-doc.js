@@ -53,7 +53,7 @@ var Core = Core || (function(){
      * @param [Function] constructor a callback function, which acts as
      *   constructor for {Core.extensions}
      *
-     * @return [Core.extensions] the constructed extension
+     * @return [Core.logger] the constructed extension
      */
     extend: function(id, constructor) {
       

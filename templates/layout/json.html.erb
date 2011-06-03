@@ -1,1 +1,3 @@
-<%= @data.to_json %>
+var JSDOC = JSDOC || {};
+JSDOC.data = JSDOC.data || {};
+JSDOC.data.<%= @varname %> = <%= @data.to_json %>

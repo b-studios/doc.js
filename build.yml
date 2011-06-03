@@ -1,5 +1,5 @@
 files:
-  - "test/js-files/core-doc-relative.js"
+  - "test/js-files/core-doc.js"
   - "test/js-files/nested_with_strings.js"
   
 docs:

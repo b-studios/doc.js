@@ -357,7 +357,8 @@ input:invalid, textarea:invalid {
       font-weight: normal;
       text-shadow: 1px 1px #fff;
       font-size: 16pt;
-      padding: 0 0 0.5em 0.5em; }
+      padding: 0 0 0 0.5em;
+      margin-bottom: 0.5em; }
     #header .col50 section > ul {
       border: 1px solid #eee;
       border-radius: 10px;
@@ -408,17 +409,17 @@ input:invalid, textarea:invalid {
 #header.search {
   background: #9dc2e7;
   /* Old browsers */
-  background: -moz-linear-gradient(top, #dae8f6 0%, #9dc2e7 100%);
+  background: -moz-linear-gradient(top, #dae8f6 0px, #9dc2e7 200px);
   /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #dae8f6), color-stop(100%, #9dc2e7));
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0px, #dae8f6), color-stop(200px, #9dc2e7));
   /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top, #dae8f6 0%, #9dc2e7 100%);
+  background: -webkit-linear-gradient(top, #dae8f6 0px, #9dc2e7 200px);
   /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top, #dae8f6 0%, #9dc2e7 100%);
+  background: -o-linear-gradient(top, #dae8f6 0px, #9dc2e7 200px);
   /* Opera11.10+ */
-  background: -ms-linear-gradient(top, #dae8f6 0%, #9dc2e7 100%);
+  background: -ms-linear-gradient(top, #dae8f6 0px, #9dc2e7 200px);
   /* IE10+ */
-  background: linear-gradient(top, #dae8f6 0%, #9dc2e7 100%);
+  background: linear-gradient(top, #dae8f6 0px, #9dc2e7 200px);
   /* W3C */
   /*color: #F4F7F9;*/
   /* Hide Apibrowser and docs */ }
@@ -427,12 +428,32 @@ input:invalid, textarea:invalid {
   #header.search .search-results {
     display: block; }
   #header.search section h1 {
+    padding-left: 26px;
     text-shadow: none;
     color: #153556; }
   #header.search a.collapse, #header.search a.expand {
     visibility: hidden; }
   #header.search .col50 section > ul {
-    border-color: #94bde5; }
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    min-height: 15px;
+    border-color: #88b5e2;
+    overflow: visible;
+    /* remove scrollbars */ }
+    #header.search .col50 section > ul li {
+      padding: 0.5em 1em;
+      cursor: pointer;
+      border-top: 1px solid #88b5e2; }
+      #header.search .col50 section > ul li a {
+        color: #000;
+        font-weight: bold; }
+      #header.search .col50 section > ul li .namespace {
+        color: rgba(0, 0, 0, 0.3); }
+    #header.search .col50 section > ul li:hover {
+      background: rgba(255, 255, 255, 0.18); }
+    #header.search .col50 section > ul li.first {
+      border: none; }
 
 #footer {
   color: #a0a0a0;
