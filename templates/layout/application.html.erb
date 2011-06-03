@@ -21,23 +21,44 @@
           </ul>
           
           <form>
-            <input type="search" id="search" placeholder="search API-docs"/>
+            <input type="search" id="search" placeholder="search API-docs" autocomplete="off" autofocus/>
           </form>
         </nav>
-        <section id="docs">
-          <h1>Documents</h1>
-          <ul>
-           <% Dom.docs.each_child do |doc| %>
-             <li><%= link_to doc %></li>
-           <% end %>
-          </ul>
-        </section>        
-        <section id="api-browser">
-          <h1>API-Browser</h1>
-          <%= api_browser(Dom.root) %>
+        
+        <section class="browsers col50">          
+          <section class="docs">
+            <h1>Documents</h1>
+            <ul>
+             <% Dom.docs.each_child do |doc| %>
+               <li><%= link_to doc %></li>
+             <% end %>
+            </ul>
+          </section>        
+          <section class="api-browser">
+            <h1>API-Browser</h1>
+            <%= api_browser(Dom.root) %>
+          </section>  
         </section>
+        
+        <section class="search-results col50">
+          <section class="functions">
+            <h1>Found functions</h1>
+            <ul>
+              <li>
+              <li>
+            </ul>
+          </section>        
+          <section class="objects">
+            <h1>Found objects</h1>
+            <ul>
+              <li>
+              <li>
+            </ul>
+          </section>
+        </section> 
+        
         <a href="#" class="collapse">Collapse</a>      
-        <a href="#" class="expand" style="display: none;">Expand</a>
+        <a href="#" class="expand" style="display: none;">Expand</a>         
       </div>
     </header>
     <div role="main" id="main">

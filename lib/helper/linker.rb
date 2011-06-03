@@ -47,14 +47,7 @@ module Helper
         doc_name, hash = target.match(DOCUMENTATION).captures
         obj = Dom.docs.find doc_name        
         text ||= obj.name
-        
-        Dom.docs.print_tree
-        
-        p obj
-        
-        Logger.debug "DOCNAME: #{doc_name}"
-        Logger.debug "HASH:    #{hash}"
-        
+
         # find relative path to our object and reattach hash to path
         to_relative(path_to obj) + (hash || "") unless obj.nil?        
         

@@ -243,6 +243,8 @@ input:invalid, textarea:invalid {
 
   h2, h3 {
     page-break-after: avoid; } }
+/* Kudos to http://www.colorzilla.com/gradient-editor/ */
+/* inspired by http://docs.sencha.com/ext-js/4-0/ */
 #header {
   background: #f0f0f0;
   /* Old browsers */
@@ -258,11 +260,15 @@ input:invalid, textarea:invalid {
   /* IE10+ */
   background: linear-gradient(top, #fcfcfc 0px, #f0f0f0 200px);
   /* W3C */
-  box-shadow: inset 0 -1px 0 #f6f6f6;
   border-bottom: 1px solid #dfdfdf;
+  box-shadow: inset 0 -1px 0 #f6f6f6;
   display: block;
   overflow: hidden;
   padding-bottom: 30px; }
+  #header .search-results {
+    display: none; }
+  #header.collapsed .browsers {
+    display: none; }
   #header div.wrapper {
     display: block;
     margin: 0 auto;
@@ -341,52 +347,52 @@ input:invalid, textarea:invalid {
           /* W3C */
           text-decoration: none;
           border-left: 1px solid transparent; }
-  #header section {
+  #header .col50 section {
     display: block;
     float: left;
     margin-top: 15px;
     width: 49.5%; }
-    #header section > h1 {
+    #header .col50 section > h1 {
       font-family: 'Terminal Dosis Light', 'Helvetica', 'Arial', 'sans-serif';
       font-weight: normal;
       text-shadow: 1px 1px #fff;
       font-size: 16pt;
       padding: 0 0 0.5em 0.5em; }
-    #header section > ul {
+    #header .col50 section > ul {
       border: 1px solid #eee;
       border-radius: 10px;
       padding: 0;
       margin: 0;
       overflow-y: scroll; }
-      #header section > ul::-webkit-scrollbar {
+      #header .col50 section > ul::-webkit-scrollbar {
         width: 7px;
         height: 9px; }
-      #header section > ul::-webkit-scrollbar-button:start:decrement, #header section > ul .iScroll ::-webkit-scrollbar-button:end:increment {
+      #header .col50 section > ul::-webkit-scrollbar-button:start:decrement, #header .col50 section > ul .iScroll ::-webkit-scrollbar-button:end:increment {
         display: block;
         height: 0;
         background-color: transparent; }
-      #header section > ul::-webkit-scrollbar-track-piece {
+      #header .col50 section > ul::-webkit-scrollbar-track-piece {
         -webkit-border-radius: 0;
         -webkit-border-bottom-right-radius: 4px;
         -webkit-border-bottom-left-radius: 4px; }
-      #header section > ul::-webkit-scrollbar-thumb:vertical {
+      #header .col50 section > ul::-webkit-scrollbar-thumb:vertical {
         height: 50px;
         background-color: rgba(0, 0, 0, 0.15);
         -webkit-border-radius: 4px; }
-      #header section > ul::-webkit-scrollbar-thumb:horizontal {
+      #header .col50 section > ul::-webkit-scrollbar-thumb:horizontal {
         width: 50px;
         background-color: rgba(0, 0, 0, 0.15);
         -webkit-border-radius: 4px; }
-  #header section + section {
+  #header .col50 section + section {
     margin-left: 1%; }
-  #header #docs ul {
+  #header .docs ul {
     display: block;
     overflow: hidden; }
-  #header #docs li {
+  #header .docs li {
     display: block;
     float: left;
     width: 50%; }
-  #header #docs a {
+  #header .docs a {
     display: block;
     padding: 0.5em 1em; }
   #header a.collapse, #header a.expand {
@@ -399,29 +405,34 @@ input:invalid, textarea:invalid {
     #header a.collapse.expand, #header a.expand.expand {
       background-image: url(../img/arrow_down.png); }
 
-#header.collapsed #api-browser {
-  display: none; }
-#header.collapsed #docs {
-  display: none; }
-
 #header.search {
-  background: #4096ee;
+  background: #9dc2e7;
   /* Old browsers */
-  background: -moz-linear-gradient(top, #7abcff 0%, #4096ee 100%);
+  background: -moz-linear-gradient(top, #dae8f6 0%, #9dc2e7 100%);
   /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7abcff), color-stop(100%, #4096ee));
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #dae8f6), color-stop(100%, #9dc2e7));
   /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top, #7abcff 0%, #4096ee 100%);
+  background: -webkit-linear-gradient(top, #dae8f6 0%, #9dc2e7 100%);
   /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top, #7abcff 0%, #4096ee 100%);
+  background: -o-linear-gradient(top, #dae8f6 0%, #9dc2e7 100%);
   /* Opera11.10+ */
-  background: -ms-linear-gradient(top, #7abcff 0%, #4096ee 100%);
+  background: -ms-linear-gradient(top, #dae8f6 0%, #9dc2e7 100%);
   /* IE10+ */
-  background: linear-gradient(top, #7abcff 0%, #4096ee 100%);
+  background: linear-gradient(top, #dae8f6 0%, #9dc2e7 100%);
   /* W3C */
-  color: #F4F7F9; }
-  #header.search h1 {
-    text-shadow: 1px 1px #4CB3F7; }
+  /*color: #F4F7F9;*/
+  /* Hide Apibrowser and docs */ }
+  #header.search .browsers {
+    display: none; }
+  #header.search .search-results {
+    display: block; }
+  #header.search section h1 {
+    text-shadow: none;
+    color: #153556; }
+  #header.search a.collapse, #header.search a.expand {
+    visibility: hidden; }
+  #header.search .col50 section > ul {
+    border-color: #94bde5; }
 
 #footer {
   color: #a0a0a0;
@@ -593,8 +604,8 @@ div#main {
       padding: 8px;
       margin: 0; }
     div#main nav > * + * {
-      box-shadow: inset 0 1px 0 white;
-      border-top: 1px solid #d9d9d9; }
+      border-top: 1px solid #d9d9d9;
+      box-shadow: inset 0 1px 0 white; }
     div#main nav h3 {
       text-transform: uppercase;
       padding-bottom: 0.5em;

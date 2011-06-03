@@ -20,12 +20,14 @@ J.create('Module', {
           dom: $(options.selector)
         };
       
-        var reveal = module_init(sandbox);
+        var reveal = module_init(sandbox) || {};
         
         for(var key in this.plugins) {
           if(this.plugins.hasOwnProperty(key) && typeof this.plugins[key] === 'function')
-            this.plugins[key](sandbox, reveal);
+            J.merge(reveal, this.plugins[key](sandbox, reveal) || {});
         }
+        
+        return reveal;
                         
       },
       plugins: options.plugins
@@ -62,7 +64,7 @@ Module('Header', function(my) {
         }
       };
       
-      var apiTree = my.dom.find("#api-browser > ul");
+      var apiTree = my.dom.find(".api-browser > ul");
       
       apiTree.treeview(my.settings.treeview);
     },
@@ -113,13 +115,42 @@ Module('Header', function(my) {
       
       else uncollapse();
       
-      J.merge(reveal, {
+      return {
         collapse: collapse,
         uncollapse: uncollapse
+      };
+    },
+    
+    apisearch: function(my, reveal) {
+    
+      // @section Filling private variables  
+      
+      my.settings.apisearch = {
+        
+      }
+      
+      var search_input = my.dom.find('input#search');
+      
+      // @section Attach events    
+      
+      search_input.bind('keyup change click', function() {
+      
+        if(search_input.val() == "")
+          my.dom.removeClass("search");
+      
+        else
+          my.dom.addClass("search");
       });
-    }  
+    
+    }
   }
 });
+
+J.modules.Header.plugins.search = function(my, reveal) {
+
+  console.log(my, reveal);
+
+}
 
 
 Module('Body', function(my) {

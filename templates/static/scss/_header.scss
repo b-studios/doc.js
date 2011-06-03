@@ -4,6 +4,10 @@
   @include clearfix;
   padding-bottom: $page-indent + 10px;
 
+  .search-results { display: none; }
+
+  &.collapsed { .browsers { display: none; } }
+
   div.wrapper {
     @include page-center;  
     overflow: hidden;  
@@ -68,35 +72,36 @@
     }    
   }
   
-  section {  
-    @include float(left);
-    margin-top: 15px;
-    width: 49.5%;
-    
-    > h1 {
-      @include headline;
-      font-size: 16pt;
-      padding: 0 0 0.5em 0.5em;
+  .col50 {
+    section {  
+      @include float(left);
+      margin-top: 15px;
+      width: 49.5%;
+      
+      > h1 {
+        @include headline;
+        font-size: 16pt;
+        padding: 0 0 0.5em 0.5em;
+      }
+      
+      > ul {
+        @include scrollbars; 
+        
+        border: 1px solid #eee;
+        border-radius: $radius;
+        padding: 0; margin: 0;
+        
+        overflow-y: scroll;      
+      }    
     }
     
-    > ul {
-      @include scrollbars; 
-      
-      border: 1px solid #eee;
-      border-radius: $radius;
-      padding: 0; margin: 0;
-      
-      overflow-y: scroll;      
-    }    
+    section + section {
+      margin-left: 1%;
+    }  
   }
+  .api-browser {}
   
-  section + section {
-    margin-left: 1%;
-  }
-  
-  #api-browser {}
-  
-  #docs {
+  .docs {
     
     ul {
       @include clearfix;
@@ -125,16 +130,24 @@
   }
 }
 
-#header.collapsed {  
-  #api-browser { display: none; }
-  #docs { display:none; }  
-}
-
 #header.search {
-  @include gradient(#7abcff, #4096ee);
-  color: #F4F7F9;
+  @include gradient(lighten($button-color-from, 20%), lighten($button-color-to, 20%));
   
-  h1 {
-    text-shadow: 1px 1px #4CB3F7;
+  /*color: #F4F7F9;*/
+  
+  /* Hide Apibrowser and docs */
+  .browsers { display: none; }
+  .search-results { display: block; }
+  
+  section h1 {
+    text-shadow: none;
+    color: darken($button-color-from, 50%);
   }
+  
+  a.collapse, a.expand { visibility: hidden; }
+  
+  .col50 section > ul {        
+    border-color: lighten($button-color-to, 18%);
+  }
+  
 }

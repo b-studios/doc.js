@@ -6,5 +6,5 @@ docs:
   - "test/docs/FOO.md"  
   - "test/docs/*.md"
 
-loglevel: "debug"
+loglevel: "info"
 output: "out"
