@@ -444,7 +444,7 @@ input:invalid, textarea:invalid {
     #header.search .col50 section > ul li {
       padding: 0.5em 1em;
       cursor: pointer;
-      border-top: 1px solid #88b5e2; }
+      border-bottom: 1px solid #88b5e2; }
       #header.search .col50 section > ul li a {
         color: #000;
         font-weight: bold; }
@@ -452,7 +452,7 @@ input:invalid, textarea:invalid {
         color: rgba(0, 0, 0, 0.3); }
     #header.search .col50 section > ul li:hover {
       background: rgba(255, 255, 255, 0.18); }
-    #header.search .col50 section > ul li.first {
+    #header.search .col50 section > ul li.last {
       border: none; }
 
 #footer {
