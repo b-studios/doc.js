@@ -27,7 +27,9 @@ J.create('Module', {
             J.merge(reveal, this.plugins[key](sandbox, reveal) || {});
         }
         
-        return reveal;
+        J.merge(this, reveal);
+        
+        return this;
                         
       },
       plugins: options.plugins
@@ -233,11 +235,15 @@ Module('Header', function(my) {
           $(filtered_objects.included).removeClass('last').last().addClass('last');  
      
           shuffle(filtered_functions.included, filtered_objects.included, 5, function(el) {
-            $(el).css({opacity: 1}).slideDown();                       
+            el = $(el);
+            if(!el.is(':visible'))
+              el.css({opacity: 1}).slideDown();                       
           });
 
           shuffle(filtered_functions.excluded, filtered_objects.excluded, 5, function(el) {
-            $(el).css({opacity: 0.5}).slideUp();
+            el = $(el);
+            if(el.is(':visible'))
+              $(el).css({opacity: 0.5}).slideUp();
           });
         }
       });
