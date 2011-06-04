@@ -262,13 +262,17 @@ div#main {
       }
       
       /* all but first li */
-      * + li {
+      > * + li {
         border-top: 1px solid #efefef;
       }
       
       .types {
         @include terminal;
         padding: 0 0.2em;
+      }
+      
+      ul {
+        margin: 0;
       }
       
     }

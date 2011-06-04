@@ -53,15 +53,12 @@ module Token::Handler
     
     # it maybe a multiline
     else
-      name = content.lines.first.strip
+      lines = content.split(/\n/)
+      name = lines.shift.strip
       types = ['PropertyObject']
-      rest_lines = content.split(/\n/)
-      
-      # remove first line
-      rest_lines.shift
       
       # now split line at opening bracket, not at line-break to enable multiline properties
-      children = rest_lines.join("\n").strip.gsub(/\s+\[/, "<--SPLIT_HERE-->[").split("<--SPLIT_HERE-->")
+      children = lines.join("\n").strip.gsub(/\s+\[/, "<--SPLIT_HERE-->[").split("<--SPLIT_HERE-->")
    
       children.map! do |child|
         parse_named_typed_token(child)

@@ -697,11 +697,13 @@ div#main {
     div#main .subsection h4 {
       font-weight: bold;
       display: inline; }
-    div#main .subsection * + li {
+    div#main .subsection > * + li {
       border-top: 1px solid #efefef; }
     div#main .subsection .types {
       font-family: "Consolas", "monospace";
       padding: 0 0.2em; }
+    div#main .subsection ul {
+      margin: 0; }
   div#main .source {
     cursor: pointer; }
     div#main .source.collapsed {
