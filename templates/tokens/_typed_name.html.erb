@@ -1,5 +1,11 @@
 <li>
   <h4><%= typed_name.name %></h4>
+  <% if typed_name.is_a? Token::Handler::NamedTypedTokenWithChildren %>
+    <ul>
+      <%= render :partial => 'tokens/typed_name', :collection => typed_name.children %>
+    </ul>  
+  <% else %>
   (<span class="types"><%= typed_name.types.map {|t| link_to(t) }.join ', ' %></span>)
   <div><%=replace_links typed_name.content %></div>
+  <% end %>
 </li>

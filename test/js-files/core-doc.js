@@ -52,6 +52,10 @@ var Core = Core || (function(){
      * @param [String] id the id to register the new {Core.extensionss extension} under
      * @param [Function] constructor a callback function, which acts as
      *   constructor for {Core.extensions}
+     * @param settings
+     *   [String] name the name of the extension
+     *   [Number] pos the position to put the extension to (Defaults to 0)
+     *   [String] color the background-color of the extension
      *
      * @return [Core.logger] the constructed extension
      */
@@ -93,7 +97,12 @@ var Core = Core || (function(){
        * Logs a message if the console is present
        *
        * @function Core.logger.log
-       * @param [String] msg The message to log
+       *
+       * @overload log(msg)
+       *   @param [String] msg The message to log
+       *
+       * @overload log(level, msg)
+       *
        */
       log: function(msg) {
         if(!!window.console) {

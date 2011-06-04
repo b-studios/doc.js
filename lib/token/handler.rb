@@ -56,6 +56,7 @@ module Token
     TypedToken = Struct.new :types, :content
     NamedToken = Struct.new :name, :content
     NamedTypedToken = Struct.new :name, :types, :content
+    NamedTypedTokenWithChildren = Struct.new :name, :types, :content, :children
     
     ALL = /./m
     NO_BR = /((?!\n)\s)/
@@ -66,7 +67,7 @@ module Token
     TOKEN_W_TYPE = /#{NO_BR}*#{TYPELIST}#{NO_BR}*(?<content>#{ALL}*)/
     
     # Token with type, name and content
-    TOKEN_W_TYPE_NAME =  /#{NO_BR}*
+    TOKEN_W_TYPE_NAME =  /^#{NO_BR}*
       #{TYPELIST}#{NO_BR}*
       (?<name>#{IDENTIFIER})
       #{NO_BR}*

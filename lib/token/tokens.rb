@@ -9,4 +9,10 @@ module Token::Handler
   
   register :todo, :named_multiline    
   register :example, :named_multiline
+  
+  register :overload do |token, content|
+  
+  
+  end
+  
 end

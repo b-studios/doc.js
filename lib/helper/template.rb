@@ -31,27 +31,6 @@ module Helper
       "</ul>" * (parents.size + 2)
     end
     
-    
-=begin
-
-<ul>
-  <li class="object"><a href="#"><span>Core</span></a><ul>
-    <li class="function"><a href="#"><span>extend</span></a>
-    <li class="function"><a href="#"><span>extensions</span></a>
-    <li class="object"><a href="#"><span>logger</span></a><ul>
-      <li class="function"><a href="#"><span>log</span></a>
-      <li class="function"><a href="#"><span>warn</span></a>
-      <li class="function"><a href="#"><span>error</span></a>
-      
-    </ul>              
-  </ul>
-  <li class="object"><a href="#"><span>Action</span></a>
-  <li class="object"><a href="#"><span>View</span></a>
-  <li class="object"><a href="#"><span>Controller</span></a>
-</ul>
-
-=end
-    
     def api_browser(root = Dom.root)
      
       if root == Dom.root
