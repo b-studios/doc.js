@@ -232,11 +232,11 @@ Module('Header', function(my) {
           $(filtered_functions.included).removeClass('last').last().addClass('last');
           $(filtered_objects.included).removeClass('last').last().addClass('last');  
      
-          shuffle(filtered_functions.included, filtered_objects.included, 25, function(el) {
+          shuffle(filtered_functions.included, filtered_objects.included, 5, function(el) {
             $(el).css({opacity: 1}).slideDown();                       
           });
 
-          shuffle(filtered_functions.excluded, filtered_objects.excluded, 25, function(el) {
+          shuffle(filtered_functions.excluded, filtered_objects.excluded, 5, function(el) {
             $(el).css({opacity: 0.5}).slideUp();
           });
         }
