@@ -1,11 +1,8 @@
 <section class="section method" id="method-<%= detail.name %>">
   <h2 class="signature"><%= signature detail %></h2>
-  <%= subsection :params, :title => "Parameters", :collection => detail.params, :partial => 'tokens/typed_name' %>
-  <%= subsection :returns, :title => "Returns", :collection => detail.returns, :partial => 'tokens/typed' %>
   <%= to_html detail.docs %>
-
-  <%= render :partial => 'tokens/example', :collection => detail.tokens[:example] unless detail.tokens[:example].nil? %>
-  
+  <%= render_tokens :of => detail, :in => :body %>
+    
   <h3 class="source">Source</h3>
   <%= code detail.source %>
 </section>

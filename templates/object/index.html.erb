@@ -37,7 +37,7 @@
         <h3 class="icon function">Methods</h3>
         <ul class="summary collapsed">
           <% @methods.each do |child| %>
-          <li><%= link_on_page child %></li>
+          <li><%= link_to child %></li>
           <% end %>
         </ul>
       </section>
@@ -54,18 +54,8 @@
       </section>
     <% end %>
 
-    <%= subsection :props, :title => "Properties", :collection => @object.props, :partial => 'tokens/typed_name' %>
-
-
-    <!-- DETAILS -->
-
-    <% unless @methods.nil? or @methods.size == 0 %>
-    <section id="methods">
-      <h2>Methods</h2>
-      <%= render :partial => 'function/detail', :collection => @methods %>
-    </section>
-    <% end %>
-
+    <%= render_tokens :of => @object, :in => :body %>
+    
   </div>
 
 </article>

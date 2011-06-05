@@ -31,6 +31,10 @@
  * @todo Extensionloader
  *
  * @author Jonathan Brachthäuser
+ * @version 1.2.245
+ *
+ * @example foobar
+ *   This is just a stupid test
  *
  * @object Core
  */
