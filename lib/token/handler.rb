@@ -68,35 +68,35 @@ module Token
     /x
     
     @@defaults = {
-      :text_only => ->(token, content) {
-          self.add_token token, Token.new(:content => content)
+      :text_only => ->(tokenklass, content) {
+          self.add_token tokenklass.new(:content => content)
       },
       
-      :typed => ->(token, content) {
+      :typed => ->(tokenklass, content) {
         typestring, content = TOKEN_W_TYPE.match(content).captures
         types = typestring.split /,\s*/
         
-        self.add_token token, Token.new(:types => types, :content => content)
+        self.add_token tokenklass.new(:types => types, :content => content)
       },
 
-      :typed_with_name => ->(token, content) {
+      :typed_with_name => ->(tokenklass, content) {
         typestring, name, content = TOKEN_W_TYPE_NAME.match(content).captures
         types = typestring.split /,\s*/
         
-        self.add_token token, Token.new(:name => name, :types => types, :content => content)
+        self.add_token tokenklass.new(:name => name, :types => types, :content => content)
       },
       
-      :named_multiline => ->(token, content) { 
+      :named_multiline => ->(tokenklass, content) { 
         rows = content.split(/\n/)
               
         # use first row as name
         name = rows.shift.strip
         content = rows.join("\n")
               
-        self.add_token token, Token.new(:name => name, :content => content)
+        self.add_token tokenklass.new(:name => name, :content => content)
       },
       
-      :noop => ->(token, content) {}
+      :noop => ->(tokenklass, content) {}
     } 
     @@handlers = {}    
     
@@ -197,17 +197,25 @@ module Token
     # 
     def self.register(tokenname, type = nil, &handler)
       
-      tokenname = tokenname.to_sym
+      tokenname = tokenname.to_sym   
       
+      # search matching handler
       if block_given?
-        @@handlers[tokenname] = handler
+        # handler is already defined
       elsif type and @@defaults.include?(type)
-        @@handlers[tokenname] = @@defaults[type]
+        handler = @@defaults[type]
       elsif type
         raise Exception, "#{type} has no registered Tokenhandler"
       else
-        @@handlers[tokenname] = @@defaults[:text_only]
-      end
+        handler = @@defaults[:text_only]
+      end      
+      
+      # Dynamically create Class named TokennameToken
+      klass = Token.const_set "#{tokenname.to_s.capitalize}Token", Class.new(Token)      
+      klass.class_variable_set :@@token, tokenname
+      klass.class_variable_set :@@handler, handler   
+      
+      @@handlers[tokenname] = klass
     end
     
     # Remove a registered handler from the list

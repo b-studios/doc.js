@@ -27,7 +27,7 @@ Token::Handler.register :function, :noop
 module Token::Handler
 
   # @todo maybe allow multipled nested layers of params by parsing them recursivly
-  register :param do |token, content|
+  register :param do |tokenklass, content|
 
     # We want to support either named-typed-tokens like
     #  @param [Foo] barname some description
@@ -44,12 +44,12 @@ module Token::Handler
     def parse_named_typed_token(content)  
       typestring, name, content = TOKEN_W_TYPE_NAME.match(content).captures
       types = typestring.split /,\s*/
-      Token::Token.new(:name => name, :types => types, :content => content)
+      Token::Token::ParamToken.new(:name => name, :types => types, :content => content)
     end
     
     # it's @param [String] name some content
     if content.lines.first.match TOKEN_W_TYPE_NAME
-      self.add_token token, parse_named_typed_token(content)
+      self.add_token parse_named_typed_token(content)
     
     # it maybe a multiline
     else
@@ -64,7 +64,7 @@ module Token::Handler
         parse_named_typed_token(child)
       end
       
-      self.add_token token, Token::Token.new(:name => name, :types => types, :children => children)
+      self.add_token tokenklass.new(:name => name, :types => types, :children => children)
     end   
   end
 
@@ -76,7 +76,7 @@ Token::Handler.register :throws, :typed
 
 # MethodAlias
 CodeObject::Type.register :method, CodeObject::Function
-Token::Handler.register :function, :noop
+Token::Handler.register :method, :noop
 
 # @constructor Foo.bar
 CodeObject::Type.register :constructor, CodeObject::Function

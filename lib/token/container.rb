@@ -27,9 +27,9 @@ module Token
       @tokens
     end
 
-    def add_token(token_id, token)     
-      @tokens[token_id.to_sym] ||= []
-      @tokens[token_id.to_sym] << token
+    def add_token(token)     
+      @tokens[token.token] ||= []
+      @tokens[token.token] << token
     end
     
     # @param [Parser::Tokenline] tokenline consisting of :token and :content
@@ -37,12 +37,12 @@ module Token
     # @todo only raise error, if config is set to whiny
     def process_token(tokenline)
     
-      token_name = tokenline.token.to_sym
+      # try to find matching tokenklass for token i.e. Token::Token::ParamToken for :param
+      tokenklass = Token.const_get "#{tokenline.token.capitalize.to_s}Token"
     
-      raise NoTokenHandler.new("No Tokenhandler for: #{token_name}") unless Handler.handlers.has_key? token_name
+      raise NoTokenHandler.new("No Tokenhandler for: #{token_name}") if tokenklass.handler.nil?
       
-      block = Handler.handlers[token_name]
-      instance_exec(token_name, tokenline.content, &block)
+      instance_exec(tokenklass, tokenline.content, &(tokenklass.handler))
     end
     
     # Plural version of {#process_token}
