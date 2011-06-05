@@ -13,7 +13,7 @@
     <% unless default_token.types.nil? %>
       (<span class="types"><%= default_token.types.map {|t| link_to(t) }.join ', ' %></span>)
     <% end %>
-    <div><%= replace_links default_token.content %></div>
+    <%= replace_links to_html default_token.content %>
   
   <% end %>
 </li>  

@@ -602,51 +602,54 @@ div#main {
     display: block;
     background: #fcded1;
     border: 1px solid #f9c2ab;
-    color: #ef5412;
+    color: #5490c8;
     border-radius: 5px;
     padding: 0.4em 1em;
     display: block;
     float: right;
     font-size: 8pt;
     text-shadow: none; }
-  div#main nav {
-    display: block;
-    float: right;
-    box-shadow: inset 0px 0px 0px 1px white;
-    border: 1px solid #d9d9d9;
-    font-family: "Consolas", "monospace";
-    background: #f3f3f3;
-    margin: 40px 0 12px 12px;
-    padding: 0;
-    border-radius: 5px;
-    font-size: 8pt;
-    color: #999; }
-    div#main nav > * {
-      padding: 8px;
-      margin: 0; }
-    div#main nav > * + * {
-      border-top: 1px solid #d9d9d9;
-      box-shadow: inset 0 1px 0 white; }
-    div#main nav h3 {
-      text-transform: uppercase;
-      padding-bottom: 0.5em;
-      font-size: 8pt; }
-    div#main nav .hierarchy {
-      list-style: none;
-      /* first node */ }
-      div#main nav .hierarchy ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        padding-left: 1em; }
-      div#main nav .hierarchy > ul {
-        padding-left: 0; }
-      div#main nav .hierarchy .this > a {
-        font-weight: bold; }
-    div#main nav .method-list ul {
+
+div#main nav.sidebar {
+  display: block;
+  float: right;
+  box-shadow: inset 0px 0px 0px 1px white;
+  border: 1px solid #d9d9d9;
+  font-family: "Consolas", "monospace";
+  background: #f3f3f3;
+  margin: 40px 0 12px 12px;
+  padding: 0;
+  border-radius: 5px;
+  font-size: 8pt;
+  color: #999; }
+  div#main nav.sidebar > * {
+    padding: 8px;
+    margin: 0; }
+  div#main nav.sidebar > * + * {
+    border-top: 1px solid #d9d9d9;
+    box-shadow: inset 0 1px 0 white; }
+  div#main nav.sidebar h3 {
+    text-transform: uppercase;
+    padding-bottom: 0.5em;
+    font-size: 8pt; }
+  div#main nav.sidebar .hierarchy {
+    list-style: none;
+    /* first node */ }
+    div#main nav.sidebar .hierarchy ul {
       list-style: none;
       margin: 0;
-      padding: 0; }
+      padding: 0;
+      padding-left: 1em; }
+    div#main nav.sidebar .hierarchy > ul {
+      padding-left: 0; }
+    div#main nav.sidebar .hierarchy .this > a {
+      font-weight: bold; }
+  div#main nav.sidebar .method-list ul {
+    list-style: none;
+    margin: 0;
+    padding: 0; }
+  div#main nav.sidebar .subsection p {
+    margin: 0; }
 
 div#main .body > section {
   margin-bottom: 12px; }
@@ -687,24 +690,23 @@ div#main .body code.block {
   margin-bottom: 1.33em; }
 div#main .body .section {
   padding-bottom: 12px; }
-div#main .body .subsection {
+div#main .body .subsection > ul {
   margin-left: 0;
   border: 1px solid #efefef;
-  /* first element*/
   /* all but first li */ }
-  div#main .body .subsection li {
+  div#main .body .subsection > ul li {
     list-style: none;
     padding: 5px 15px; }
-  div#main .body .subsection h4 {
-    font-weight: bold;
-    display: inline; }
-  div#main .body .subsection > * + li {
+  div#main .body .subsection > ul > * + li {
     border-top: 1px solid #efefef; }
-  div#main .body .subsection .types {
-    font-family: "Consolas", "monospace";
-    padding: 0 0.2em; }
-  div#main .body .subsection ul {
+  div#main .body .subsection > ul ul, div#main .body .subsection > ul p {
     margin: 0; }
+div#main .body .subsection h4 {
+  font-weight: bold;
+  display: inline; }
+div#main .body .subsection .types {
+  font-family: "Consolas", "monospace";
+  padding: 0 0.2em; }
 div#main .body .source {
   cursor: pointer; }
   div#main .body .source.collapsed {
@@ -727,7 +729,7 @@ div#main .body .signature {
     display: block;
     background: #fcded1;
     border: 1px solid #f9c2ab;
-    color: #ef5412;
+    color: #5490c8;
     border-radius: 5px;
     padding: 0.4em 1em;
     color: #000; }
@@ -738,6 +740,48 @@ div#main .body .signature {
     padding: 0 0.2em; }
     div#main .body .signature .params .param {
       cursor: help; }
+
+div#main .notification {
+  display: table; }
+  div#main .notification section {
+    display: block;
+    background: #f3f3f3;
+    border: 1px solid #dfdfdf;
+    color: #666666;
+    border-radius: 5px;
+    padding: 0.4em 1em;
+    margin-bottom: 0.5em; }
+    div#main .notification section.deprecated {
+      display: block;
+      background: #cccccc;
+      border: 1px solid #b8b8b8;
+      color: #666666;
+      border-radius: 5px;
+      padding: 0.4em 1em; }
+    div#main .notification section.todo {
+      display: block;
+      background: #fef377;
+      border: 1px solid #feef4e;
+      color: #4e4e07;
+      border-radius: 5px;
+      padding: 0.4em 1em; }
+    div#main .notification section.warn {
+      display: block;
+      background: #ff5544;
+      border: 1px solid #ff301b;
+      color: #4e1a07;
+      border-radius: 5px;
+      padding: 0.4em 1em; }
+    div#main .notification section ul {
+      list-style: none;
+      margin: 0;
+      padding: 0; }
+    div#main .notification section p {
+      margin: 0 0 0.25em; }
+    div#main .notification section pre {
+      padding-top: 0;
+      padding-bottom: 0;
+      margin-bottom: 0.25em; }
 
 div#main .documentation nav .table-of-contents {
   font-family: Arial, sans-serif;

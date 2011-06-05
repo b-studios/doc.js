@@ -1,7 +1,7 @@
 <article class="function"> 
   
   <header>
-    <nav>
+    <nav class="sidebar">
       <p><%= @function.filepath %>:<%= @function.line_start %></p>
 
       <div class="hierarchy">
@@ -31,7 +31,9 @@
     </nav>
   
     <h1><%= @function.qualified_name %></h1>
-    <%= render_tokens :of => @function, :in => :notification %>
+    <section class="notification">
+      <%= render_tokens :of => @function, :in => :notification %>
+    </section> 
   </header>
     
   <div class="body">

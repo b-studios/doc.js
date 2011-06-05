@@ -1,7 +1,7 @@
 <article>
 
   <header>
-     <nav>
+     <nav class="sidebar">
       <p><%= @object.filepath %>:<%= @object.line_start %></p>
 
       <div class="hierarchy">
@@ -24,7 +24,9 @@
     </nav>
   
     <h1><%= @object.qualified_name %></h1>
-    <%= render_tokens :of => @object, :in => :notification %>
+    <section class="notification">
+      <%= render_tokens :of => @object, :in => :notification %>
+    </section>
   </header> 
 
   <div class="body">

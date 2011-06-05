@@ -9,6 +9,8 @@ module Token::Handler
 
   register :deprecated, :area => :notification  
   register :todo, :area => :notification
+  register :note, :area => :notification
+  register :warn, :area => :notification
   
   register :example, :template => 'examples', :handler => :named_multiline
   

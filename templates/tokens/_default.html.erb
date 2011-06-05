@@ -1,11 +1,11 @@
 <%
 
   opts = tokens.first.html
-  
+  opts[:class] = (opts[:class] || "") + " subsection"
 %>
-<section class="subsection">
+<section <%= attributize opts %>>
   <%= tag :h3, tokens.first %>
-  <ul <%= attributize opts %>>
+  <ul>
     <%= render :partial => 'tokens/default_token', :collection => tokens %>
   </ul>
 </section>

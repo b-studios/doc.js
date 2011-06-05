@@ -30,6 +30,15 @@
  * @todo Dependency Check der Extensions
  * @todo Extensionloader
  *
+ * @note something to note, which is really important, because im testing the style of `@note-tokens`
+ *       var foo = {
+ *         bar: 4
+ *       }
+ *
+ * @deprecated since 1.0 - because this is not as cool, as i suspected first.
+ *
+ * @warn don't use without parental advise
+ *
  * @author Jonathan Brachthäuser
  * @version 1.2.245
  *

@@ -81,12 +81,14 @@ $element-margin: 1.33em;
   background: $codegrey;
 }
 
-@mixin signature-box($color:$signature-color) {
-  @include terminal;
+@mixin signature-box($color:$signature-color, $fontcolor:$signature-color, $terminal:true) {
+  @if $terminal == true {
+    @include terminal;
+  }
   display: block;
   background: $color;
   border: 1px solid darken($color, 8%);
-  color: darken($color, 40%);
+  color: darken($fontcolor, 40%);
   border-radius: $radius/2;
   padding: 0.4em 1em;
 }
@@ -158,53 +160,62 @@ div#main {
       text-shadow: none;
     }
   }
+}
 
-  nav {
-    @include float(right);
-    @include code-box;
-        
-    margin: 2*$page-padding 0 $box-spacing $box-spacing;
-    padding: 0;
-    border-radius: 5px;
+
+div#main nav.sidebar {
+
+  @include float(right);
+  @include code-box;
+      
+  margin: 2*$page-padding 0 $box-spacing $box-spacing;
+  padding: 0;
+  border-radius: 5px;
+  font-size: 8pt;
+  color: #999;
+  
+  > * {
+    padding: 8px;
+    margin: 0;
+  }
+  
+  > * + * {
+    @include double-border(1px, #ffffff, darken($codegrey, 10%), top);
+  }
+  
+  h3 {      
+    text-transform: uppercase;
+    padding-bottom: 0.5em;
     font-size: 8pt;
-    color: #999;
+  }
+  
+  .hierarchy {
+    list-style: none;
+         
+    ul { 
+      @include reset-list; 
+      padding-left: 1em;
+    }
     
-    > * {
-      padding: 8px;
+    /* first node */
+    > ul {
+      padding-left: 0;  
+    }
+    
+    .this > a { font-weight: bold; }
+  }
+  
+  .method-list ul {
+    @include reset-list;
+  }
+  
+  .subsection {
+    p {
       margin: 0;
-    }
-    
-    > * + * {
-      @include double-border(1px, #ffffff, darken($codegrey, 10%), top);
-    }
-    
-    h3 {      
-      text-transform: uppercase;
-      padding-bottom: 0.5em;
-      font-size: 8pt;
-    }
-    
-    .hierarchy {
-      list-style: none;
-           
-      ul { 
-        @include reset-list; 
-        padding-left: 1em;
-      }
-      
-      /* first node */
-      > ul {
-        padding-left: 0;  
-      }
-      
-      .this > a { font-weight: bold; }
-    }
-    
-    .method-list ul {
-      @include reset-list;
     }
   }
 }
+
 
 div#main .body {
 
@@ -249,35 +260,36 @@ div#main .body {
     padding-bottom: $box-spacing;    
   }
   
-  .subsection {      
-      margin-left: 0;
-      border: 1px solid #efefef;
+  .subsection { 
       
-      li {
-        list-style: none;
-        padding: 5px 15px;
-      }
+      > ul { 
+        margin-left: 0;
+        border: 1px solid #efefef;
+        
+        li {
+          list-style: none;
+          padding: 5px 15px;
+        }
+        
+        /* all but first li */
+        > * + li {
+          border-top: 1px solid #efefef;
+        }
+        
+        ul, p {
+          margin: 0;
+        }
+      }  
       
-      /* first element*/
       h4 {        
         font-weight: bold;
         display: inline;
       }
       
-      /* all but first li */
-      > * + li {
-        border-top: 1px solid #efefef;
-      }
-      
       .types {
         @include terminal;
         padding: 0 0.2em;
-      }
-      
-      ul {
-        margin: 0;
-      }
-      
+      }    
     }
   
   .source {
@@ -315,8 +327,46 @@ div#main .body {
       }        
     }
   }
+}
+
+div#main .notification  {
+
+  display: table;
+  
+  section {
+    @include signature-box(#f3f3f3, #ccc, false);
+    
+    margin-bottom: 0.5em;
+    
+    &.deprecated {
+      @include signature-box(#ccc, #ccc, false);
+    }
+    
+    &.todo {
+      @include signature-box(#fef377, #ee3, false);
+    }
+    
+    &.warn {
+      @include signature-box(#f54, #e63, false);
+    }
+    
+    ul {
+      @include reset-list;
+    }
+    
+    p {
+      margin: 0 0 0.25em;
+    }
+    
+    pre {
+      padding-top: 0;
+      padding-bottom: 0;
+      margin-bottom: 0.25em;
+    }
+  }
 
 }
+
 
 div#main .documentation {
   
