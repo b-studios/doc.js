@@ -27,9 +27,23 @@ module Token
       @tokens
     end
 
-    def add_token(token)     
-      @tokens[token.token] ||= []
-      @tokens[token.token] << token
+    # @overload add_token(tokenid, token)
+    #   @param [Symbol] tokenid
+    #   @param [Token::Token] token
+    #
+    # @overload add_token(token)
+    #   @param [Token::Token] token
+    def add_token(tokenid_or_token, token=nil)     
+    
+      unless token.nil?
+        tokenid = tokenid_or_token
+      else
+        tokenid = tokenid_or_token.token
+        token = tokenid_or_token
+      end
+      
+      @tokens[tokenid] ||= []
+      @tokens[tokenid] << token
     end
     
     # @param [Parser::Tokenline] tokenline consisting of :token and :content

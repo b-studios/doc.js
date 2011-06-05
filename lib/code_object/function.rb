@@ -22,7 +22,7 @@ module CodeObject
 end
 
 CodeObject::Type.register :function, CodeObject::Function
-Token::Handler.register :function, :noop
+Token::Handler.register :function, :handler => :noop
 
 module Token::Handler
 
@@ -71,12 +71,12 @@ module Token::Handler
 
 end
 
-Token::Handler.register :return, :typed
-Token::Handler.register :throws, :typed
+Token::Handler.register :return, :handler => :typed
+Token::Handler.register :throws, :handler => :typed
 
 # MethodAlias
 CodeObject::Type.register :method, CodeObject::Function
-Token::Handler.register :method, :noop
+Token::Handler.register :method, :handler => :noop
 
 # @constructor Foo.bar
 CodeObject::Type.register :constructor, CodeObject::Function

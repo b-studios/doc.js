@@ -1,5 +1,8 @@
 <article>
 
+  <%= render_tokens :of => @object, :in => :notification %>
+
+
   <header>
      <nav>
       <p><%= @object.filepath %>:<%= @object.line_start %></p>

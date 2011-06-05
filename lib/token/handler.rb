@@ -112,7 +112,7 @@ module Token
     # It is possible to register your own Tokenhandlers and therefore extend the
     # capabilities of this documentation-program.
     #
-    # There are **four** types of handlers which can be used:
+    # There are different types of handlers which can be used:
     #
     #   1. Default-handler
     #   2. A handler for Typed-Token
@@ -178,10 +178,10 @@ module Token
     #  By adding a block in the Tokenregistration you easily can build your own
     #  Tokenhandler:
     #
-    #       Token::Handler.register(:my_own) do |token_id, stringcontent|
+    #       Token::Handler.register(:my_own) do |token_klass, stringcontent|
     #         # Do something with token_id and stringcontent
     #         # but don't forget to add the token like:
-    #         self.add_token(token_id, MyOwnToken.new(stringcontent)
+    #         self.add_token(token_klass.new(:content => stringcontent)
     #       end
     #
     #  Because the token processing is done in the **context of the CodeObject** you
@@ -193,27 +193,32 @@ module Token
     #       has_to_be_a CodeObject::Function
     #
     #  @param [String, Symbol] tokenname
-    #  @yield [token, stringcontent] Your custom tokenhandler
+    #  @yield [tokenklass, stringcontent] Your custom tokenhandler
     # 
-    def self.register(tokenname, type = nil, &handler)
+    def self.register(tokenname, options = {}, &handler)
       
       tokenname = tokenname.to_sym   
       
       # search matching handler
       if block_given?
         # handler is already defined
-      elsif type and @@defaults.include?(type)
-        handler = @@defaults[type]
-      elsif type
+      elsif options[:handler] and @@defaults.include?(options[:handler])
+        handler = @@defaults[options[:handler]]
+      elsif options[:handler]
         raise Exception, "#{type} has no registered Tokenhandler"
       else
         handler = @@defaults[:text_only]
       end      
       
       # Dynamically create Class named TokennameToken
-      klass = Token.const_set "#{tokenname.to_s.capitalize}Token", Class.new(Token)      
-      klass.class_variable_set :@@token, tokenname
-      klass.class_variable_set :@@handler, handler   
+      klass = Token.const_set "#{tokenname.to_s.capitalize}Token", Class.new(Token)
+      
+      klass.process_options options.merge({
+      
+        :token    => tokenname,
+        :handler  => handler
+      
+      });  
       
       @@handlers[tokenname] = klass
     end

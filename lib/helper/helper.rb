@@ -72,6 +72,27 @@ module Helper
       
       Logger.debug "Relative path '#{path}' from '#{base}'"
       path.relative_path_from(base).to_s
-    end       
+    end
+    
+    def render_tokens(opts = {})
+    
+      code_object = opts[:of] or raise Exception.new("Parameter :of (CodeObject) required")
+      area        = opts[:in] or raise Exception.new("Parameter :in (Area) required")
+    
+      rendered = ""
+    
+      token_groups = code_object.tokens.values.each do |tokens|        
+        # tokens is an array of Token::Token
+        if not tokens.empty? and tokens.first.area == area
+        
+          template = tokens.first.template
+        
+          rendered += render :partial => "tokens/#{template}", :locals => { :tokens => tokens }
+        end
+      end            
+      
+      rendered
+    end
+    
   end
 end

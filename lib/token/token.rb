@@ -11,21 +11,36 @@ module Token
       @content = args[:content] || ""
     end    
     
-    def self.handler      
-      self.class_variable_get(:@@handler) if self.class_variable_defined? :@@handler
+    # @note should only be performed once!!!
+    def self.process_options(options = {})
+    
+      # pushing defaults
+      options[:template] ||= :default
+      
+      options[:html]     = { 
+        :class => options[:token] 
+      }.merge(options[:html] || {})
+      
+      options[:area]     ||= :none      
+    
+      %w(handler token template html area).each do |opt|        
+        self.class_variable_set("@@#{opt}".to_sym, options[opt.to_sym])      
+        
+        class_eval "
+          def self.#{opt}
+            return self.class_variable_get(:@@#{opt}) if self.class_variable_defined? :@@#{opt}
+          end
+          
+          def #{opt}
+            self.class.#{opt}
+          end
+        "
+      end
     end
     
-    def handler
-      self.class.handler
+    def to_s
+      self.class.class_variable_get(:@@token).to_s.capitalize
     end
         
-    def self.token
-      self.class_variable_get(:@@token) if self.class_variable_defined? :@@token
-    end    
-    
-    def token
-      self.class.token
-    end    
-    
   end
 end
