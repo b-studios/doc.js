@@ -21,4 +21,4 @@ module CodeObject
 end
 
 CodeObject::Type.register :prototype, CodeObject::Prototype
-Token::Handler.register :prototype, :handler => :noop
+Token::Handler.register :prototype, :handler => :noop, :area => :none

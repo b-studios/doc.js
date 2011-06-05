@@ -5,13 +5,13 @@ module Token::Handler
   register :private, :area => :sidebar
   register :version, :area => :sidebar
   
-  register :see
+  register :see, :area => :footer
 
   register :deprecated, :area => :notification  
-  register :todo, :handler => :named_multiline, :area => :notification
-  register :example, :handler => :named_multiline
+  register :todo, :area => :notification
+  register :example, :template => 'examples', :handler => :named_multiline
   
-  register :overload do |token, content|
+  register :overload, :area => :none do |token, content|
   
   
   end

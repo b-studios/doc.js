@@ -1,11 +1,11 @@
-<%= tag :h3, tokens.first, tokens.first.html %></h3>
-<ul>
-<% tokens.each do |token| %>
+<%
 
-  <li>
-    <h4><%= token.name %></h4>
-    <div><%=replace_links token.content %></div>
-  </li>  
-
-<% end %>
-</ul>
+  opts = tokens.first.html
+  
+%>
+<section class="subsection">
+  <%= tag :h3, tokens.first %>
+  <ul <%= attributize opts %>>
+    <%= render :partial => 'tokens/default_token', :collection => tokens %>
+  </ul>
+</section>

@@ -22,12 +22,12 @@ module CodeObject
 end
 
 CodeObject::Type.register :function, CodeObject::Function
-Token::Handler.register :function, :handler => :noop
+Token::Handler.register :function, :handler => :noop, :area => :none
 
 module Token::Handler
 
   # @todo maybe allow multipled nested layers of params by parsing them recursivly
-  register :param do |tokenklass, content|
+  register :param, :area => :body do |tokenklass, content|
 
     # We want to support either named-typed-tokens like
     #  @param [Foo] barname some description
@@ -76,7 +76,7 @@ Token::Handler.register :throws, :handler => :typed
 
 # MethodAlias
 CodeObject::Type.register :method, CodeObject::Function
-Token::Handler.register :method, :handler => :noop
+Token::Handler.register :method, :handler => :noop, :area => :none
 
 # @constructor Foo.bar
 CodeObject::Type.register :constructor, CodeObject::Function

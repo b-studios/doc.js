@@ -1,8 +1,5 @@
 <article>
 
-  <%= render_tokens :of => @object, :in => :notification %>
-
-
   <header>
      <nav>
       <p><%= @object.filepath %>:<%= @object.line_start %></p>
@@ -22,46 +19,53 @@
         </ul>
       </div>
       <% end %>
+      
+      <%= render_tokens :of => @object, :in => :sidebar %>
     </nav>
   
     <h1><%= @object.qualified_name %></h1>
+    <%= render_tokens :of => @object, :in => :notification %>
   </header> 
 
-  <%= to_html @object.docs %>
+  <div class="body">
 
-<!-- SUMMARY -->
-<% unless @methods.nil? or @methods.size == 0 %>
-  <section>
-    <h3 class="icon function">Methods</h3>
-    <ul class="summary collapsed">
-      <% @methods.each do |child| %>
-      <li><%= link_on_page child %></li>
-      <% end %>
-    </ul>
-  </section>
-<% end %>
+    <%= to_html @object.docs %>
 
-<% unless @children.nil? or @children.size == 0 %>
-  <section>
-   <h3 class="icon object">Children</h3>
-    <ul class="summary collapsed">
-      <% @children.each do |child| %>
-      <li><%= link_to child, ".#{child.name}" %></li>
-      <% end %>
-    </ul>
-  </section>
-<% end %>
+    <!-- SUMMARY -->
+    <% unless @methods.nil? or @methods.size == 0 %>
+      <section>
+        <h3 class="icon function">Methods</h3>
+        <ul class="summary collapsed">
+          <% @methods.each do |child| %>
+          <li><%= link_on_page child %></li>
+          <% end %>
+        </ul>
+      </section>
+    <% end %>
 
-<%= subsection :props, :title => "Properties", :collection => @object.props, :partial => 'tokens/typed_name' %>
+    <% unless @children.nil? or @children.size == 0 %>
+      <section>
+       <h3 class="icon object">Children</h3>
+        <ul class="summary collapsed">
+          <% @children.each do |child| %>
+          <li><%= link_to child, ".#{child.name}" %></li>
+          <% end %>
+        </ul>
+      </section>
+    <% end %>
+
+    <%= subsection :props, :title => "Properties", :collection => @object.props, :partial => 'tokens/typed_name' %>
 
 
-<!-- DETAILS -->
+    <!-- DETAILS -->
 
-<% unless @methods.nil? or @methods.size == 0 %>
-<section id="methods">
-  <h2>Methods</h2>
-  <%= render :partial => 'function/detail', :collection => @methods %>
-</section>
-<% end %>
+    <% unless @methods.nil? or @methods.size == 0 %>
+    <section id="methods">
+      <h2>Methods</h2>
+      <%= render :partial => 'function/detail', :collection => @methods %>
+    </section>
+    <% end %>
+
+  </div>
 
 </article>

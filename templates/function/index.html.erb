@@ -26,22 +26,26 @@
         </ul>
       </div>
       <% end %>
+      
+      <%= render_tokens :of => @function, :in => :sidebar %>
     </nav>
   
     <h1><%= @function.qualified_name %></h1>
+    <%= render_tokens :of => @function, :in => :notification %>
   </header>
+    
+  <div class="body">
+    
+    <%= to_html @function.docs %>
+    
+    <!--span class="flag">constructor</span-->
+    
+    <h2 class="signature"><%= signature @function %></h2>
+    <%= render_tokens :of => @function, :in => :body %>  
+    
+    <h3 class="source">Source</h3>
+    <%= code @function.source %>
   
-  <%= to_html @function.docs %>
-  
-  <!--span class="flag">constructor</span-->
-  
-  <h2 class="signature"><%= signature @function %></h2>
-  <%= subsection :params, :title => "Parameters", :collection => @function.params, :partial => 'tokens/typed_name' %>
-  <%= subsection :returns, :title => "Returns", :collection => @function.returns, :partial => 'tokens/typed' %>
-  
-  <%= render :partial => 'tokens/example', :collection => @function.tokens[:example] unless @function.tokens[:example].nil? %>
-  
-  <h3 class="source">Source</h3>
-  <%= code @function.source %>
+  </div>
  
 </article> 

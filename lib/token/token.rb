@@ -18,10 +18,10 @@ module Token
       options[:template] ||= :default
       
       options[:html]     = { 
-        :class => options[:token] 
+        :class => options[:token].to_s
       }.merge(options[:html] || {})
       
-      options[:area]     ||= :none      
+      options[:area]     ||= :body      
     
       %w(handler token template html area).each do |opt|        
         self.class_variable_set("@@#{opt}".to_sym, options[opt.to_sym])      

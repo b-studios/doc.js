@@ -539,13 +539,13 @@ a {
 .icon.prototype {
   background: url(../img/prototype.png) no-repeat left center;
   padding-left: 24px; }
-.icon.arrow_right, div#main .source.collapsed {
+.icon.arrow_right, div#main .body .source.collapsed {
   background: url(../img/arrow_right.png) no-repeat left center;
   padding-left: 24px; }
 .icon.arrow_up {
   background: url(../img/arrow_up.png) no-repeat left center;
   padding-left: 24px; }
-.icon.arrow_down, div#main .source {
+.icon.arrow_down, div#main .body .source {
   background: url(../img/arrow_down.png) no-repeat left center;
   padding-left: 24px; }
 
@@ -647,69 +647,24 @@ div#main {
       list-style: none;
       margin: 0;
       padding: 0; }
-  div#main > section {
-    margin-bottom: 12px; }
-    div#main > section > h2 {
-      margin-top: 12px;
-      margin-bottom: 7.417px;
-      font-size: 14pt; }
-  div#main .summary {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+
+div#main .body > section {
+  margin-bottom: 12px; }
+  div#main .body > section > h2 {
+    margin-top: 12px;
+    margin-bottom: 7.417px;
+    font-size: 14pt; }
+div#main .body .summary {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: block;
+  overflow: hidden;
+  margin-bottom: 1.33em; }
+  div#main .body .summary li {
     display: block;
-    overflow: hidden;
-    margin-bottom: 1.33em; }
-    div#main .summary li {
-      display: block;
-      float: left; }
-    div#main .summary a {
-      font-family: "Consolas", "monospace";
-      display: block;
-      background: #eff4fa;
-      border: 1px solid #d0e0f0;
-      color: #5490c8;
-      border-radius: 5px;
-      padding: 0.4em 1em;
-      margin: 0.25em; }
-      div#main .summary a:hover {
-        text-decoration: none;
-        color: #3976b1; }
-  div#main code.block {
-    box-shadow: inset 0px 0px 0px 1px white;
-    border: 1px solid #d9d9d9;
-    font-family: "Consolas", "monospace";
-    background: #f3f3f3;
-    display: block;
-    padding: 0.5em;
-    color: #555;
-    margin-bottom: 1.33em; }
-  div#main .section {
-    padding-bottom: 12px; }
-  div#main .subsection {
-    margin-left: 0;
-    border: 1px solid #efefef;
-    /* first element*/
-    /* all but first li */ }
-    div#main .subsection li {
-      list-style: none;
-      padding: 5px 15px; }
-    div#main .subsection h4 {
-      font-weight: bold;
-      display: inline; }
-    div#main .subsection > * + li {
-      border-top: 1px solid #efefef; }
-    div#main .subsection .types {
-      font-family: "Consolas", "monospace";
-      padding: 0 0.2em; }
-    div#main .subsection ul {
-      margin: 0; }
-  div#main .source {
-    cursor: pointer; }
-    div#main .source.collapsed {
-      border-bottom: 1px solid #d9d9d9;
-      margin-bottom: 1.33em; }
-  div#main .signature {
+    float: left; }
+  div#main .body .summary a {
     font-family: "Consolas", "monospace";
     display: block;
     background: #eff4fa;
@@ -717,26 +672,72 @@ div#main {
     color: #5490c8;
     border-radius: 5px;
     padding: 0.4em 1em;
-    color: #000;
-    font-size: 12pt;
-    font-weight: normal;
+    margin: 0.25em; }
+    div#main .body .summary a:hover {
+      text-decoration: none;
+      color: #3976b1; }
+div#main .body code.block {
+  box-shadow: inset 0px 0px 0px 1px white;
+  border: 1px solid #d9d9d9;
+  font-family: "Consolas", "monospace";
+  background: #f3f3f3;
+  display: block;
+  padding: 0.5em;
+  color: #555;
+  margin-bottom: 1.33em; }
+div#main .body .section {
+  padding-bottom: 12px; }
+div#main .body .subsection {
+  margin-left: 0;
+  border: 1px solid #efefef;
+  /* first element*/
+  /* all but first li */ }
+  div#main .body .subsection li {
+    list-style: none;
+    padding: 5px 15px; }
+  div#main .body .subsection h4 {
+    font-weight: bold;
+    display: inline; }
+  div#main .body .subsection > * + li {
+    border-top: 1px solid #efefef; }
+  div#main .body .subsection .types {
+    font-family: "Consolas", "monospace";
+    padding: 0 0.2em; }
+  div#main .body .subsection ul {
+    margin: 0; }
+div#main .body .source {
+  cursor: pointer; }
+  div#main .body .source.collapsed {
+    border-bottom: 1px solid #d9d9d9;
     margin-bottom: 1.33em; }
-    div#main .signature.constructor {
-      font-family: "Consolas", "monospace";
-      display: block;
-      background: #fcded1;
-      border: 1px solid #f9c2ab;
-      color: #ef5412;
-      border-radius: 5px;
-      padding: 0.4em 1em;
-      color: #000; }
-    div#main .signature .name {
-      font-weight: bold;
-      padding-left: 0.2em; }
-    div#main .signature .params {
-      padding: 0 0.2em; }
-      div#main .signature .params .param {
-        cursor: help; }
+div#main .body .signature {
+  font-family: "Consolas", "monospace";
+  display: block;
+  background: #eff4fa;
+  border: 1px solid #d0e0f0;
+  color: #5490c8;
+  border-radius: 5px;
+  padding: 0.4em 1em;
+  color: #000;
+  font-size: 12pt;
+  font-weight: normal;
+  margin-bottom: 1.33em; }
+  div#main .body .signature.constructor {
+    font-family: "Consolas", "monospace";
+    display: block;
+    background: #fcded1;
+    border: 1px solid #f9c2ab;
+    color: #ef5412;
+    border-radius: 5px;
+    padding: 0.4em 1em;
+    color: #000; }
+  div#main .body .signature .name {
+    font-weight: bold;
+    padding-left: 0.2em; }
+  div#main .body .signature .params {
+    padding: 0 0.2em; }
+    div#main .body .signature .params .param {
+      cursor: help; }
 
 div#main .documentation nav .table-of-contents {
   font-family: Arial, sans-serif;

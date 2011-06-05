@@ -13,8 +13,15 @@ module Helper
     include Template
  
     def tag(sym, content = "", attrs = {})
-      attributes = attrs.map{|k,v| "#{k}=\"#{v}\""}.join ' '
-      "<#{sym.to_s} #{attributes}>#{content}</#{sym.to_s}>"
+   
+      # @todo FIXME
+      if block_given?
+        _erbout << "<#{sym.to_s} #{attributize(content)}>"        
+        content = yield
+        _erbout << "</#{sym.to_s}>"
+      else
+        "<#{sym.to_s} #{attributize(attrs)}>#{content}</#{sym.to_s}>"        
+      end     
     end    
     
     def truncate(string, num = 150)
@@ -82,16 +89,24 @@ module Helper
       rendered = ""
     
       token_groups = code_object.tokens.values.each do |tokens|        
+           
         # tokens is an array of Token::Token
         if not tokens.empty? and tokens.first.area == area
         
-          template = tokens.first.template
+          template = tokens.first.template.to_s
+          
+          # overwriting default template with specified option[:template] if existant
+          template = opts[:template].to_s if opts[:template] and template == 'default'
         
           rendered += render :partial => "tokens/#{template}", :locals => { :tokens => tokens }
         end
       end            
       
       rendered
+    end
+    
+    def attributize(hash)
+      hash.map{|k,v| "#{k}=\"#{v}\""}.join ' '
     end
     
   end

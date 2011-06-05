@@ -54,7 +54,7 @@ class Renderer
           value = nil
           instance_context = binding
           opt[:locals].each_pair do |local, value|
-            raise Exception.new("Please change your partial-name, because #{local} is already set in this context.") if respond_to? local
+            Logger.warn("Please change your partial-name or local binding, because #{local} is already set in this context.") if respond_to? local
             define_singleton_method(local) { value }
           end
         end

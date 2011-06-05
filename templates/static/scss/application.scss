@@ -204,7 +204,10 @@ div#main {
       @include reset-list;
     }
   }
-  
+}
+
+div#main .body {
+
   > section {
     margin-bottom: $box-spacing;
     
@@ -312,6 +315,7 @@ div#main {
       }        
     }
   }
+
 }
 
 div#main .documentation {

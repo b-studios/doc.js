@@ -30,6 +30,8 @@
  * @todo Dependency Check der Extensions
  * @todo Extensionloader
  *
+ * @author Jonathan Brachthäuser
+ *
  * @object Core
  */
 var Core = Core || (function(){
@@ -43,12 +45,6 @@ var Core = Core || (function(){
      * 
      * @function Core.extend
      *
-     * @example Testextension
-     *   Core.extend('testextension', function() {
-     *     return {};
-     *   });
-     *
-     *
      * @param [String] id the id to register the new {Core.extensionss extension} under
      * @param [Function] constructor a callback function, which acts as
      *   constructor for {Core.extensions}
@@ -58,6 +54,12 @@ var Core = Core || (function(){
      *   [String] color the background-color of the extension
      *
      * @return [Core.logger] the constructed extension
+     *
+     *
+     * @example Testextension
+     *   Core.extend('testextension', function() {
+     *     return {};
+     *   });
      */
     extend: function(id, constructor) {
       

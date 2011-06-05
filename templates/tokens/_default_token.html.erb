@@ -1,0 +1,19 @@
+<li>
+  <% unless default_token.name.nil? %>
+    <h4><%= default_token.name %></h4>
+  <% end %>
+
+  <% unless default_token.children.nil? %>
+    <ul>
+      <%= render :partial => 'tokens/default_token', :collection => default_token.children %>
+    </ul>  
+    
+  <% else %>
+    
+    <% unless default_token.types.nil? %>
+      (<span class="types"><%= default_token.types.map {|t| link_to(t) }.join ', ' %></span>)
+    <% end %>
+    <div><%= replace_links default_token.content %></div>
+  
+  <% end %>
+</li>  
