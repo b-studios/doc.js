@@ -11,7 +11,7 @@ module Token
       @tokens = {}
     end
     
-    # provides access to tokens, trough token identifier
+    # provides access to tokens, through token identifier
     #
     # @example
     #   obj.token :public
@@ -23,6 +23,7 @@ module Token
       @tokens[tokenname.to_sym]
     end
     
+    # @return [Hash<Symbol, Array<Token::Token>>] all tokens of this container
     def tokens
       @tokens
     end
@@ -52,11 +53,17 @@ module Token
     def process_token(tokenline)
     
       # try to find matching tokenklass for token i.e. Token::Token::ParamToken for :param
-      tokenklass = Token.const_get "#{tokenline.token.capitalize.to_s}Token"
+      begin
+        tokenklass = Token.const_get "#{tokenline.token.capitalize.to_s}Token"
+        instance_exec(tokenklass, tokenline.content, &(tokenklass.handler))
+      rescue Exception => error
+        raise NoTokenHandler.new("No Tokenhandler for: @#{tokenline.token}
+This is no big deal. You can add your custom tokenhandler for @#{tokenline.token} by adding the following line to your included ruby-file:
+
+    Token::Handler.register :#{tokenline.token} # optionally add a tokenhandler or target-area (See documentation for more infos)
     
-      raise NoTokenHandler.new("No Tokenhandler for: #{token_name}") if tokenklass.handler.nil?
-      
-      instance_exec(tokenklass, tokenline.content, &(tokenklass.handler))
+After this using '@#{tokenline.token}' in your documentation is no problem...\n\n" + error.message)
+      end
     end
     
     # Plural version of {#process_token}
@@ -69,7 +76,7 @@ module Token
     protected    
     
     def has_to_be_a(type)
-      raise WrongType.new("Not a valid Type:#{type}") unless self.is_a? type
+      raise WrongType.new("Not a valid Type: '#{type}'") unless self.is_a? type
     end
     
   end

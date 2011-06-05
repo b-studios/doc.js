@@ -66,7 +66,9 @@ class JsDoc < Thor
       Processor.process_and_render
         
       Logger.info "Copying template resources to output"
-      directory 'static', '.' # copy resources
+      directory 'static/img', './img' # copy resources
+      directory 'static/css', './css'
+      directory 'static/js', './js'
             
     rescue Exception => error
       Logger.error error.message + "\n" + error.backtrace.map{|l| "  #{l}" }.join("\n")

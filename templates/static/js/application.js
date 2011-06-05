@@ -79,7 +79,10 @@ Module('Header', function(my) {
       // @section Filling private variables  
 
       my.settings.collapsible = {
-        cookieId: 'header-collapsed'
+        cookieId: 'header-collapsed',
+        cookieSettings: {
+          path: '/'
+        }
       }
 
       var buttons = {
@@ -92,14 +95,14 @@ Module('Header', function(my) {
       // @section Defining functions
       
       function collapse() {
-        $.cookie(settings.cookieId, 'true', { path: '/' });
+        $.cookie(settings.cookieId, 'true', settings.cookieSettings);
         my.dom.addClass('collapsed');
         buttons.hide.hide();
         buttons.show.show();
       }
       
       function uncollapse() {
-        $.cookie(settings.cookieId, 'false', { path: '/' });
+        $.cookie(settings.cookieId, 'false', settings.cookieSettings);
         my.dom.removeClass('collapsed');
         buttons.hide.show();
         buttons.show.hide();
