@@ -1,5 +1,5 @@
 # ../data.img#1799432:1 && #1858562:1
-
+require_relative 'token'
 
 # This module contains all required mixins and modules to register customized
 # tokens, that will be further processed and added to the {CodeObject::Base}.
@@ -51,13 +51,6 @@ module Token
   # @see .register
   module Handler
   
-    # Default Struct for tokens
-    Token = Struct.new :content
-    TypedToken = Struct.new :types, :content
-    NamedToken = Struct.new :name, :content
-    NamedTypedToken = Struct.new :name, :types, :content
-    NamedTypedTokenWithChildren = Struct.new :name, :types, :content, :children
-    
     ALL = /./m
     NO_BR = /((?!\n)\s)/
     IDENTIFIER = /(?:[^\s])*/
@@ -75,22 +68,22 @@ module Token
     /x
     
     @@defaults = {
-      :default => ->(token, content) {
-          self.add_token token, Token.new(content)
+      :text_only => ->(token, content) {
+          self.add_token token, Token.new(:content => content)
       },
       
       :typed => ->(token, content) {
         typestring, content = TOKEN_W_TYPE.match(content).captures
         types = typestring.split /,\s*/
         
-        self.add_token token, TypedToken.new(types, content)
+        self.add_token token, Token.new(:types => types, :content => content)
       },
 
       :typed_with_name => ->(token, content) {
         typestring, name, content = TOKEN_W_TYPE_NAME.match(content).captures
         types = typestring.split /,\s*/
         
-        self.add_token token, NamedTypedToken.new(name, types, content)
+        self.add_token token, Token.new(:name => name, :types => types, :content => content)
       },
       
       :named_multiline => ->(token, content) { 
@@ -100,7 +93,7 @@ module Token
         name = rows.shift.strip
         content = rows.join("\n")
               
-        self.add_token(token, NamedToken.new(name, content))
+        self.add_token token, Token.new(:name => name, :content => content)
       },
       
       :noop => ->(token, content) {}
@@ -213,7 +206,7 @@ module Token
       elsif type
         raise Exception, "#{type} has no registered Tokenhandler"
       else
-        @@handlers[tokenname] = @@defaults[:default]
+        @@handlers[tokenname] = @@defaults[:text_only]
       end
     end
     

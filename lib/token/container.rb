@@ -39,9 +39,9 @@ module Token
     
       token_name = tokenline.token.to_sym
     
-      raise NoTokenHandler.new("No Tokenhandler for: #{token_name}") unless Token::Handler.handlers.has_key? token_name
+      raise NoTokenHandler.new("No Tokenhandler for: #{token_name}") unless Handler.handlers.has_key? token_name
       
-      block = Token::Handler.handlers[token_name]
+      block = Handler.handlers[token_name]
       instance_exec(token_name, tokenline.content, &block)
     end
     

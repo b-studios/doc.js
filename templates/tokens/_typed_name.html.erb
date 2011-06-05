@@ -1,6 +1,6 @@
 <li>
   <h4><%= typed_name.name %></h4>
-  <% if typed_name.respond_to? :children %>
+  <% unless typed_name.children.nil? %>
     <ul>
       <%= render :partial => 'tokens/typed_name', :collection => typed_name.children %>
     </ul>  

@@ -53,7 +53,7 @@ module Helper
         
       else        
         # use context dependent resolving functionality as specified in {Tasks::RenderTask}
-        obj = resolve target       
+        obj = resolve target
         to_relative path_to obj unless obj.nil?  
       end
         
@@ -63,7 +63,7 @@ module Helper
         Logger.warn "Could not resolve link to '#{target}'"
         return text 
       end
-      
+     
       tag :a, text, :href => link      
     end
     

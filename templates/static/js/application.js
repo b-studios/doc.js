@@ -307,7 +307,7 @@ Module('Body', function(my) {
 
 
 $(function() {    
-  // initialize Modules
+  // initialize Modules on Page-load
   for(var key in J.modules) {
     if(J.modules.hasOwnProperty(key))
       J.modules[key].init();

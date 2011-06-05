@@ -44,7 +44,7 @@ module Token::Handler
     def parse_named_typed_token(content)  
       typestring, name, content = TOKEN_W_TYPE_NAME.match(content).captures
       types = typestring.split /,\s*/
-      NamedTypedToken.new(name, types, content)
+      Token::Token.new(:name => name, :types => types, :content => content)
     end
     
     # it's @param [String] name some content
@@ -64,7 +64,7 @@ module Token::Handler
         parse_named_typed_token(child)
       end
       
-      self.add_token token, NamedTypedTokenWithChildren.new(name, types, "", children)
+      self.add_token token, Token::Token.new(:name => name, :types => types, :children => children)
     end   
   end
 

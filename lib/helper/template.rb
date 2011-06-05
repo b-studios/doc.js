@@ -22,6 +22,7 @@ module Helper
     end
     
     def hierarchy(object) 
+      
       children = object.children.values.reject {|c| c.is_a? CodeObject::Function }
       parents = object.parents
       
@@ -32,7 +33,6 @@ module Helper
     end
     
     def api_browser(root = Dom.root)
-     
       if root == Dom.root
         output = ""
       elsif root.is_a? Dom::NoDoc
