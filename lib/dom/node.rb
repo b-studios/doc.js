@@ -5,8 +5,8 @@ require_relative 'exceptions'
 module Dom
 
   # Node can be seen as an **aspect** or feature of another Object. Therefore it can
-  # be mixed in to add Dom::Node functionality to a class.
-  # Such functionality is used by {CodeObject::Base}
+  # be mixed in to add node-functionality to a class.
+  # Such functionality is used by {CodeObject::Base code-objects} and {Document::Document documents}.
   #
   # Instance Variables
   # ------------------

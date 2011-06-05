@@ -106,9 +106,18 @@ require_relative 'exceptions'
 #   #     -bar
 #   #     -baz
 #
+# Using the Dom for Documents
+# -------------------------------
+# The Dom can be used in **two** ways. Because Document-structure can be very similiar to the one
+# of our documentation-elements there are two kind of `root-nodes`:
+#
+# 1. {Dom.root}
+# 2. {Dom.docs}
 #
 # @see Dom::Node
 # @see Dom::NoDoc
+# @see CodeObject::Base
+# @see Document::Document
 module Dom
 
   @@cache_path = File.expand_path("../../../cache/dom.cache", __FILE__)

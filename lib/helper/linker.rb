@@ -1,5 +1,7 @@
 module Helper
 
+  # This Helper contains all needed functionality to link to an object, on-page-element or some
+  # other urls
   module Linker
   
     FILE = /^file\:(\S+)/
@@ -89,9 +91,12 @@ module Helper
       # maybe source this one out later on in Configs.some_path
       if object.is_a? CodeObject::Base
         "api/" + path
-      else
+      elsif object.is_a? Document::Document
         "docs/" + path
-      end      
+      else
+        Logger.warn "Could not resolve link to '#{object}'"
+        object.to_s
+      end   
     end
 
     # (see https://github.com/lsegal/yard/blob/master/lib/yard/templates/helpers/html_helper.rb)

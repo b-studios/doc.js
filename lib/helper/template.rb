@@ -1,5 +1,7 @@
 module Helper
 
+  # This Helper-methods are template-specific ones. If you are using your own template, you might not 
+  # need them anymore. 
   module Template
   
     def signature(method)

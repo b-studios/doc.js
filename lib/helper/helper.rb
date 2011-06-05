@@ -5,13 +5,23 @@ require 'rdiscount'
 require_relative 'linker'
 require_relative 'template'
 
+# The Helpers are 'mixed' into your {Tasks::RenderTask} and therefore can be used in all 
+# template-views.
+# If you are searching for a method and don't know, where it may be implemented i suggest the 
+# following inheritence chain as your search-strategy:
+#
+#     Helper::IncludedHelpers → Tasks::YourTask → Tasks::RenderTask → Renderer
+#
+# Somewhere at that chain you will find your desired function.
 module Helper
 
+  # The Helper-methods in this module are globally used one and should not depend on the template
+  # you are using. You will find many html-helpers around here.
   module Helper
  
     include Linker
     include Template
- 
+    
     def tag(sym, content = "", attrs = {})
    
       # @todo FIXME
@@ -48,8 +58,7 @@ module Helper
       return html
     end
     
-    def code(source)
-    
+    def code(source)    
       # find minimal intendation
       intendation = source.lines.map {|line| line.match(/(^\s+)/) && line.match(/(^\s+)/).captures.first.size || 0 }.min
       

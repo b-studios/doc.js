@@ -5,7 +5,7 @@ module Tasks
 
     # @todo those methods and therefore all class-variables @@configs are shared with all inheriting
     #   classes. i.e. The last change will be applied to all
-    describe     'renders objects type-dependant'
+    describe     'renders documented objects type-dependant (Functions and Objects)'
     layout       'application'
     
     start_method :render_objects

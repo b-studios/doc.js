@@ -2,7 +2,7 @@ module Tasks
 
   class ApiIndexTask < RenderTask
 
-    describe     'renders the api.html file containing all elements as alphabetic listing'
+    describe     'renders the api_index.html file containing all documented elements as alphabetic listing'
     layout       'application'
     
     start_method :render_api_index

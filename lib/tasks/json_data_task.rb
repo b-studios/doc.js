@@ -2,7 +2,7 @@ module Tasks
 
   class JsonDataTask < RenderTask
 
-    describe     'renders all object to a json file'
+    describe     'renders all documented objects to a json file. Objects and Functions are handled seperatly'
     layout       nil
     
     start_method :render_json

@@ -35,7 +35,8 @@ module CodeObject
     end
     
     protected
-        
+    
+    # This is a Helpermethod, which can be used in subclasses like CodeObject::Function
     def self.token_reader(name, token = name)
       define_method name do
         self.token(token)
