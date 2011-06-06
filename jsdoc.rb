@@ -54,6 +54,9 @@ class JsDoc < Thor
     begin
       setup_application configs
       
+      # load application specific files
+      require Configs.templates + '/application.rb'
+      
       # Config Thor settings
       JsDoc.source_root(Configs.templates)
       self.destination_root = Configs.output
@@ -66,9 +69,9 @@ class JsDoc < Thor
       Processor.process_and_render
         
       Logger.info "Copying template resources to output"
-      directory 'static/img', './img' # copy resources
-      directory 'static/css', './css'
-      directory 'static/js', './js'
+      directory 'resources/img', './img' # copy resources
+      directory 'resources/css', './css'
+      directory 'resources/js', './js'
             
     rescue Exception => error
       Logger.error error.message + "\n" + error.backtrace.map{|l| "  #{l}" }.join("\n")
@@ -107,9 +110,12 @@ class JsDoc < Thor
       
     setup_application options.merge({
       :output => output_dir,
-      :templates => output_dir + '/templates',
-      :includes => output_dir + '/includes'
+      :templates => output_dir
     })
+    
+    # Setup Thor paths
+    JsDoc.source_root(Configs.root)
+    self.destination_root = Configs.output
     
     answers = {}    
     yes_no = "(y|n)"
@@ -117,22 +123,57 @@ class JsDoc < Thor
     Logger.info "We need some information from you, to customize the scaffolding process to your needs."
     
     # Some questions:
+    answers[:appname] = ask "Please enter your applications name:"
     answers[:build] = yes? "Do you wan't to generate a build.yml? #{yes_no}"
-    answers[:scss] = yes? "Do you wan't to work with SCSS (if not, only the compiled CSS-Files will be copied to your template) #{yes_no}"    
-    answers[:scss_build] = yes? "Do you wan't to integrate SCSS into your build-process? #{yes_no}"
-    Configs.set :answers, answers
-      
-    # Answer overview:
-    Logger.info "Below you find your configuration overview:"    
-    print_table answers.map{|k,v| [":#{k}","#{v.inspect}"] }, :ident => 2, :colwidth => 20 
-    say "\n"
+    write_build_file if answers[:build]
     
+    Configs.set :answers, answers
+        
     # Work with the answers    
-    Logger.info "Copying the template files to output_dir/templates"    
-    Logger.info "Copying the included *.rb files to output_dir/include"    
-
-  
+    Logger.info "Copying the template files to #{Configs.templates}"
+    directory 'templates', Configs.templates    # copy templates and resources
+        
+    Logger.info "Copying the included *.rb files to #{Configs.includes}"    
   end
+  
+  
+  protected
+  
+  def write_build_file
+  
+    build = {
+      'files'     => [],
+      'docs'      => [],
+      'logfile'   => 'logfile.log',
+      'loglevel'  => 'info',
+      'templates' => 'templates',
+      'includes'  => ['includes/*.rb']
+    }
+  
+    say "\nPlease enter the javascript-files you want to integrate into your documentation", :bold
+    say "(You will be asked multiple times, unless your answer is empty) You also can specify a file-matching pattern, docs/*.md"
+    
+    while true do
+      answer = ask ">"
+      break if answer == ""
+      build['files'] << answer
+    end
+    
+    say "\nPlease enter the markdown-documentation-files you want to integrate into your documentation", :bold
+    say "(You will be asked multiple times, unless your answer is empty) You also can specify a file-matching pattern, like foo/**/*.js."
+    
+    while true do
+      answer = ask ">"
+      break if answer == ""
+      build['docs'] << answer
+    end
+    
+    # answers[:scss_build] = yes? "Do you wan't to integrate SCSS into your build-process? #{yes_no}"
+    
+    # maybe ask some more information to generate build.yml
+    create_file Configs.wdir + "/build.yml", build.to_yaml
+  end
+  
 end
 
 unless ARGV.first and JsDoc.method_defined?(ARGV.first)

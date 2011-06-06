@@ -3,7 +3,6 @@ require 'pathname'
 require 'rdiscount'
 
 require_relative 'linker'
-require_relative 'template'
 
 # The Helpers are 'mixed' into your {Tasks::RenderTask} and therefore can be used in all 
 # template-views.
@@ -20,7 +19,6 @@ module Helper
   module Helper
  
     include Linker
-    include Template
     
     def tag(sym, content = "", attrs = {})
    

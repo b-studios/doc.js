@@ -31,7 +31,11 @@ module Tasks
     def self.description
        configs(:description)
     end
-        
+    
+    def self.use(helper_module)
+     self.include helper_module
+    end 
+    
     protected
     
     # @group Task-Specification methods
@@ -63,7 +67,7 @@ module Tasks
     
       key = "@@_configs_#{attribute.to_s}".to_sym
       
-      defaults = {:templates    => '',
+      defaults = {:templates    => '/views',
                   :layout       => nil,
                   :description  => 'No description given.',
                   :start_method => :perform_task }

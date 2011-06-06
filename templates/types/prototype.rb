@@ -1,7 +1,3 @@
-# ../data.img#1858561:1
-require_relative 'object'
-require_relative 'type'
-
 module CodeObject
 
   class Prototype < CodeObject::Object

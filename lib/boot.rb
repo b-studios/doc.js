@@ -1,5 +1,6 @@
 require 'thor'
 require 'json'
+require 'yaml'
 
 require_relative 'thor'
 require_relative 'logger'
@@ -8,15 +9,6 @@ require_relative 'parser/parser'
 require_relative 'code_object/function'
 require_relative 'dom/dom'
 require_relative 'processor'
-
-# Load Default Tokens
-require_relative 'token/tokens'
-
-# Register Rendertasks
-require_relative 'tasks/typed_task'
-require_relative 'tasks/docs_task'
-require_relative 'tasks/api_index_task'
-require_relative 'tasks/json_data_task'
 
 def setup_application(options)
         
@@ -31,6 +23,7 @@ def setup_application(options)
               :wdir         => Dir.pwd, # The current working directory
               :output       => File.absolute_path(options[:output]),
               :templates    => File.absolute_path(options[:templates]),
+              :includes     => (options[:includes] && File.absolute_path(options[:includes])),
               :files        => (options[:files] && options[:files].map {|path| Dir.glob(path) }.flatten),
               :docs         => (options[:docs] && options[:docs].map {|path| Dir.glob(path) }.flatten)
   

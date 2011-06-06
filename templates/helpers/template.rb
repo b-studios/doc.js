@@ -59,3 +59,8 @@ module Helper
   end
   
 end
+
+# @todo automatically load from application.rb
+class Tasks::RenderTask
+  include Helper::Template
+end

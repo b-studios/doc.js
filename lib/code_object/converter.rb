@@ -1,6 +1,5 @@
 # ../data.img#1769990:1
 require_relative 'function'
-require_relative 'prototype'
 require_relative 'exceptions'
 require_relative 'type'
 
