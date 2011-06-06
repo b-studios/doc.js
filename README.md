@@ -12,3 +12,8 @@ For some more information about the architecture see:
   - {Renderer}
   
 The 'executable' is {JsDoc}
+
+Required Gems
+=============
+  - thor
+  - rdiscount

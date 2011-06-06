@@ -116,6 +116,8 @@ class JsDoc < Thor
     # Setup Thor paths
     JsDoc.source_root(Configs.root)
     self.destination_root = Configs.output
+    Configs.set(:scaffolding_path, output_dir)
+    
     
     answers = {}    
     yes_no = "(y|n)"
@@ -144,14 +146,14 @@ class JsDoc < Thor
     build = {
       'files'     => [],
       'docs'      => [],
+      'output'    => 'docs',
       'logfile'   => 'logfile.log',
       'loglevel'  => 'info',
-      'templates' => 'templates',
-      'includes'  => ['includes/*.rb']
+      'templates' => Configs.scaffolding_path
     }
   
     say "\nPlease enter the javascript-files you want to integrate into your documentation", :bold
-    say "(You will be asked multiple times, unless your answer is empty) You also can specify a file-matching pattern, docs/*.md"
+    say "(You will be asked multiple times, unless your answer is empty) You also can specify a file-matching pattern, foo/**/*.js"
     
     while true do
       answer = ask ">"
@@ -160,7 +162,7 @@ class JsDoc < Thor
     end
     
     say "\nPlease enter the markdown-documentation-files you want to integrate into your documentation", :bold
-    say "(You will be asked multiple times, unless your answer is empty) You also can specify a file-matching pattern, like foo/**/*.js."
+    say "(You will be asked multiple times, unless your answer is empty) You also can specify a file-matching pattern, like docs/*.md"
     
     while true do
       answer = ask ">"
