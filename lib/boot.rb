@@ -22,7 +22,7 @@ def setup_application(options)
         
   # initialize Logger
   Logger.setup :logfile => File.expand_path(options[:logfile], Dir.pwd),
-               :level   => options[:loglevel].to_sym
+               :level   => (options[:loglevel]).to_sym
   
   Logger.info "Setting up Application"
   
@@ -31,8 +31,8 @@ def setup_application(options)
               :wdir         => Dir.pwd, # The current working directory
               :output       => File.absolute_path(options[:output]),
               :templates    => File.absolute_path(options[:templates]),
-              :files        => options[:files].map {|path| Dir.glob(path) }.flatten,
-              :docs         => options[:docs].map {|path| Dir.glob(path) }.flatten
+              :files        => (options[:files] && options[:files].map {|path| Dir.glob(path) }.flatten),
+              :docs         => (options[:docs] && options[:docs].map {|path| Dir.glob(path) }.flatten)
   
   Logger.debug "Given options: #{options}"
   Logger.debug "App Root:      #{Configs.root}"

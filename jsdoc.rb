@@ -75,11 +75,15 @@ class JsDoc < Thor
     end    
   end  
     
+    
+    
   desc "tokens", "Lists all supported tokens"
   def tokens
     say "Supported tokens:"
     say Token::Handler.handlers.map{|k,v| "  @#{k}" }.sort.join "\n"    
   end
+  
+  
   
   desc "tasks", "Lists all registered render-tasks"
   def tasks
@@ -89,6 +93,40 @@ class JsDoc < Thor
     
     print_table task_table, :ident => 2, :colwidth => 20    
   end  
+  
+  
+  
+  # @todo implement!
+  desc "scaffolding", "You can use scaffolding to get the templates and some basic ruby-files, you need to create your own templates"
+  set_options :logfile =>
+                  { :type => :string, :aliases => '-lf', :default => 'jsdoc.log' },
+                  
+              :loglevel =>
+                  { :type => :string, :aliases => '-ll', :default => 'info' }
+  def scaffolding(output_dir)
+   
+    setup_application options.merge({
+      :output => output_dir,
+      :templates => output_dir + '/templates',
+      :includes => output_dir + '/includes'
+    })
+    
+    yes_no = "(y|n)"
+    
+    say "We need some information from you, to customize the scaffolding process to your needs."
+    
+    yes? "Do you wan't to generate a build.yml? #{yes_no}"
+
+    yes? "Do you wan't to work with SCSS (if not, only the compiled CSS-Files will be copied to your template) #{yes_no}"
+    
+    yes? "Do you wan't to integrate SCSS into your build-process? #{yes_no}"
+    
+    Logger.info "Copying the template files to output_dir/templates"
+    
+    Logger.info "Copying the included *.rb files to output_dir/include"    
+
+  
+  end
 end
 
 unless ARGV.first and JsDoc.method_defined?(ARGV.first)
