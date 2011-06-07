@@ -1,5 +1,7 @@
 #!/usr/bin/ruby1.9
-require_relative 'lib/boot'
+# We need pathname to make it work with sym-links
+require 'pathname' 
+require Pathname.new(__FILE__).realpath + '../lib/boot'
 
 # @todo The general flow of information should be documented here
 # 
@@ -40,6 +42,9 @@ class JsDoc < Thor
                   
               :templates =>
                   { :type => :string, :aliases => '-t', :default => Configs.root + 'templates' },
+                  
+              :appname =>
+                  { :type => :string, :aliases => '-n', :default => "MyAppName" },
                   
               :logfile =>
                   { :type => :string, :aliases => '-lf', :default => 'jsdoc.log' },
@@ -100,13 +105,13 @@ class JsDoc < Thor
   
   
   # @todo implement!
-  desc "scaffolding OUTPUT_DIR", "You can use scaffolding to get the templates and some basic ruby-files, that you will need to create your own templates"
+  desc "scaffold OUTPUT_DIR", "You can use scaffolding to get the templates and some basic ruby-files, that you will need to create your own templates"
   set_options :logfile =>
                   { :type => :string, :aliases => '-lf', :default => 'jsdoc.log' },
                   
               :loglevel =>
                   { :type => :string, :aliases => '-ll', :default => 'info' }
-  def scaffolding(output_dir)
+  def scaffold(output_dir)
       
     setup_application options.merge({
       :output => output_dir,
@@ -124,8 +129,6 @@ class JsDoc < Thor
     
     Logger.info "We need some information from you, to customize the scaffolding process to your needs."
     
-    # Some questions:
-    answers[:appname] = ask "Please enter your applications name:"
     answers[:build] = yes? "Do you wan't to generate a build.yml? #{yes_no}"
     write_build_file if answers[:build]
     
@@ -151,6 +154,9 @@ class JsDoc < Thor
       'loglevel'  => 'info',
       'templates' => Configs.scaffolding_path
     }
+    
+    say "\nPlease enter the name of your App", :bold
+    build['appname'] = ask ">"
   
     say "\nPlease enter the javascript-files you want to integrate into your documentation", :bold
     say "(You will be asked multiple times, unless your answer is empty) You also can specify a file-matching pattern, foo/**/*.js"
