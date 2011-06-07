@@ -77,6 +77,7 @@ You will find the docs in the output-directory you have specified in your
 config-file.
 
 
-License
-=======
+Legal Notice
+============
 docjs is released under MIT-License. See LICENSE.md for more information.
+The used icons, are part of the legendary famfamfam-silk-iconset. (http://www.famfamfam.com/lab/icons/silk/)
