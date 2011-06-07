@@ -1,5 +1,7 @@
 Gem::Specification.new do |s|
-  s.required_rubygems_version = ">= 1.3.7"
+  s.required_rubygems_version = ">= 1.5"
+  s.required_ruby_version = '>= 1.9'
+
 
   s.name = 'docjs'
   s.version = '0.1'
