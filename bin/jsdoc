@@ -1,7 +1,7 @@
 #!/usr/bin/ruby1.9
 # We need pathname to make it work with sym-links
 require 'pathname' 
-require Pathname.new(__FILE__).realpath + '../lib/boot'
+require Pathname.new(__FILE__).realpath + '../../lib/boot'
 
 # @todo The general flow of information should be documented here
 # 
@@ -14,7 +14,7 @@ require Pathname.new(__FILE__).realpath + '../lib/boot'
 # are simply all lines found in the comment and all tokenlines. 
 
 # configure approot
-Configs.set :root  => Pathname.new(__FILE__).realpath + '..'
+Configs.set :root  => Pathname.new(__FILE__).realpath + '../..'
 
 # Pipeline:
 #   1. load options from shell and specified YAML-file (if any)

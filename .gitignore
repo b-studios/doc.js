@@ -8,5 +8,6 @@ deploy
 .anjuta*
 *.anjuta
 TODO.tasks
+*.gem
 *~
 .sass-cache
