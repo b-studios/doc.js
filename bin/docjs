@@ -26,11 +26,11 @@ Configs.set :root  => Pathname.new(__FILE__).realpath + '../..'
 # @note options declared in a build.yml will override command-line ones
 # @todo command line option to copy all templates to specified directory like
 #   jsdoc dump_templates ../templates/original
-class JsDoc < Thor
+class DocJs < Thor
     
   include Thor::Actions
     
-  desc "jsdoc CONFIG_FILE", "Starts documentation process"
+  desc "CONFIG_FILE", "Starts documentation process"
   set_options :files =>
                   { :type => :array,  :aliases => '-f', :default => [], :required => true },
                
@@ -47,12 +47,12 @@ class JsDoc < Thor
                   { :type => :string, :aliases => '-n', :default => "MyAppName" },
                   
               :logfile =>
-                  { :type => :string, :aliases => '-lf', :default => 'jsdoc.log' },
+                  { :type => :string, :aliases => '-lf', :default => 'docjs.log' },
                   
               :loglevel =>
                   { :type => :string, :aliases => '-ll', :default => 'info' }
   
-  def jsdoc(config_file = nil)
+  def docjs(config_file = nil)
     # @see Thor#merge_options
     configs = config_file ? merge_options(options, config_file) : options
     
@@ -63,7 +63,7 @@ class JsDoc < Thor
       require Configs.templates + '/application.rb'
       
       # Config Thor settings
-      JsDoc.source_root(Configs.templates)
+      DocJs.source_root(Configs.templates)
       self.destination_root = Configs.output
       
       Processor.prepare_documents
@@ -119,7 +119,7 @@ class JsDoc < Thor
     })
     
     # Setup Thor paths
-    JsDoc.source_root(Configs.root)
+    DocJs.source_root(Configs.root)
     self.destination_root = Configs.output
     Configs.set(:scaffolding_path, output_dir)
     
@@ -184,7 +184,11 @@ class JsDoc < Thor
   
 end
 
-unless ARGV.first and JsDoc.method_defined?(ARGV.first)
-  ARGV.unshift 'jsdoc'
+if ARGV.size == 0
+  ARGV.unshift 'help'
+  
+elsif not (ARGV.size > 0 and DocJs.method_defined?(ARGV.first))
+  ARGV.unshift 'docjs'
 end
-JsDoc.start(ARGV)
+
+DocJs.start(ARGV)

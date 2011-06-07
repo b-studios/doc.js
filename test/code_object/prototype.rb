@@ -1,5 +1,6 @@
 # ../data.img#1774507:1
 require_relative '../../lib/boot'
+require_relative '../../templates/types/prototype'
 
 describe CodeObject::Prototype, ".new" do
 

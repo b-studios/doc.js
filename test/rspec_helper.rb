@@ -1,3 +1,6 @@
+# This is a fix, because JSON::Parser has to be registered before our Parser-Module
+require 'json'
+
 def should_raise(exception_type, &block)    
   begin
     block.call    

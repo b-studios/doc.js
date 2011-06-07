@@ -1,6 +1,7 @@
 require_relative '../../lib/parser/comment'
 require_relative '../../lib/code_object/function'
-require_relative '../../lib/token/tokens'
+
+require_relative '../../templates/tokens/tokens'
 
 describe Token::Handler, ".register" do
   

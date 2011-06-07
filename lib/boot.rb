@@ -1,6 +1,6 @@
 require 'thor'
-require 'json'
 require 'yaml'
+require 'json'
 
 require_relative 'thor'
 require_relative 'logger'

@@ -1,5 +1,5 @@
 #!/bin/bash
 rm -r out/*
 sass templates/resources/scss/application.scss:templates/resources/css/application.css
-ruby jsdoc.rb build.yml
+ruby bin/docjs build.yml
 
