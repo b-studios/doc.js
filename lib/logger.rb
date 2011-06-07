@@ -16,7 +16,7 @@ module Logger
   def self.setup(args = {})
 
     @@shell = Thor::Base.shell.new
-    @@logfile = args[:file] 
+    @@logfile = args[:logfile] 
     @@level   = LEVEL[args[:level] || :info]
     
     # write start sequence
@@ -37,7 +37,7 @@ module Logger
     
     msg = msg.join "\n"
     
-    unless @@logfile.nil?      
+    unless @@logfile.nil? or @@logfile == ""    
       File.open(@@logfile, "a") do |f|
         f.write "#{level.prefix} #{msg}\n"
       end

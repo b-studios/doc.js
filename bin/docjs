@@ -121,18 +121,18 @@ class DocJs < Thor
     # Setup Thor paths
     DocJs.source_root(Configs.root)
     self.destination_root = Configs.output
-    Configs.set(:scaffolding_path, output_dir)
-    
-    
-    answers = {}    
+
     yes_no = "(y|n)"
     
-    Logger.info "We need some information from you, to customize the scaffolding process to your needs."
-    
-    answers[:build] = yes? "Do you wan't to generate a build.yml? #{yes_no}"
-    write_build_file if answers[:build]
-    
-    Configs.set :answers, answers
+    Logger.info "We need some information from you, to customize the scaffolding process to your needs."    
+    if yes? "Do you wan't to generate a build.yml? #{yes_no}"
+      configure(Configs.wdir + '/build.yml', {
+        'templates' => output_dir,
+        'output'    => 'docs',
+        'logfile'   => 'logfile.log',
+        'loglevel'  => 'info'
+      })
+    end
         
     # Work with the answers    
     Logger.info "Copying the template files to #{Configs.templates}"
@@ -141,19 +141,15 @@ class DocJs < Thor
     Logger.info "Copying the included *.rb files to #{Configs.includes}"    
   end
   
-  
-  protected
-  
-  def write_build_file
-  
+  desc "configure [NEW_CONFIGFILE]", "Helps you creating your build.yml to start off with doc.js"
+  def configure(output_file = "build.yml", preconfigured = {})
+    
     build = {
       'files'     => [],
-      'docs'      => [],
-      'output'    => 'docs',
-      'logfile'   => 'logfile.log',
-      'loglevel'  => 'info',
-      'templates' => Configs.scaffolding_path
+      'docs'      => []
     }
+    
+    build.merge! preconfigured
     
     say "\nPlease enter the name of your App", :bold
     build['appname'] = ask ">"
@@ -176,11 +172,35 @@ class DocJs < Thor
       build['docs'] << answer
     end
     
+    if not build['templates'] and yes? "Are you using your own templates?"
+      say "\nPlease enter the path to your templates", :bold
+      build['templates'] = ask ">"
+    end
+    
+    if not build['loglevel']
+      say "\nPlease specify the loglevel of your output: (error|warn|info|debug)", :bold
+      
+      while true do
+        answer = ask ">"
+        if %w(error warn info debug).include? answer
+          build['loglevel'] = answer
+          break
+        end
+        say "\nThe answer you've given is not one of (error|warn|info|debug). Please try again", :bold
+      end          
+    end
+    
+    if not build['logfile'] and yes? "Do you wan't to save your logs to a file?"
+      say "\nPlease enter the path to your logfile", :bold
+      build['logfile'] = ask ">"
+    end
+    
     # answers[:scss_build] = yes? "Do you wan't to integrate SCSS into your build-process? #{yes_no}"
     
     # maybe ask some more information to generate build.yml
-    create_file Configs.wdir + "/build.yml", build.to_yaml
+    create_file output_file, build.to_yaml
   end
+  
   
 end
 

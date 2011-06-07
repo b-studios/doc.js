@@ -10,7 +10,7 @@ require_relative 'code_object/function'
 require_relative 'dom/dom'
 require_relative 'processor'
 
-def setup_application(options)
+def setup_application(options = {})
         
   # initialize Logger
   Logger.setup :logfile => File.expand_path(options[:logfile], Dir.pwd),
