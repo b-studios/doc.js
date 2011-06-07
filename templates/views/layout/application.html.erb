@@ -58,14 +58,14 @@
     </div>
     <footer id="footer">
       <div class="wrapper">
-        Documentation created automagically with <a href="http://www.github.com/b-studios/jsdoc">JSDoc for Ruby</a>.
+        Documentation created automagically with <a href="http://www.github.com/b-studios/doc.js">Doc.js for ruby</a>.
       </div>
     </footer>
     <%= script "jcore" %>    
     <script>
-      var JSDOC = JSDOC || {};
-      JSDOC.root = "<%= to_relative(Configs.output) + '/' %>";
-      window.jQuery || document.write("<script src='"+JSDOC.root+"js/jquery.js'>\x3C/script>")
+      var J = J || {};
+      J.root = "<%= to_relative(Configs.output) + '/' %>";
+      window.jQuery || document.write("<script src='"+J.root+"js/jquery.js'>\x3C/script>")
     </script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.js"></script>
     <%= script "jquery.treeview", "jquery.cookie", "jquery.tooltip", "application", "apisearch-data" %>

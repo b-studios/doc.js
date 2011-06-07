@@ -131,7 +131,7 @@ Module('Header', function(my) {
       // @section Filling private variables  
      
       my.apisearch = {
-        data: JSDOC.data.apisearch
+        data: J.data.apisearch
       };
       
       my.settings.apisearch = {
@@ -156,7 +156,7 @@ Module('Header', function(my) {
                 .hide()
                 .data(data)        
                 .append($('<a>', {
-                  href: JSDOC.root + data.path,
+                  href: J.root + data.path,
                   html: data.name
                 }));
         

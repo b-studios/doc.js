@@ -47,7 +47,7 @@ class DocJs < Thor
                   { :type => :string, :aliases => '-n', :default => "MyAppName" },
                   
               :logfile =>
-                  { :type => :string, :aliases => '-lf', :default => 'docjs.log' },
+                  { :type => :string, :aliases => '-lf' },
                   
               :loglevel =>
                   { :type => :string, :aliases => '-ll', :default => 'info' }
@@ -175,6 +175,11 @@ class DocJs < Thor
     if not build['templates'] and yes? "Are you using your own templates?"
       say "\nPlease enter the path to your templates", :bold
       build['templates'] = ask ">"
+    end
+    
+    if not build['output']
+      say "\nWhere do you wan't your documentation generated to? Please enter a path", :bold
+      build['output'] = ask ">"
     end
     
     if not build['loglevel']

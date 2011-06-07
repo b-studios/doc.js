@@ -106,5 +106,5 @@ describe StringScanner, "#intelligent_skip_until" do
       end
     end     
   end
-
+  
 end

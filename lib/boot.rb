@@ -13,7 +13,7 @@ require_relative 'processor'
 def setup_application(options = {})
         
   # initialize Logger
-  Logger.setup :logfile => File.expand_path(options[:logfile], Dir.pwd),
+  Logger.setup :logfile => (File.expand_path(options[:logfile], Dir.pwd) if options[:logfile]),
                :level   => (options[:loglevel]).to_sym
   
   Logger.info "Setting up Application"

@@ -1,6 +1,7 @@
 # ../data.img#1800236:1
 require 'pathname'
 require 'rdiscount'
+require 'cgi'
 
 require_relative 'linker'
 
@@ -61,7 +62,7 @@ module Helper
       intendation = source.lines.map {|line| line.match(/(^\s+)/) && line.match(/(^\s+)/).captures.first.size || 0 }.min
       
       # @todo there has to be a better way for that      
-      tag :code, source.lines.map { |line| line[intendation .. line.size] }.join(""), :class => 'block'
+      tag :code, h(source.lines.map { |line| line[intendation .. line.size] }.join("")), :class => 'block'      
     end
     
     def to_html(markdown_text, *markdown_opts)
@@ -70,6 +71,10 @@ module Helper
     
     def toc(markdown_text)
       RDiscount.new(markdown_text, :generate_toc).toc_content
+    end
+    
+    def h(to_escape)
+      CGI.escapeHTML(to_escape)
     end
     
     def to_relative(path)
