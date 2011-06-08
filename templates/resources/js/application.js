@@ -291,20 +291,33 @@ Module('Body', function(my) {
   plugins: {
   
     source_code: function(my, reveal) {
-
+            
+      // apply syntax highlighting
+      SyntaxHighlighter.config.tagName = "code";      
+      SyntaxHighlighter.defaults.toolbar = false;
+                        
       my.dom.find('h3.source').each(function(i, el) {
         
         var header = $(el).addClass('collapsed'),
-            code = header.next('code').hide();
+            code = header.next('code');
+       
+        SyntaxHighlighter.highlight(code.get(), function() {
+          
+          // find replaced element
+          var code = header.next('div').hide();
         
-        header.toggle(function(){
+          header.toggle(function(){
           header.removeClass('collapsed');
-          code.slideDown();
-        }, function() {      
-          code.slideUp(function() { header.addClass('collapsed'); });
+            code.slideDown();
+          }, function() {      
+            code.slideUp(function() { header.addClass('collapsed'); });
+          });
+        
         });
       }); 
-    }  
+      
+      
+    }
   }
 });
 

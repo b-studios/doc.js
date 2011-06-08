@@ -1,0 +1,29 @@
+.syntaxhighlighter {
+  /* change this, currently stolen from github */
+  font-family: 'Courier New',monospace;
+  font-size: 9pt;
+  line-height: 1.4em;
+  
+  .gutter {
+    background-color: #ECECEC;
+    color: #AAA;
+    padding: 1em 0.5em;
+    border-right: 1px solid #DDD;
+    text-align: right;
+  }
+  
+  .code {
+    padding: 1em 0.5em;
+  }
+  
+  .spaces {}
+  .keyword { font-weight: bold; }
+  .plain {}
+  .string { color: #D84B0F; }
+  .comments { color: #998; font-style: italic; }
+  .comments a {}
+  .variable {}
+  .functions {}
+  .constants {}
+  .script {}
+}

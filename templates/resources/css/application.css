@@ -498,6 +498,27 @@ input:invalid, textarea:invalid {
     font-family: "Consolas", "monospace";
     padding: 0 0.2em; }
 
+.syntaxhighlighter {
+  /* change this, currently stolen from github */
+  font-family: 'Courier New',monospace;
+  font-size: 9pt;
+  line-height: 1.4em; }
+  .syntaxhighlighter .gutter {
+    background-color: #ECECEC;
+    color: #AAA;
+    padding: 1em 0.5em;
+    border-right: 1px solid #DDD;
+    text-align: right; }
+  .syntaxhighlighter .code {
+    padding: 1em 0.5em; }
+  .syntaxhighlighter .keyword {
+    font-weight: bold; }
+  .syntaxhighlighter .string {
+    color: #D84B0F; }
+  .syntaxhighlighter .comments {
+    color: #998;
+    font-style: italic; }
+
 body, select, input, textarea {
   font-family: Arial, sans-serif;
   font-size: 10pt;

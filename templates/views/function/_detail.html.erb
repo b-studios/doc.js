@@ -4,5 +4,5 @@
   <%= render_tokens :of => detail, :in => :body %>
     
   <h3 class="source">Source</h3>
-  <%= code detail.source %>
+  <%= code detail.source, detail.line_start %>
 </section>

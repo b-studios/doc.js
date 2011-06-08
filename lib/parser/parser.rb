@@ -121,7 +121,7 @@ module Parser
       comment = CommentParser.new(content).parse unless content.nil?  
            
       # only proceed, if it is a tokenized comment
-      return parse unless comment.has_tokens?  
+      return parse unless comment and comment.has_tokens?  
       
       # search scope for that comment
       @scanner.skip /\n/

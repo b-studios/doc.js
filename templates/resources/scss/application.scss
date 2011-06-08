@@ -96,6 +96,7 @@ $element-margin: 1.33em;
 @import 'header';
 @import 'footer';
 @import 'tooltip';
+@import 'highlighter';
 
 body, select, input, textarea {
   @include reset-fonts;

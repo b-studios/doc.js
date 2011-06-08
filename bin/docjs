@@ -60,6 +60,7 @@ class DocJs < Thor
       setup_application configs
       
       # load application specific files
+      Logger.debug "Loading application-templates: #{Configs.templates + '/application.rb'}"
       require Configs.templates + '/application.rb'
       
       # Config Thor settings
@@ -86,7 +87,7 @@ class DocJs < Thor
     
     
   desc "tokens", "Lists all supported tokens"
-  def tokens
+  def tokens  
     say "Supported tokens:"
     say Token::Handler.handlers.map{|k,v| "  @#{k}" }.sort.join "\n"    
   end

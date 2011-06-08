@@ -46,7 +46,7 @@
     <%= render_tokens :of => @function, :in => :body %>  
     
     <h3 class="source">Source</h3>
-    <%= code @function.source %>
+      <%= code @function.source, @function.line_start %>
   
   </div>
  
