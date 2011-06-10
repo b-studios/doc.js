@@ -78,6 +78,7 @@ $element-margin: 1.33em;
 @mixin code-box() {
   @include double-border(1px, #ffffff, darken($codegrey, 10%));
   @include terminal;
+  display: block;
   background: $codegrey;
 }
 
@@ -249,13 +250,6 @@ div#main .body {
     }    
   }
   
-  code.block {
-    @include code-box;
-    display: block;      
-    padding: 0.5em;      
-    color: #555;
-    margin-bottom: $element-margin;
-  }
   
   .section {
     padding-bottom: $box-spacing;    
@@ -293,7 +287,7 @@ div#main .body {
       }    
     }
   
-  .source {
+  h3.source {
     @extend .icon.arrow_down; 
     cursor: pointer;   
     &.collapsed { 

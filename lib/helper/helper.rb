@@ -57,12 +57,17 @@ module Helper
       return html
     end
     
-    def code(source, firstline = 1)    
+    def code(source, opts = {})
+    
+      # defaults
+      opts[:firstline] ||=  1
+      opts[:class]     ||= "block"
+          
       # find minimal intendation
       intendation = source.lines.map {|line| line.match(/(^\s+)/) && line.match(/(^\s+)/).captures.first.size || 0 }.min
       
       # @todo there has to be a better way for that      
-      tag :code, h(source.lines.map { |line| line[intendation .. line.size] }.join("")), :class => "block brush:js first-line:#{firstline}" 
+      tag :code, h(source.lines.map { |line| line[intendation .. line.size] }.join("")), :class => "#{opts[:class]} brush:js first-line:#{opts[:firstline]}" 
     end
     
     def to_html(markdown_text, *markdown_opts)

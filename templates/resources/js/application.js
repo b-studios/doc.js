@@ -296,15 +296,15 @@ Module('Body', function(my) {
       SyntaxHighlighter.config.tagName = "code";      
       SyntaxHighlighter.defaults.toolbar = false;
                         
+      // replace all sources
       my.dom.find('h3.source').each(function(i, el) {
         
         var header = $(el).addClass('collapsed'),
             code = header.next('code');
        
-        SyntaxHighlighter.highlight(code.get(), function() {
+        SyntaxHighlighter.highlight(code.get(), {}, function(el) {
           
-          // find replaced element
-          var code = header.next('div').hide();
+          var code = $(el).hide();
         
           header.toggle(function(){
           header.removeClass('collapsed');
@@ -314,8 +314,17 @@ Module('Body', function(my) {
           });
         
         });
-      }); 
+      });
       
+      
+      // replace all code-examples
+      my.dom.find('code.example').each(function(i, el) {      
+        SyntaxHighlighter.highlight([el], {
+          gutter: false
+        }, function(el) {
+          $(el).find('.syntaxhighlighter').addClass('example');
+        });      
+      });
       
     }
   }

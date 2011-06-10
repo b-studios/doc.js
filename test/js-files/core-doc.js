@@ -70,6 +70,7 @@ var Core = Core || (function(){
      *
      *
      * @example Testextension
+     *   // This is some http://www.link.com
      *   Core.extend('testextension', function() {
      *     return {};
      *   });

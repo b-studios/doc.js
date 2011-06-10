@@ -498,26 +498,51 @@ input:invalid, textarea:invalid {
     font-family: "Consolas", "monospace";
     padding: 0 0.2em; }
 
-.syntaxhighlighter {
-  /* change this, currently stolen from github */
-  font-family: 'Courier New',monospace;
+code.source, .syntaxhighlighter, code.example {
+  box-shadow: inset 0px 0px 0px 1px white;
+  border: 1px solid #d9d9d9;
+  font-family: "Consolas", "monospace";
+  display: block;
+  background: #f3f3f3;
   font-size: 9pt;
-  line-height: 1.4em; }
+  line-height: 1.4em;
+  padding: 0.5em;
+  margin-bottom: 1.33em; }
+
+.syntaxhighlighter {
+  background: #fff;
+  padding: 0; }
+  .syntaxhighlighter table {
+    width: 100%; }
   .syntaxhighlighter .gutter {
-    background-color: #ECECEC;
-    color: #AAA;
-    padding: 1em 0.5em;
-    border-right: 1px solid #DDD;
+    background-color: #f3f3f3;
+    color: silver;
+    padding: 0.5em 0.5em 0.5em 0;
+    border-right: 1px solid #d9d9d9;
     text-align: right; }
   .syntaxhighlighter .code {
-    padding: 1em 0.5em; }
+    padding: 0.5em 0; }
+    .syntaxhighlighter .code .line {
+      padding: 0 0.5em; }
+      .syntaxhighlighter .code .line:hover {
+        background: #f5f5f5; }
+  .syntaxhighlighter.example {
+    background: #f3f3f3; }
+    .syntaxhighlighter.example .line {
+      padding-left: 1em; }
+      .syntaxhighlighter.example .line:hover {
+        background: #efefef; }
   .syntaxhighlighter .keyword {
     font-weight: bold; }
   .syntaxhighlighter .string {
-    color: #D84B0F; }
+    color: #d84b0f; }
   .syntaxhighlighter .comments {
     color: #998;
     font-style: italic; }
+  .syntaxhighlighter .comments a {
+    color: #998; }
+  .syntaxhighlighter .constants {
+    color: #4183c2; }
 
 body, select, input, textarea {
   font-family: Arial, sans-serif;
@@ -560,13 +585,13 @@ a {
 .icon.prototype {
   background: url(../img/prototype.png) no-repeat left center;
   padding-left: 24px; }
-.icon.arrow_right, div#main .body .source.collapsed {
+.icon.arrow_right, div#main .body h3.source.collapsed {
   background: url(../img/arrow_right.png) no-repeat left center;
   padding-left: 24px; }
 .icon.arrow_up {
   background: url(../img/arrow_up.png) no-repeat left center;
   padding-left: 24px; }
-.icon.arrow_down, div#main .body .source {
+.icon.arrow_down, div#main .body h3.source {
   background: url(../img/arrow_down.png) no-repeat left center;
   padding-left: 24px; }
 
@@ -637,6 +662,7 @@ div#main nav.sidebar {
   box-shadow: inset 0px 0px 0px 1px white;
   border: 1px solid #d9d9d9;
   font-family: "Consolas", "monospace";
+  display: block;
   background: #f3f3f3;
   margin: 40px 0 12px 12px;
   padding: 0;
@@ -700,15 +726,6 @@ div#main .body .summary {
     div#main .body .summary a:hover {
       text-decoration: none;
       color: #3976b1; }
-div#main .body code.block {
-  box-shadow: inset 0px 0px 0px 1px white;
-  border: 1px solid #d9d9d9;
-  font-family: "Consolas", "monospace";
-  background: #f3f3f3;
-  display: block;
-  padding: 0.5em;
-  color: #555;
-  margin-bottom: 1.33em; }
 div#main .body .section {
   padding-bottom: 12px; }
 div#main .body .subsection > ul {
@@ -728,9 +745,9 @@ div#main .body .subsection h4 {
 div#main .body .subsection .types {
   font-family: "Consolas", "monospace";
   padding: 0 0.2em; }
-div#main .body .source {
+div#main .body h3.source {
   cursor: pointer; }
-  div#main .body .source.collapsed {
+  div#main .body h3.source.collapsed {
     border-bottom: 1px solid #d9d9d9;
     margin-bottom: 1.33em; }
 div#main .body .signature {

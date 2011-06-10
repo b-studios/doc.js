@@ -11,8 +11,10 @@
  *
  * @license Dual licensed under the MIT and GPL licenses.
  *
- * @changes
+ * @changes by Jonathan Brachthäuser
  *   - stripped out toolbar
+ *   - highlight now returns the replaced elements
+ *   - callback function added, which is executed after replacement
  *
  * @requires XRegExp
  */
@@ -185,12 +187,13 @@ var sh = {
 	 * 							provided, all elements in the current document 
 	 * 							are highlighted.
 	 */ 
-	highlight: function(html_elements, callback)
+	highlight: function(html_elements, params, callback)
 	{
-		var elements = sh.findElements(html_elements),
+		var elements = sh.findElements(html_elements, params),
 		    propertyName = 'innerHTML', 
 			  highlighter = null,
-			  conf = sh.config;
+			  conf = sh.config,
+			  finished_elements = [];
 
 		if (elements.length === 0) 
 			return;
@@ -242,11 +245,14 @@ var sh = {
 				element.id = target.id;
 			
 			target.parentNode.replaceChild(element, target);
+			finished_elements.push(element);
 		}
 		
 		if(typeof callback === 'function')
-		  callback(elements);
+		  callback(finished_elements);
 		
+		
+		return finished_elements;
 	}
 }; // end of sh
 

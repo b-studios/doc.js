@@ -1,29 +1,59 @@
-.syntaxhighlighter {
-  /* change this, currently stolen from github */
-  font-family: 'Courier New',monospace;
+code.source, code.example {
+  
+  @include code-box;
   font-size: 9pt;
   line-height: 1.4em;
+  padding: 0.5em;
+  margin-bottom: $element-margin;  
+}
+
+/* js-replaced version */
+.syntaxhighlighter {
+  @extend code.source;
+  
+  /* revert no-js settings */
+  background: #fff;
+  padding: 0; 
+   
+  table {
+    width: 100%;
+  }
   
   .gutter {
-    background-color: #ECECEC;
-    color: #AAA;
-    padding: 1em 0.5em;
-    border-right: 1px solid #DDD;
+    background-color: $codegrey;
+    color: darken($codegrey, 20%);
+    padding: 0.5em 0.5em 0.5em 0;
+    border-right: 1px solid darken($codegrey, 10%);
     text-align: right;
   }
   
   .code {
-    padding: 1em 0.5em;
+    padding: 0.5em 0;
+    
+    .line {
+      padding: 0 0.5em;
+      
+      &:hover { background: #f5f5f5; }
+    }
   }
   
+  &.example {
+    background: #f3f3f3;
+    .line {
+      padding-left: 1em;
+      &:hover { background: #efefef; }
+    }
+  }
+  
+  /* syntaxhighlighting settings */
   .spaces {}
   .keyword { font-weight: bold; }
   .plain {}
-  .string { color: #D84B0F; }
+  .string { color: $orange; }
   .comments { color: #998; font-style: italic; }
-  .comments a {}
+  .comments a { color: #998; }
   .variable {}
   .functions {}
-  .constants {}
+  .constants { color: $blue; }
   .script {}
 }
