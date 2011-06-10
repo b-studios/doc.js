@@ -505,7 +505,7 @@ code.source, .syntaxhighlighter, code.example {
   display: block;
   background: #f3f3f3;
   font-size: 9pt;
-  line-height: 1.4em;
+  line-height: 14pt;
   padding: 0.5em;
   margin-bottom: 1.33em; }
 
@@ -517,6 +517,9 @@ code.source, .syntaxhighlighter, code.example {
   /* syntaxhighlighting settings */ }
   .syntaxhighlighter table {
     width: 100%; }
+    .syntaxhighlighter table td {
+      border: 1px solid #fff;
+      /* rebuild double-border effect */ }
   .syntaxhighlighter .gutter {
     background-color: #f3f3f3;
     color: silver;

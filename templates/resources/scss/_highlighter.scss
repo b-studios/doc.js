@@ -1,8 +1,10 @@
 code.source, code.example {
   
   @include code-box;
+  
+  /* FIXME: chrome line-height of gutter does not equal lineheight of code??? */
   font-size: 9pt;
-  line-height: 1.4em;
+  line-height: 14pt;
   padding: 0.5em;
   margin-bottom: $element-margin;  
 }
@@ -17,6 +19,10 @@ code.source, code.example {
    
   table {
     width: 100%;
+    
+    td {
+      border: 1px solid #fff; /* rebuild double-border effect */
+    }
   }
   
   .gutter {
@@ -33,7 +39,6 @@ code.source, code.example {
     
     .line {
       padding: 0 0.5em;
-      
       &:hover { background: #f5f5f5; }
     }
   }
