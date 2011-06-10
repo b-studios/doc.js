@@ -509,19 +509,23 @@ code.source, .syntaxhighlighter, code.example {
   padding: 0.5em;
   margin-bottom: 1.33em; }
 
+/* js-replaced version */
 .syntaxhighlighter {
+  /* revert no-js settings */
   background: #fff;
-  padding: 0; }
+  padding: 0;
+  /* syntaxhighlighting settings */ }
   .syntaxhighlighter table {
     width: 100%; }
   .syntaxhighlighter .gutter {
     background-color: #f3f3f3;
     color: silver;
-    padding: 0.5em 0.5em 0.5em 0;
+    padding: 0.5em;
     border-right: 1px solid #d9d9d9;
     text-align: right; }
   .syntaxhighlighter .code {
-    padding: 0.5em 0; }
+    padding: 0.5em 0;
+    width: 100%; }
     .syntaxhighlighter .code .line {
       padding: 0 0.5em; }
       .syntaxhighlighter .code .line:hover {

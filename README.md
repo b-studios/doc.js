@@ -1,12 +1,13 @@
 Doc.js
 ======
-Just a note: After total dataloss i have to rewrite the Readme's and Test's, so 
-please be patient.
+Bad news first: **You still have to write documentation**
+
+Good news: **It will look awesome!!**
 
 
 Supported Ruby-Version
 ======================
-Currently **only > 1.9** is supported. I am working on 1.8.x, though this is not 
+Currently **only ruby > 1.9** is supported. I am working on supporting > 1.8.7, though this is not 
 my target platform.
 
 

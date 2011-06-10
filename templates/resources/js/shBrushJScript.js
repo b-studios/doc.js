@@ -26,7 +26,9 @@
 						'this throw true try typeof var while with'
 						;
 						
-		var constants = 'window document';
+		var constants = 'window document undefined Infinity String NaN Event ' +
+		                'Array Date Math RegExp Number Object File Boolean ' +
+		                'Audio WebSocket XMLHttpRequest';
 
 		var r = SyntaxHighlighter.regexLib;
 		

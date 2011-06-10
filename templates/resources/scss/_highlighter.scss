@@ -22,13 +22,14 @@ code.source, code.example {
   .gutter {
     background-color: $codegrey;
     color: darken($codegrey, 20%);
-    padding: 0.5em 0.5em 0.5em 0;
+    padding: 0.5em;
     border-right: 1px solid darken($codegrey, 10%);
     text-align: right;
   }
   
   .code {
     padding: 0.5em 0;
+    width: 100%;
     
     .line {
       padding: 0 0.5em;
