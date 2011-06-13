@@ -114,11 +114,14 @@ var Core = Core || (function(){
        *
        * @function Core.logger.log
        *
-       * @overload log(msg)
+       * @overload
        *   @param [String] msg The message to log
        *
-       * @overload log(level, msg)
-       *
+       * @overload
+       *   This is just some documentation
+       *   
+       *   @param [String] level The Loglevel
+       *   @param [String] msg The message to log
        */
       log: function(msg) {
         if(!!window.console) {

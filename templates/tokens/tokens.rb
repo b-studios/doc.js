@@ -14,9 +14,68 @@ module Token::Handler
   
   register :example, :template => 'examples', :handler => :named_multiline
   
-  register :overload, :area => :none do |token, content|
+  
+=begin
+
+string = "This is the documentation for a overload
+It can have multiple lines of docs
+
+@param [String] foo please notice the optional empty 
+  line above and the linebreak of this param
+@return [Array] something special will be returned
+Followed by some more random documentation"
   
   
+=end
+  
+  
+  # Every @overload can contain **text-documentation**, **@param**- and **@return**-tokens
+  #
+  # It may look like:
+  #
+  #     @overload
+  #       This is the documentation for a overload
+  #       It can have multiple lines of docs
+  #       
+  #       @param [String] foo please notice the optional empty 
+  #         line above and the linebreak of this param
+  #       @return [Array] something special will be returned
+  #       
+  #       Followed by some more random documentation
+  #
+  #  
+  #
+  register :overload, :area => :none do |token_klass, content|  
+
+    documentation = []
+    children = []
+
+    # First remove linebreaks with 2-times intendation
+    content.gsub!(/\n((?!\n)\s){2}/, ' ')
+
+    # Then we take every line and analyse it
+    content.split(/\n/).each do |line|
+    
+    
+      # We utilize Parser's Tokenline-Regexp here
+      matches = Parser::TOKENLINE.match(line)    
+      
+      if matches.nil?
+        documentation << line
+     
+      else
+        name, content = matches.captures 
+         
+        if name == 'param'
+          children << Token::Handler.apply(:typed_with_name, Token::Token::ParamToken, content)
+        elsif name == 'return'
+          children << Token::Handler.apply(:typed, Token::Token::ReturnToken, content)
+        end
+      
+      end
+    end
+    
+    self.add_token token_klass.new :content => documentation.join("\n"), :children => children
   end
   
 end

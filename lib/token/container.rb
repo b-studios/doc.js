@@ -1,6 +1,5 @@
 # ../data.img#1811394:1
 require_relative 'exceptions'
-require_relative 'handler'
 
 module Token
 

@@ -67,23 +67,25 @@ module Token
       (?<content>#{ALL}*)
     /x
     
+    
+    # @note It would be nice, if those defaults could be used without self.add_token
     @@defaults = {
       :text_only => ->(tokenklass, content) {
-          self.add_token tokenklass.new(:content => content)
+        tokenklass.new(:content => content)
       },
       
       :typed => ->(tokenklass, content) {
         typestring, content = TOKEN_W_TYPE.match(content).captures
         types = typestring.split /,\s*/
         
-        self.add_token tokenklass.new(:types => types, :content => content)
+        tokenklass.new(:types => types, :content => content)
       },
 
       :typed_with_name => ->(tokenklass, content) {
         typestring, name, content = TOKEN_W_TYPE_NAME.match(content).captures
         types = typestring.split /,\s*/
         
-        self.add_token tokenklass.new(:name => name, :types => types, :content => content)
+        tokenklass.new(:name => name, :types => types, :content => content)
       },
       
       :named_multiline => ->(tokenklass, content) { 
@@ -93,7 +95,7 @@ module Token
         name = rows.shift.strip
         content = rows.join("\n")
               
-        self.add_token tokenklass.new(:name => name, :content => content)
+        tokenklass.new(:name => name, :content => content)
       },
       
       :noop => ->(tokenklass, content) {}
@@ -105,6 +107,11 @@ module Token
     # @return [Hash<Symbol, Block>]
     def self.handlers
       @@handlers
+    end
+    
+    # Use a default handler
+    def self.apply(default_handler, *args)
+      @@defaults[default_handler].call(*args)
     end
     
     # Registering a new Tokenhandler
@@ -203,11 +210,11 @@ module Token
       if block_given?
         # handler is already defined
       elsif options[:handler] and @@defaults.include?(options[:handler])
-        handler = @@defaults[options[:handler]]
+        handler = self.build_handler(options[:handler])
       elsif options[:handler]
         raise Exception, "#{type} has no registered Tokenhandler"
       else
-        handler = @@defaults[:text_only]
+        handler = self.build_handler(:text_only)
       end      
       
       # Dynamically create Class named TokennameToken
@@ -236,6 +243,18 @@ module Token
     
     def self.add_default_handler(name, &block)
       @@defaults[name] = block;
+    end
+    
+    protected
+    
+    def self.build_handler(type)
+      
+      handler =  @@defaults[type]
+    
+      ->(tokenklass, content) {
+        token = instance_exec(tokenklass, content, &handler)
+        self.add_token token unless token.nil? # can be NOOP
+      }
     end
 
   end  

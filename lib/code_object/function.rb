@@ -24,33 +24,26 @@ end
 CodeObject::Type.register :function, CodeObject::Function
 Token::Handler.register :function, :handler => :noop, :area => :none
 
-# @todo rewrite as default-handler, because this looks a little distracting
 module Token::Handler
 
-  # @todo maybe allow multipled nested layers of params by parsing them recursivly
+  # We want to support either named-typed-tokens like
+  #  @param [Foo] barname some description
+  #
+  # or multiline tokens like:
+  #  @param configs
+  #    [String] foo some string
+  #    [Bar] bar and another one
+  #
+  #
+  # if out content matches something with `[` at the beginning, it seems to be
+  # a normal named-typed-token
+  # it's a little tricky because we still want to allow multiline descriptions of each param
   register :param, :area => :body do |tokenklass, content|
 
-    # We want to support either named-typed-tokens like
-    #  @param [Foo] barname some description
-    #
-    # or multiline tokens like:
-    #  @param configs
-    #    [String] foo some string
-    #    [Bar] bar and another one
-    #
-    #
-    # if out content matches something with `[` at the beginning, it seems to be
-    # a normal named-typed-token
-    # it's a little tricky because we still want to allow multiline descriptions of each param
-    def parse_token(content)  
-      typestring, name, content = TOKEN_W_TYPE_NAME.match(content).captures
-      types = typestring.split /,\s*/
-      Token::Token::ParamToken.new(:name => name, :types => types, :content => content)
-    end
-    
+
     # it's @param [String] name some content
     if content.lines.first.match TOKEN_W_TYPE_NAME
-      self.add_token parse_token(content)
+      self.add_token Token::Handler.apply(:typed_with_name, Token::Token::ParamToken, content)
     
     # it maybe a multiline
     else
@@ -62,7 +55,8 @@ module Token::Handler
       children = lines.join("\n").strip.gsub(/\s+\[/, "<--SPLIT_HERE-->[").split("<--SPLIT_HERE-->")
    
       children.map! do |child|
-        parse_token(child)
+        # apply default-handler :typed_with_name to each child-line
+        Token::Handler.apply(:typed_with_name, Token::Token::ParamToken, child)
       end
       
       self.add_token tokenklass.new(:name => name, :types => types, :children => children)
