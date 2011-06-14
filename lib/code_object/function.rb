@@ -22,9 +22,14 @@ module CodeObject
 end
 
 CodeObject::Type.register :function, CodeObject::Function
-Token::Handler.register :function, :handler => :noop, :area => :none
 
 module Token::Handler
+
+  register :function, 
+           :handler => :noop, 
+           :area => :none,
+           :description => "Type-Token to categorize all kind of JavaScript-Functions"
+
 
   # We want to support either named-typed-tokens like
   #  @param [Foo] barname some description
@@ -38,7 +43,7 @@ module Token::Handler
   # if out content matches something with `[` at the beginning, it seems to be
   # a normal named-typed-token
   # it's a little tricky because we still want to allow multiline descriptions of each param
-  register :param, :area => :none do |tokenklass, content|
+  register :param, :area => :none, :description => "Token for Function-Parameters like '@param [String] name your name'" do |tokenklass, content|
 
 
     # it's @param [String] name some content
@@ -66,7 +71,7 @@ module Token::Handler
 
 end
 
-Token::Handler.register :return, :handler => :typed, :area => :none
+Token::Handler.register :return, :handler => :typed, :area => :none, :description => "Returnvalue of a Function"
 Token::Handler.register :throws, :handler => :typed
 
 # MethodAlias

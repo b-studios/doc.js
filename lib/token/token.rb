@@ -15,7 +15,8 @@ module Token
     def self.process_options(options = {})
     
       # pushing defaults
-      options[:template] ||= :default
+      options[:template]    ||= :default
+      options[:description] ||= ""
       
       options[:html]     = { 
         :class => options[:token].to_s
@@ -23,7 +24,7 @@ module Token
       
       options[:area]     ||= :body      
     
-      %w(handler token template html area).each do |opt|        
+      %w(handler token template html area description).each do |opt|        
         self.class_variable_set("@@#{opt}".to_sym, options[opt.to_sym])      
         
         class_eval "

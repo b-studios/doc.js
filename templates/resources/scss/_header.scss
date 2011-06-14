@@ -92,7 +92,8 @@
         border-radius: $radius;
         padding: 0; margin: 0;
         
-        overflow-y: scroll;      
+        /*overflow-y: scroll;*/
+        overflow: hidden; 
       }    
     }
     
