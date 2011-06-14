@@ -1,0 +1,12 @@
+<section class="overload">
+  <h2 class="signature"><%= signature overload %></h2>
+  <%= to_html overload.content %>
+  <%
+  
+    params = overload.children.select {|t| t.token == :param }
+    returns = overload.children.select {|t| t.token == :return }
+  
+  %>
+  <%= render :partial => 'tokens/default', :locals => { :tokens => params } unless params.empty? %>
+  <%= render :partial => 'tokens/default', :locals => { :tokens => returns } unless returns.empty? %>
+</section>

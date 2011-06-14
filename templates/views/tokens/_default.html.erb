@@ -1,4 +1,5 @@
-<%
+<% unless tokens.nil? 
+
 
   opts = tokens.first.html
   opts[:class] = (opts[:class] || "") + " subsection"
@@ -9,3 +10,4 @@
     <%= render :partial => 'tokens/default_token', :collection => tokens %>
   </ul>
 </section>
+<% end %>

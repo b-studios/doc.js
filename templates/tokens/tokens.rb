@@ -75,7 +75,7 @@ Followed by some more random documentation"
       end
     end
     
-    self.add_token token_klass.new :content => documentation.join("\n"), :children => children
+    self.add_token token_klass.new :content => documentation.join("\n"), :children => children, :name => self.name
   end
   
 end

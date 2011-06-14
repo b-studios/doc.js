@@ -504,9 +504,8 @@ code.source, .syntaxhighlighter, code.example {
   font-family: "Consolas", "monospace";
   display: block;
   background: #f3f3f3;
-  /* FIXME: chrome line-height of gutter does not equal lineheight of code??? */
   font-size: 9pt;
-  line-height: 14pt;
+  line-height: 1.4em;
   padding: 0.5em;
   margin-bottom: 1.33em; }
 
@@ -527,6 +526,9 @@ code.source, .syntaxhighlighter, code.example {
     padding: 0.5em;
     border-right: 1px solid #d9d9d9;
     text-align: right; }
+    .syntaxhighlighter .gutter .line {
+      font-size: 9pt;
+      line-height: 1.4em; }
   .syntaxhighlighter .code {
     padding: 0.5em 0;
     width: 100%; }
@@ -786,6 +788,8 @@ div#main .body .signature {
     padding: 0 0.2em; }
     div#main .body .signature .params .param {
       cursor: help; }
+div#main .body .overload {
+  margin-bottom: 3em; }
 
 div#main .notification {
   display: table; }

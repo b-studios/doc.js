@@ -15,7 +15,7 @@ module CodeObject
     # @todo i need a @prototype token in object
     def prototype
       children[:prototype]
-    end  
+    end
   
   end 
   
@@ -38,7 +38,7 @@ module Token::Handler
   # if out content matches something with `[` at the beginning, it seems to be
   # a normal named-typed-token
   # it's a little tricky because we still want to allow multiline descriptions of each param
-  register :param, :area => :body do |tokenklass, content|
+  register :param, :area => :none do |tokenklass, content|
 
 
     # it's @param [String] name some content
@@ -66,7 +66,7 @@ module Token::Handler
 
 end
 
-Token::Handler.register :return, :handler => :typed
+Token::Handler.register :return, :handler => :typed, :area => :none
 Token::Handler.register :throws, :handler => :typed
 
 # MethodAlias

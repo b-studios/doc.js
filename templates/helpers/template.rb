@@ -4,15 +4,25 @@ module Helper
   # need them anymore. 
   module Template
   
-    def signature(method)
-      params = method.params.map { |p|
+    def signature(method_or_token)
+    
+      if method_or_token.is_a? Token::Token
+        params = method_or_token.children.select {|t| t.token == :param }
+        returns = method_or_token.children.select {|t| t.token == :return }
+      else
+        params = method_or_token.params
+        returns = method_or_token.returns
+      end
+    
+    
+      params = params.map { |p|
         "<span class=\"param\">#{p.name}</span>" +
         "<span class=\"tooltip\">(<span class=\"types\">#{p.types.map{|t| link_to(t) }.join(', ')}</span>) " +
         "#{replace_links p.content}</span>"
-      }.join(', ') unless method.params.nil?
+      }.join(', ') unless params.nil?
       
-      return_types = method.returns.first.types.map{|type| link_to(type) }.join(', ') unless method.returns.nil? or method.returns.first.nil?
-      "(#{return_types || 'Void'}) <span class='name'>#{method.name}</span>(<span class='params'>#{params}</span>)"
+      return_types = returns.first.types.map{|type| link_to(type) }.join(', ') unless returns.nil? or returns.first.nil?
+      "(#{return_types || 'Void'}) <span class='name'>#{method_or_token.name}</span>(<span class='params'>#{params}</span>)"
     end
     
     def subsection(id, opts = {})

@@ -102,10 +102,13 @@ module Helper
     
       code_object = opts[:of] or raise Exception.new("Parameter :of (CodeObject) required")
       area        = opts[:in] or raise Exception.new("Parameter :in (Area) required")
+      exclude     = opts[:without] || []
     
       rendered = ""
     
-      token_groups = code_object.tokens.values.each do |tokens|        
+      tokens = code_object.tokens.reject {|token, v| exclude.include? token }
+    
+      token_groups = tokens.values.each do |tokens|        
            
         # tokens is an array of Token::Token
         if not tokens.empty? and tokens.first.area == area

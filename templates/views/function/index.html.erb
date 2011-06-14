@@ -41,9 +41,21 @@
     <%= to_html @function.docs %>
     
     <!--span class="flag">constructor</span-->
+   
+    <%= render_tokens :of => @function, :in => :body %>
     
-    <h2 class="signature"><%= signature @function %></h2>
-    <%= render_tokens :of => @function, :in => :body %>  
+    <%# if it has overloads, we need another template %>
+    <% if @function.tokens[:overload].nil? %>
+    
+      <h2 class="signature"><%= signature @function %></h2>
+      <%= render :partial => 'tokens/default', :locals => { :tokens => @function.params } %>
+      <%= render :partial => 'tokens/default', :locals => { :tokens => @function.returns } %>
+
+    <% else %>
+  
+      <%= render :partial => 'tokens/overload', :collection => @function.tokens[:overload] %>
+      
+    <% end %>
     
     <h3 class="source">Source</h3>
     <%= code @function.source, :firstline => @function.line_start, :class => "source" %>
