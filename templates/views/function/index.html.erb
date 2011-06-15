@@ -20,7 +20,7 @@
       <div class="method-list">
         <h3>Methods</h3>
         <ul>
-          <% @methods.each do |child| %>
+          <% @methods.sort{|a,b| a.name <=> b.name }.each do |child| %>
           <li><%= link_to child %></li>
           <% end %>
         </ul>

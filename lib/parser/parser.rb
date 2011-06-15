@@ -73,8 +73,9 @@ module Parser
       
       
       # clean input and convert windows linebreaks to normal ones
-      @to_parse = input.gsub(/\r\n/, "\n")
+      @to_parse = input.force_encoding("UTF-8").gsub(/\r\n/, "\n")
       @scanner = StringScanner.new @to_parse
+    
       @comments = []
     end  
     
@@ -117,18 +118,31 @@ module Parser
     protected
     
     def parse_comment_until(ending)
-      content = @scanner.scan_until_ahead ending      
+      content = @scanner.scan_until_ahead ending     # this consumes ending, but don't includes it  
       comment = CommentParser.new(content).parse unless content.nil?  
            
       # only proceed, if it is a tokenized comment
       return parse unless comment and comment.has_tokens?  
       
+      
+      # First skip some white spaces, that may occure after comment
+      @scanner.skip /#{NO_BR}+/
+      
       # search scope for that comment
       @scanner.skip /\n/
+      
       scope = @scanner.save_scanned { find_scope } 
-              
+      
+      
+      # FIX: UTF-8 characters destroyed the string-slicing, because scanner is working with 
+      # byte-positions only
+      @to_parse.force_encoding "ISO-8859-1"
+      
       code_line = @to_parse.line_of(scope.min) + @offset + 1
       source = @to_parse[scope]     
+      
+      # Switch back to UTF-8
+      @to_parse.force_encoding "UTF-8"
       
       # Add Metadata
       comment.add_meta_data @filepath, source, code_line   
@@ -147,7 +161,7 @@ module Parser
       end
       
       # adding |$ only if we don't ignore line_ends (which is most of the time)
-      @scanner.intelligent_skip_until /\{|\(|\}|\)#{'|$' unless ignore_line_end}/
+      @scanner.intelligent_skip_until /\{|\(|\}|\)#{"|$" unless ignore_line_end}/
       
       match = @scanner.matched
       
@@ -236,7 +250,7 @@ class StringScanner
   end
   
   def save_scanned
-    pos_start = self.pos #- 1 # fixes missing first char
+    pos_start = self.pos
     yield
     pos_end = self.pos
     Range.new(pos_start, pos_end)

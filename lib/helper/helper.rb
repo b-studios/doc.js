@@ -59,6 +59,8 @@ module Helper
     
     def code(source, opts = {})
     
+      Logger.debug("------------- Code ---------------\n#{source}\n------------ /Code/ --------------")
+
       # defaults
       opts[:firstline] ||=  1
       opts[:class]     ||= "block"

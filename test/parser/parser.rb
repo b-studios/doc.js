@@ -1,4 +1,4 @@
-#encoding utf-8
+#<Encoding:UTF-8>
 
 require_relative '../../lib/parser/parser'
 
@@ -245,7 +245,7 @@ describe Parser::Parser, ".parse" do
   
   
   context "parsing multibyte character" do
-=begin
+
     before do  
 
       @parser = Parser::Parser.new("/**
@@ -264,10 +264,7 @@ Foo Bar")
     it "should find the correct source" do
       subject.source.should == "Foo Bar"
     end
-    
-=end
-    pending("There are Problems with utf-8 encoded string")
-  
+   
   end  
   
 end
