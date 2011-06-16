@@ -41,9 +41,7 @@ module Token::Handler
   #    [Bar] bar and another one
   #
   # @note this can also be utilized for JavaScript-Event-Triggers or Callbacks with Parameters
-  #   therefor i need to encapsulate this one to handler-core
   register :param, :area => :none, :description => "Token for Function-Parameters like '@param [String] name your name'" do |tokenklass, content|
-
 
     # it's @param [String] name some content
     if content.lines.first.match TOKEN_W_TYPE_NAME
@@ -51,25 +49,7 @@ module Token::Handler
     
     # it maybe a multiline
     else
-    
-      # First remove linebreaks with 2-times intendation    
-      lines         = content.gsub(/\n((?!\n)\s){2}/, ' ').split(/\n/)
-      name          = lines.shift.strip
-      types         = ['PropertyObject']
-      documentation = []
-      children      = []
-      
-      lines.each do |line|
-        
-        if TOKEN_W_TYPE_NAME.match(line)
-          # apply default-handler :typed_with_name to each child-line
-          children << Token::Handler.apply(:typed_with_name, Token::Token::ParamToken, line)
-        else
-          documentation << line
-        end
-      end
-      
-      self.add_token tokenklass.new(:name => name, :types => types, :children => children, :content => documentation.join("\n"))
+      self.add_token Token::Handler.apply(:named_nested_shorthand, Token::Token::ParamToken, content)
     end   
   end
 

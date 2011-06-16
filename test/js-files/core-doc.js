@@ -54,9 +54,19 @@ var Core = Core || (function(){
   var core = {
 
     /**
+     * @function Core.extend
+     *
      * register new {Core.extensions}
      * 
-     * @function Core.extend
+     * @example Testextension
+     *   // This is some http://www.link.com
+     *   Core.extend('testextension', function() {
+     *     return {};
+     *   });
+     *
+     * @event CoreExtended
+     *   Fires, if a new Extension has been registered.
+     *   [Core.extension] ext The newly registered extension
      *
      * @param [String] id the id to register the new {Core.extensionss extension} under
      * @param [Function] constructor a callback function, which acts as
@@ -68,13 +78,6 @@ var Core = Core || (function(){
      *   [String] color the background-color of the extension
      *
      * @return [Core.logger] the constructed extension
-     *
-     *
-     * @example Testextension
-     *   // This is some http://www.link.com
-     *   Core.extend('testextension', function() {
-     *     return {};
-     *   });
      */
     extend: function(id, constructor) {
       

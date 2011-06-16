@@ -98,6 +98,27 @@ module Token
         tokenklass.new(:name => name, :content => content)
       },
       
+      :named_nested_shorthand => ->(tokenklass, content) {
+          
+        # First remove linebreaks with 2-times intendation    
+        lines         = content.gsub(/\n((?!\n)\s){2}/, ' ').split(/\n/)
+        name          = lines.shift.strip
+        documentation = []
+        children      = []
+        
+        lines.each do |line|          
+          if TOKEN_W_TYPE_NAME.match(line)
+            # apply default-handler :typed_with_name to each child-line
+            # @todo maybe we need a special way to select Children's Class?
+            children << Handler.apply(:typed_with_name, tokenklass, line)
+          else
+            documentation << line
+          end
+        end
+      
+        tokenklass.new(:name => name, :types => [], :children => children, :content => documentation.join("\n"))   
+      },
+      
       :noop => ->(tokenklass, content) {}
     } 
     @@handlers = {}    

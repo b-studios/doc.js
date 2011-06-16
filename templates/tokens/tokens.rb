@@ -13,22 +13,7 @@ module Token::Handler
   register :warn, :area => :notification
   
   register :example, :template => 'examples', :handler => :named_multiline
-  
-  
-=begin
-
-string = "This is the documentation for a overload
-It can have multiple lines of docs
-
-@param [String] foo please notice the optional empty 
-  line above and the linebreak of this param
-@return [Array] something special will be returned
-Followed by some more random documentation"
-  
-  
-=end
-  
-  
+   
   # Every @overload can contain **text-documentation**, **@param**- and **@return**-tokens
   #
   # It may look like:
@@ -43,8 +28,7 @@ Followed by some more random documentation"
   #       
   #       Followed by some more random documentation
   #
-  #  
-  #
+  # If no return should be possible, the more simple :named_nested_shorthand handler could be used...
   register :overload, :area => :none do |token_klass, content|  
 
     documentation = []
@@ -77,5 +61,13 @@ Followed by some more random documentation"
     
     self.add_token token_klass.new :content => documentation.join("\n"), :children => children, :name => self.name
   end
+  
+  # Example:
+  #     @event MyCustomEvent
+  #       This event will be triggered, if something special happens. The registered handler will be
+  #       called with the following parameters:
+  #       [Object] obj This object
+  #       [String] msg Some message 
+  register :event, :area => :body, :handler => :named_nested_shorthand
   
 end
