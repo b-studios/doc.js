@@ -1,6 +1,6 @@
 <section class="overload">
   <h2 class="signature"><%= signature overload %></h2>
-  <%= to_html overload.content %>
+  <%=to_html overload.content %>
   <%
   
     params = overload.children.select {|t| t.token == :param }

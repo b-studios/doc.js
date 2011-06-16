@@ -58,8 +58,6 @@ module Helper
     end
     
     def code(source, opts = {})
-    
-      Logger.debug("------------- Code ---------------\n#{source}\n------------ /Code/ --------------")
 
       # defaults
       opts[:firstline] ||=  1

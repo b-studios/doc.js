@@ -4,6 +4,7 @@
   <% end %>
 
   <% unless default_token.children.nil? %>
+    <%=to_html default_token.content %>
     <ul>
       <%= render :partial => 'tokens/default_token', :collection => default_token.children %>
     </ul>  
@@ -13,7 +14,7 @@
     <% unless default_token.types.nil? %>
       (<span class="types"><%= default_token.types.map {|t| link_to(t) }.join ', ' %></span>)
     <% end %>
-    <%= replace_links to_html default_token.content %>
+    <%=to_html default_token.content %>
   
   <% end %>
 </li>  

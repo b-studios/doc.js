@@ -36,13 +36,12 @@ module Token::Handler
   #
   # or multiline tokens like:
   #  @param configs
+  #    Some configuration Object with following properties:
   #    [String] foo some string
   #    [Bar] bar and another one
   #
-  #
-  # if out content matches something with `[` at the beginning, it seems to be
-  # a normal named-typed-token
-  # it's a little tricky because we still want to allow multiline descriptions of each param
+  # @note this can also be utilized for JavaScript-Event-Triggers or Callbacks with Parameters
+  #   therefor i need to encapsulate this one to handler-core
   register :param, :area => :none, :description => "Token for Function-Parameters like '@param [String] name your name'" do |tokenklass, content|
 
 
@@ -52,19 +51,25 @@ module Token::Handler
     
     # it maybe a multiline
     else
-      lines = content.split(/\n/)
-      name = lines.shift.strip
-      types = ['PropertyObject']
+    
+      # First remove linebreaks with 2-times intendation    
+      lines         = content.gsub(/\n((?!\n)\s){2}/, ' ').split(/\n/)
+      name          = lines.shift.strip
+      types         = ['PropertyObject']
+      documentation = []
+      children      = []
       
-      # now split line at opening bracket, not at line-break to enable multiline properties
-      children = lines.join("\n").strip.gsub(/\s+\[/, "<--SPLIT_HERE-->[").split("<--SPLIT_HERE-->")
-   
-      children.map! do |child|
-        # apply default-handler :typed_with_name to each child-line
-        Token::Handler.apply(:typed_with_name, Token::Token::ParamToken, child)
+      lines.each do |line|
+        
+        if TOKEN_W_TYPE_NAME.match(line)
+          # apply default-handler :typed_with_name to each child-line
+          children << Token::Handler.apply(:typed_with_name, Token::Token::ParamToken, line)
+        else
+          documentation << line
+        end
       end
       
-      self.add_token tokenklass.new(:name => name, :types => types, :children => children)
+      self.add_token tokenklass.new(:name => name, :types => types, :children => children, :content => documentation.join("\n"))
     end   
   end
 

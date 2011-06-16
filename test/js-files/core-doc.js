@@ -62,6 +62,7 @@ var Core = Core || (function(){
      * @param [Function] constructor a callback function, which acts as
      *   constructor for {Core.extensions}
      * @param settings
+     *   This is the configuration object for {Core.extend}
      *   [String] name the name of the extension
      *   [Number] pos the position to put the extension to (Defaults to 0)
      *   [String] color the background-color of the extension

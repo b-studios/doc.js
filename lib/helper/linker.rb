@@ -75,15 +75,18 @@ module Helper
     
     # Returns the relative path (from dom) to this node
     # The Node can be either a {CodeObject::Base CodeObject} or a {Document::Document Document}.
+    #
+    # @note this method can be overwritten in every included Helper to fit your custom API-Layout
     # 
     # @param [CodeObject::Base, Document::Document] object
     #
     # @example 
-    #   Dom[:Foo][:bar].file_path #=> Foo/bar
+    #   Dom[:Foo][:bar].file_path                 #=> Foo/bar.html
+    #   Dom['Foo.bar'].file_path :format => :json #=> Foo/bar.json
     #   
     def path_to(object, args = {})
 
-      return "" if object.nil? 
+      return "" if object.nil?
       format = args[:format] || :html      
       path = object.parents.push(object).map{|p| p.name}.join('/') + ".#{format.to_s}"
     
