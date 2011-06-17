@@ -1,7 +1,6 @@
-# ../data.img#1800236:1
 require 'pathname'
-require 'rdiscount'
 require 'cgi'
+require 'rdiscount'
 
 require_relative 'linker'
 

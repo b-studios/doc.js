@@ -1,4 +1,3 @@
-# ../data.img#1781829:1
 require_relative 'meta_container'
 require_relative '../code_object/converter'
 

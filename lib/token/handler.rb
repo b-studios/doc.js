@@ -1,4 +1,3 @@
-# ../data.img#1799432:1 && #1858562:1
 require_relative 'token'
 
 # This module contains all required mixins and modules to register customized

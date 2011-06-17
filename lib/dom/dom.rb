@@ -1,4 +1,3 @@
-# ../data.img#1811391:1 && #1811396:1
 require_relative 'no_doc'
 require_relative 'exceptions'
 

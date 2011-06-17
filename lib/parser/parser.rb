@@ -1,4 +1,3 @@
-# ../data.img#1869414:2
 require 'strscan'
 require_relative 'comment_parser'
 

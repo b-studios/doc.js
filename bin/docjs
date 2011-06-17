@@ -23,9 +23,7 @@ Configs.set :root  => Pathname.new(__FILE__).realpath + '../..'
 #   4. turn into objects and save to dom
 #   5. render templates
 #
-# @note options declared in a build.yml will override command-line ones
-# @todo command line option to copy all templates to specified directory like
-#   jsdoc dump_templates ../templates/original
+# @note options declared in a docjs.yml will override command-line ones
 class DocJs < Thor
     
   include Thor::Actions
@@ -51,113 +49,45 @@ class DocJs < Thor
                   
               :loglevel =>
                   { :type => :string, :aliases => '-ll', :default => 'info' }
-  
   def docjs(config_file = nil)
+    
+    # Process the given command-line and yml-options
     # @see Thor#merge_options
     configs = config_file ? merge_options(options, config_file) : options
     
     begin
+      # Setup Logger and Configs
       setup_application configs
       
-      # load application specific files
+      # Load application specific files
       Logger.info "Loading Application-Templates"
       load_templates
       
-      # Config Thor settings
+      # Config Thor path-settings
       DocJs.source_root(Configs.templates)
       self.destination_root = Configs.output
       
+      # Process specified docs and add them to dom-tree
       Processor.prepare_documents
-      # let's check our Documents tree
-      Dom.docs.print_tree
       
-      # the configs are now available through our Configs-module      
+      # Kickoff js-file-processing and template-rendering!
       Processor.process_and_render
         
+      # Finally copy all
       Logger.info "Copying template resources to output"
       directory 'resources/img', './img' # copy resources
       directory 'resources/css', './css'
       directory 'resources/js', './js'
-            
+      
     rescue Exception => error
       Logger.error error.message + "\n" + error.backtrace.map{|l| "  #{l}" }.join("\n")
     end    
   end  
-    
-    
-    
-  desc "tokens TEMPLATE_PATH?", "Lists all supported tokens\nNeeds your TEMPLATE_PATH to include your own custom tokens. If TEMPLATE_PATH is ommitted, only the default-tokens will be shown"
-  set_options :details => 
-                 { :type => :boolean, :default => false }
-  def tokens(template_path = nil)
-  
-    load_templates template_path
-  
-    say "Supported tokens:\n\n"
-    if options.details?
-      table = [%w(TOKEN AREA TEMPLATE DESCRIPTION)] + Token::Handler.handlers.map{|k,v| [":#{k}",v.area, v.template, v.description] }.sort
-    else
-      table = Token::Handler.handlers.map{|k,v| [":#{k}","# #{v.description}"] }.sort
-    end
-    print_table table, :ident => 2, :colwidth => 20
-  end
-  
-  
-  
-  desc "tasks TEMPLATE_PATH?", "Lists all registered render-tasks\nNeeds your TEMPLATE_PATH to include your own custom tokens. If TEMPLATE_PATH is ommitted, only the default-tokens will be shown"
-  def tasks(template_path = nil)
-    
-    load_templates template_path
-    
-    say "Registered render-tasks:"
-    
-    task_table = Tasks::RenderTask.all.map{|task| ["#{task.name}","# #{task.description}"] }.sort
-    
-    print_table task_table, :ident => 2, :colwidth => 20    
-  end  
-  
-  
-  
-  desc "scaffold OUTPUT_DIR", "You can use scaffolding to get the templates and some basic ruby-files, that you will need to create your own templates"
-  set_options :logfile =>
-                  { :type => :string, :aliases => '-lf', :default => 'jsdoc.log' },
-                  
-              :loglevel =>
-                  { :type => :string, :aliases => '-ll', :default => 'info' }
-  def scaffold(output_dir)
-      
-    setup_application options.merge({
-      :output => output_dir,
-      :templates => output_dir
-    })
-    
-    # Setup Thor paths
-    DocJs.source_root(Configs.root)
-    self.destination_root = Configs.output
 
-    yes_no = "(y|n)"
-    
-    Logger.info "We need some information from you, to customize the scaffolding process to your needs."    
-    if yes? "Do you wan't to generate a build.yml? #{yes_no}"
-      configure(Configs.wdir + '/build.yml', {
-        'templates' => output_dir,
-        'output'    => 'docs',
-        'logfile'   => 'logfile.log',
-        'loglevel'  => 'info'
-      })
-    end
-        
-    # Work with the answers    
-    Logger.info "Copying the template files to #{Configs.templates}"
-    directory 'templates', Configs.templates    # copy templates and resources
-        
-    Logger.info "Copying the included *.rb files to #{Configs.includes}"    
-  end
+
   
-  
-  
-  desc "configure [NEW_CONFIGFILE]", "Helps you creating your build.yml to start off with doc.js"
-  def configure(output_file = "build.yml", preconfigured = {})
+  desc "configure [NEW_CONFIGFILE]", "Helps you creating your docjs.yml to start off with doc.js"
+  def configure(output_file = "docjs.yml", preconfigured = {})
     
     build = {
       'files'     => [],
@@ -220,8 +150,76 @@ class DocJs < Thor
     # maybe ask some more information to generate build.yml
     create_file output_file, build.to_yaml
   end
+
+
+  
+  desc "scaffold OUTPUT_DIR", "You can use scaffolding to get the templates and some basic ruby-files, that you will need to create your own templates"
+  set_options :logfile =>
+                  { :type => :string, :aliases => '-lf', :default => 'jsdoc.log' },
+                  
+              :loglevel =>
+                  { :type => :string, :aliases => '-ll', :default => 'info' }
+  def scaffold(output_dir)
+      
+    setup_application options.merge({
+      :output => output_dir,
+      :templates => output_dir
+    })
+    
+    # Setup Thor paths
+    DocJs.source_root(Configs.root)
+    self.destination_root = Configs.output
+
+    yes_no = "(y|n)"
+    
+    Logger.info "We need some information from you, to customize the scaffolding process to your needs."    
+    if yes? "Do you wan't to generate a docjs.yml? #{yes_no}"
+      configure(Configs.wdir + '/docjs.yml', {
+        'templates' => output_dir,
+        'output'    => 'docs',
+        'logfile'   => 'logfile.log',
+        'loglevel'  => 'info'
+      })
+    end
+        
+    # Work with the answers    
+    Logger.info "Copying the template files to #{Configs.templates}"
+    directory 'templates', Configs.templates    # copy templates and resources
+        
+    Logger.info "Copying the included *.rb files to #{Configs.includes}"    
+  end
   
   
+
+  desc "tokens TEMPLATE_PATH?", "Lists all supported tokens\nNeeds your TEMPLATE_PATH to include your own custom tokens. If TEMPLATE_PATH is ommitted, only the default-tokens will be shown"
+  set_options :details => 
+                 { :type => :boolean, :default => false }
+  def tokens(template_path = nil)
+  
+    load_templates template_path
+  
+    say "Supported tokens:\n\n"
+    if options.details?
+      table = [%w(TOKEN AREA TEMPLATE DESCRIPTION)] + Token::Handler.handlers.map{|k,v| [":#{k}",v.area, v.template, v.description] }.sort
+    else
+      table = Token::Handler.handlers.map{|k,v| [":#{k}","# #{v.description}"] }.sort
+    end
+    print_table table, :ident => 2, :colwidth => 20
+  end
+  
+  
+  
+  desc "tasks TEMPLATE_PATH?", "Lists all registered render-tasks\nNeeds your TEMPLATE_PATH to include your own custom tokens. If TEMPLATE_PATH is ommitted, only the default-tokens will be shown"
+  def tasks(template_path = nil)
+    
+    load_templates template_path
+    
+    say "Registered render-tasks:"
+    
+    task_table = Tasks::RenderTask.all.map{|task| ["#{task.name}","# #{task.description}"] }.sort
+    
+    print_table task_table, :ident => 2, :colwidth => 20    
+  end 
 end
 
 if ARGV.size == 0

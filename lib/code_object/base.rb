@@ -1,4 +1,3 @@
-# ../data.img#1787927:1
 require_relative '../token/container'
 require_relative '../token/handler'
 require_relative '../dom/dom'

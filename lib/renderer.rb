@@ -1,4 +1,3 @@
-# ../data.img#1783836:1
 require 'erb'
 require 'fileutils'
 

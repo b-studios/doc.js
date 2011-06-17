@@ -1,11 +1,10 @@
-# ../data.img#1769990:1
-require_relative 'function'
 require_relative 'exceptions'
 
 module CodeObject
 
-
   # here the dependencies to {Dom::Node} and {Parser::Comment} should be described
+  #
+  # Converts a comment to a code_object and therefor is included in {Parser::Comment}
   module Converter
   
     attr_reader :code_object, :path
@@ -33,7 +32,6 @@ module CodeObject
     end        
     
     protected
-
     
     # recursivly process all child-tokens
     def convert_children
@@ -42,7 +40,7 @@ module CodeObject
         yield(code_object) unless code_object.nil?
       end
     end
-    
+        
     
     def find_type_for(tokenlines)
     
@@ -63,8 +61,6 @@ module CodeObject
       # Get Class and instantiate it with content
       klass = available_types[type.token]
       klass.new(type.content)
-    end
-    
-    
+    end    
   end
 end

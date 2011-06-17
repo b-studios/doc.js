@@ -1,4 +1,3 @@
-# ../data.img#1858561:1
 require_relative 'base'
 
 module CodeObject

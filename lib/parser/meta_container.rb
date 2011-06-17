@@ -1,4 +1,3 @@
-# ../data.img#1772248:1
 module Parser
 
   # is included by {CodeObject::Base} and {Parser::Comment}

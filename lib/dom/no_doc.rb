@@ -1,5 +1,5 @@
-# ../data.img#1811401:1
 require_relative 'node'
+
 module Dom
   
   # NoDoc is used by {Dom} and {Dom::Node} to preserve the correct hierachy of

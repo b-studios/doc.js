@@ -1,4 +1,3 @@
-# ../data.img#1799299:1
 require_relative 'comment'
 require_relative 'exceptions'
 

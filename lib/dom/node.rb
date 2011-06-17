@@ -1,4 +1,3 @@
-# ../data.img#1780307:3
 require_relative 'dom'
 require_relative 'exceptions'
 

@@ -1,4 +1,3 @@
-# ../data.img#1811394:1
 require_relative 'exceptions'
 
 module Token

@@ -4,15 +4,7 @@ require_relative 'tasks/render_task'
 require_relative 'document/document'
 
 module Processor
-  
-  RenderTask = Struct.new :name, :description, :block
-  @@render_tasks = {}
     
-  # Accessor Method for RenderTasks
-  def self.render_tasks
-    @@render_tasks
-  end
-  
   # @group Combined Stages
   
   def self.process_and_render
