@@ -60,8 +60,8 @@ class DocJs < Thor
       setup_application configs
       
       # load application specific files
-      Logger.debug "Loading application-templates: #{Configs.templates + '/application.rb'}"
-      require Configs.templates + '/application.rb'
+      Logger.info "Loading Application-Templates"
+      load_templates
       
       # Config Thor settings
       DocJs.source_root(Configs.templates)
@@ -91,11 +91,7 @@ class DocJs < Thor
                  { :type => :boolean, :default => false }
   def tokens(template_path = nil)
   
-    unless template_path.nil?
-      require File.absolute_path(template_path) + '/application.rb'
-    else
-      require Configs.root + 'templates/application.rb'
-    end
+    load_templates template_path
   
     say "Supported tokens:\n\n"
     if options.details?
@@ -110,15 +106,12 @@ class DocJs < Thor
   
   desc "tasks TEMPLATE_PATH?", "Lists all registered render-tasks\nNeeds your TEMPLATE_PATH to include your own custom tokens. If TEMPLATE_PATH is ommitted, only the default-tokens will be shown"
   def tasks(template_path = nil)
-    unless template_path.nil?
-      require File.absolute_path(template_path) + '/application.rb'
-    else
-      require Configs.root + 'templates/application.rb'
-    end
+    
+    load_templates template_path
     
     say "Registered render-tasks:"
     
-    task_table = Processor.render_tasks.map{|k,v| [":#{k}","# #{v.description}"] }.sort
+    task_table = Tasks::RenderTask.all.map{|task| ["#{task.name}","# #{task.description}"] }.sort
     
     print_table task_table, :ident => 2, :colwidth => 20    
   end  
@@ -160,6 +153,8 @@ class DocJs < Thor
         
     Logger.info "Copying the included *.rb files to #{Configs.includes}"    
   end
+  
+  
   
   desc "configure [NEW_CONFIGFILE]", "Helps you creating your build.yml to start off with doc.js"
   def configure(output_file = "build.yml", preconfigured = {})

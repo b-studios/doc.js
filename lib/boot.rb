@@ -34,3 +34,22 @@ def setup_application(options = {})
   Logger.debug "Output Dir:    #{Configs.output}"
   Logger.debug "Template Dir:  #{Configs.templates}"
 end
+
+def load_templates(template_path = nil)
+
+  if template_path.nil? and Configs.templates
+    template_path = Configs.templates
+  
+  elsif template_path.nil?
+     template_path =( Configs.root + 'templates').to_path
+  
+  else
+    template_path = File.absolute_path(template_path)
+  end
+  
+  require template_path + '/application.rb'
+  
+  # After loading all template files, we can include our template-helper
+  Tasks::RenderTask.use Helper::Template
+   
+end

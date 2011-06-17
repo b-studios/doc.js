@@ -51,5 +51,3 @@ module Tasks
     end
   end
 end
-
-Processor.register_render_task :json_data, Tasks::JsonDataTask

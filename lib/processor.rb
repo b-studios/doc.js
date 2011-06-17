@@ -71,21 +71,8 @@ module Processor
   #     - files:     converts specified markdown files and renders them
   #  
   def self.perform_all_tasks
-    perform_tasks @@render_tasks.keys
+    Tasks::RenderTask.all.each { |task| task.new.perform }
   end
-  
-  def self.perform_tasks(tasks)
-  
-    tasks = [tasks] unless tasks.is_a? Array
-    
-    tasks.each do |task|
-      task = task.to_sym
-      raise Exception, "No render-task registered with name '#{task}'" unless @@render_tasks.has_key? task
-      
-      Logger.debug "Rendering task '#{task}'"
-      @@render_tasks[task].new.perform
-    end
-  end 
   
   # @group Stage #4 - Document Processor
     
@@ -105,19 +92,5 @@ module Processor
       # The docs can be accessed via Dom later on
     end
   end
-  
-  
-  
-  # @group RenderTask-Setup
-  
-  def self.register_render_task(name, klass)
-    @@render_tasks[name.to_sym] = klass 
-  end
-
-  def self.unregister_render_task(name)
-    @@render_tasks.delete(name.to_sym)
-  end   
-  
-  
-  
+ 
 end

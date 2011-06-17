@@ -33,8 +33,14 @@ module Tasks
     end
     
     def self.use(helper_module)
-     self.include helper_module
+     include helper_module
     end 
+    
+    def self.all
+      Tasks.constants
+           .map { |c| Tasks.const_get c }
+           .select { |klass| klass.class == Class and klass.superclass == Tasks::RenderTask }
+    end
     
     protected
     
@@ -108,5 +114,6 @@ module Tasks
     def resolve(nodename)
       @_context.resolve nodename
     end
+    
   end
 end

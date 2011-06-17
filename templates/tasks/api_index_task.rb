@@ -22,5 +22,3 @@ module Tasks
     end
   end
 end
-
-Processor.register_render_task :api_index, Tasks::ApiIndexTask

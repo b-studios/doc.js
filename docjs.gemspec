@@ -4,8 +4,8 @@ Gem::Specification.new do |s|
 
 
   s.name = 'docjs'
-  s.version = '0.1.2'
-  s.date = '2011-06-07'
+  s.version = '0.1.3'
+  s.date = '2011-06-16'
   s.summary = "Javascript Documentation Generator"
   s.description = "Create beautyful Javascript documentations with this ruby-gem. It's pretty easy to customize and add your own tokens/DSL."
   s.homepage = "https://github.com/b-studios/doc.js"

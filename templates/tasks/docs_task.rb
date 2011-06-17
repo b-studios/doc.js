@@ -1,7 +1,7 @@
 module Tasks
 
   class DocsTask < RenderTask
-
+  
     describe     'renders all specified Markdown files to static documentation'
     layout       'application'
     
@@ -29,5 +29,3 @@ module Tasks
 
   end
 end
-
-Processor.register_render_task :docs, Tasks::DocsTask

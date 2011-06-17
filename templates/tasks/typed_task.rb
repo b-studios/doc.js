@@ -2,7 +2,6 @@ module Tasks
 
   class TypedTask < RenderTask
 
-
     # @todo those methods and therefore all class-variables @@configs are shared with all inheriting
     #   classes. i.e. The last change will be applied to all
     describe     'renders documented objects type-dependant (Functions and Objects)'
@@ -50,5 +49,3 @@ module Tasks
     end    
   end
 end
-
-Processor.register_render_task :typed, Tasks::TypedTask
