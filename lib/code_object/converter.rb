@@ -14,7 +14,7 @@ module CodeObject
     def to_code_object
 
       # 1. Create a new CodeObject from Type-Token   
-      @code_object = Type.create_matching_object(@tokenlines) or return nil
+      @code_object = find_type_for(@tokenlines) or return nil
             
       # join all documentation-contents
       @code_object.docs = @doclines.join ''     
@@ -43,6 +43,29 @@ module CodeObject
         yield(code_object) unless code_object.nil?
       end
     end
+    
+    
+    def find_type_for(tokenlines)
+    
+      # all_types returns a hash like {:object => CodeObject::Object ...}
+      available_types = CodeObject.all_types
+    
+      types = tokenlines.select {|t| available_types.has_key? t.token }
+      
+      if types.size > 1
+        raise CodeObject::MultipleTypeDeclarations.new, "Wrong number of TypeDeclarations: #{types}"
+      elsif types.size == 0
+        # it's not possible to create instance
+        return nil
+      end
+      
+      type = types.first
+      
+      # Get Class and instantiate it with content
+      klass = available_types[type.token]
+      klass.new(type.content)
+    end
+    
     
   end
 end

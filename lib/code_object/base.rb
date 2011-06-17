@@ -10,6 +10,16 @@ require_relative '../parser/meta_container'
 #
 module CodeObject
 
+  # Find all CodeObject-Types, that inherit from Base
+  # @return [Hash] like {:object => CodeObject::Object, :function => CodeObject::Function }
+  def self.all_types
+    Hash[self.constants
+             .map { |c| [c.to_s.downcase.to_sym, self.const_get(c)] }
+             .select { |klass| klass[1].class == Class and klass[1].ancestors.include? Base }
+        ]
+  end  
+
+
   class Base
 
     include Token::Container
@@ -34,7 +44,7 @@ module CodeObject
     def docs=(docstring)
       @docs = docstring.strip
     end
-    
+          
     protected
     
     # This is a Helpermethod, which can be used in subclasses like CodeObject::Function
