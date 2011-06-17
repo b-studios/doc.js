@@ -9,7 +9,7 @@ class Renderer
     @_layout = layout
   end
 
-  # Teilweise aus rails...
+  # Pretty much inspired by Ruby on Rails
   # @todo better error-handling with partial and layout context information!!!
   def render(opt = nil, extra_options = {})
 
@@ -32,19 +32,28 @@ class Renderer
       parts = opt[:partial].split('/')
       parts[-1] = "_"+parts.last        
       
+      template = path_to_template(parts.join('/'))
+      
       begin
-        template_file = File.read path_to_template(parts.join('/'))
+        template_source = File.read(template)
       rescue Exception
-        raise "Could not find Partial '#{opt[:partial]}'"
+        raise "Could not find Partial '#{template}'"
       end
+      
       if opt[:collection]
 
         partial_name = opt[:partial].split('/').last
-
-        opt[:collection].map { |item|
-          define_singleton_method(partial_name) { item }
-          ERB.new(template_file).result(binding)
-        }.join "\n"
+        
+        # Render it!
+        begin          
+          opt[:collection].map { |item|
+            define_singleton_method(partial_name) { item }
+            ERB.new(template_source).result(binding)
+          }.join "\n"
+        rescue Exception => e
+          raise "Error while rendering #{partial_name}\n#{e.message}"
+        end
+        
       else
 
         # If there are locals we have to save our instance binding, otherwise we will store our
@@ -58,8 +67,12 @@ class Renderer
             define_singleton_method(local) { value }
           end
         end
-
-        ERB.new(template_file).result(binding)
+        
+        begin
+          ERB.new(template_source).result(binding)
+        rescue Exception => e
+          raise "Error while rendering #{template}\n#{e.message}"
+        end
       end
     else
       # bind @current_path correctly to use in helpers and views
@@ -72,7 +85,13 @@ class Renderer
       end
 
       # render 'view_name', :option1 => 1, :option2 => 2
-      view = ERB.new(File.read path_to_template opt[:template]).result(binding)
+      template = path_to_template opt[:template]
+      begin
+        view = ERB.new(File.read template).result(binding)
+      rescue Exception => e
+        raise "Error while rendering #{template}\n#{e.message}"
+      end
+
       
       # then render with layout
       if opt[:layout]
