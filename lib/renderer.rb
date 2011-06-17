@@ -10,9 +10,9 @@ class Renderer
   end
 
   # Pretty much inspired by Ruby on Rails
-  # @todo better error-handling with partial and layout context information!!!
   def render(opt = nil, extra_options = {})
 
+    # Prepare Options
     if opt.nil?
       opt = { :layout => @_layout }
 
@@ -27,54 +27,9 @@ class Renderer
     end
 
     if opt[:partial]
-    
-      # add underscore to last element of foo/bar/baz
-      parts = opt[:partial].split('/')
-      parts[-1] = "_"+parts.last        
+      render_partial opt
       
-      template = path_to_template(parts.join('/'))
-      
-      begin
-        template_source = File.read(template)
-      rescue Exception
-        raise "Could not find Partial '#{template}'"
-      end
-      
-      if opt[:collection]
-
-        partial_name = opt[:partial].split('/').last
-        
-        # Render it!
-        begin          
-          opt[:collection].map { |item|
-            define_singleton_method(partial_name) { item }
-            ERB.new(template_source).result(binding)
-          }.join "\n"
-        rescue Exception => e
-          raise "Error while rendering #{partial_name}\n#{e.message}"
-        end
-        
-      else
-
-        # If there are locals we have to save our instance binding, otherwise we will store our
-        # newly created local-variables in the blockcontext of each_pair
-        # values has to be defined explicitly to be overridden by the block and still available inside of eval
-        if opt[:locals]
-          value = nil
-          instance_context = binding
-          opt[:locals].each_pair do |local, value|
-            Logger.warn("Please change your partial-name or local binding, because #{local} is already set in this context.") if respond_to? local
-            define_singleton_method(local) { value }
-          end
-        end
-        
-        begin
-          ERB.new(template_source).result(binding)
-        rescue Exception => e
-          raise "Error while rendering #{template}\n#{e.message}"
-        end
-      end
-    else
+    else    
       # bind @current_path correctly to use in helpers and views
       if opt[:to_file]
         # Make absolute
@@ -122,6 +77,57 @@ class Renderer
 
   def path_to_template(file)
     File.expand_path "#{file}.html.erb", @_path
+  end
+
+  def render_partial(opt)
+  
+    # add underscore to last element of foo/bar/baz
+    parts = opt[:partial].split('/')
+    parts[-1] = "_"+parts.last        
+    
+    template = path_to_template(parts.join('/'))
+    
+    begin
+      template_source = File.read(template)
+    rescue Exception
+      raise "Could not find Partial '#{template}'"
+    end 
+    
+    if opt[:collection]
+
+      partial_name = opt[:partial].split('/').last
+      
+      # Render it!
+      begin          
+        opt[:collection].map { |item|
+          define_singleton_method(partial_name) { item }
+          ERB.new(template_source).result(binding)
+        }.join "\n"
+      rescue Exception => e
+        raise "Error while rendering #{partial_name}\n#{e.message}"
+      end
+    
+    # It's not a collection  
+    else
+
+      # If there are locals we have to save our instance binding, otherwise we will store our
+      # newly created local-variables in the blockcontext of each_pair
+      # values has to be defined explicitly to be overridden by the block and still available inside of eval
+      if opt[:locals]
+        value = nil
+        instance_context = binding
+        opt[:locals].each_pair do |local, value|
+          Logger.warn("Please change your partial-name or local binding, because #{local} is already set in this context.") if respond_to? local
+          define_singleton_method(local) { value }
+        end
+      end
+      
+      begin
+        ERB.new(template_source).result(binding)
+      rescue Exception => e
+        raise "Error while rendering #{template}\n#{e.message}"
+      end
+    end
   end
 
 end
