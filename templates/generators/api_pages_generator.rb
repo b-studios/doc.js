@@ -1,6 +1,6 @@
-module Tasks
+module Generator
 
-  class TypedTask < RenderTask
+  class ApiPagesGenerator < Generator
 
     # @todo those methods and therefore all class-variables @@configs are shared with all inheriting
     #   classes. i.e. The last change will be applied to all

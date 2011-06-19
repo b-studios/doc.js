@@ -1,6 +1,6 @@
 require 'rdiscount'
 require_relative 'dom/dom'
-require_relative 'tasks/render_task'
+require_relative 'generator/generator'
 require_relative 'document/document'
 
 module Processor
@@ -52,18 +52,9 @@ module Processor
   
   
   # @group Stage #3 - TemplateProcessor  
-  
-  # just some notes
-  
-  # command line:
-  #     $~ jsdoc render_tasks
-  #     Registered Rendertasks:
-  #     - typed:     renders objects type-dependant
-  #     - overview:  renders an overview
-  #     - files:     converts specified markdown files and renders them
-  #  
+
   def self.perform_all_tasks
-    Tasks::RenderTask.all.each { |task| task.new.perform }
+    Generator::Generator.all.each { |task| task.new.perform }
   end
   
   # @group Stage #4 - Document Processor

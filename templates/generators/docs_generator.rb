@@ -1,6 +1,6 @@
-module Tasks
+module Generator
 
-  class DocsTask < RenderTask
+  class DocsGenerator < Generator
   
     describe     'renders all specified Markdown files to static documentation'
     layout       'application'

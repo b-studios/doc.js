@@ -47,9 +47,5 @@ def load_templates(template_path = nil)
     template_path = File.absolute_path(template_path)
   end
   
-  require template_path + '/application.rb'
-  
-  # After loading all template files, we can include our default-template-helper
-  Tasks::RenderTask.use Helper::Template if Helper.const_defined? :Template
-   
+  require template_path + '/application.rb'   
 end

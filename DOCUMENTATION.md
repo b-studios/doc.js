@@ -3,9 +3,8 @@ Fullqualifier
 Like an absolute path (/etc/init.d/apache2) we use `FOO.bar` as fullqualifier to
 an object or function.
 
-A leading dot suggests filling the empty leading space with the current parsing-context
-without modifying it. As such `.something_else` would be resolved to 
-`FOO.bar.something_else` in the current context.
+A leading dot suggests filling the empty leading space with the current parsing-context. 
+As such `.something_else` would be resolved to `FOO.bar.something_else` in the current context.
 
 Examplecode:
 
@@ -38,4 +37,3 @@ Examplecode:
         property_of_the: "returned object"
       };    
     }
-

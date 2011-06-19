@@ -2,15 +2,18 @@ require_relative '../renderer'
 require_relative '../dom/dom'
 require_relative '../helper/helper'
 
-module Tasks
+module Generator
 
-  class RenderTask < Renderer
+  class Generator < Renderer
   
-    include Helper::Helper
-      
     def initialize
       super(Configs.templates + configs(:templates), configs(:layout))
       
+      # include all Helpers
+      Helper.constants
+            .map { |c| Helper.const_get c }
+            .each { |mod| extend mod if mod.is_a? Module }
+            
       # Set Global Context to Dom's root node
       @_context = Dom.root
     end
@@ -32,19 +35,22 @@ module Tasks
        configs(:description)
     end
     
+    # not neccesarily needed, because all Helpers are included by default
     def self.use(helper_module)
      include helper_module
-    end 
+    end
     
     def self.all
-      Tasks.constants
-           .map { |c| Tasks.const_get c }
-           .select { |klass| klass.class == Class and klass.superclass == Tasks::RenderTask }
+      # Otherwise we don't get the global Generator-Module
+      gen_module = Object.const_get(:Generator)
+      gen_module.constants
+                .map { |c| gen_module.const_get c }
+                .select { |klass| klass.class == Class and klass.superclass == self }
     end
     
     protected
     
-    # @group Task-Specification methods
+    # @group Generator-Specification methods
     
     def self.describe(desc)
       self.set_config(:description, desc.to_s)

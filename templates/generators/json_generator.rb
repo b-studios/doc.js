@@ -1,6 +1,6 @@
-module Tasks
+module Generator
 
-  class JsonDataTask < RenderTask
+  class JsonGenerator < Generator
 
     describe     'renders all documented objects to a json file. Objects and Functions are handled seperatly'
     layout       nil

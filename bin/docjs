@@ -209,16 +209,16 @@ class DocJs < Thor
   
   
   
-  desc "tasks TEMPLATE_PATH?", "Lists all registered render-tasks\nNeeds your TEMPLATE_PATH to include your own custom tokens. If TEMPLATE_PATH is ommitted, only the default-tokens will be shown"
-  def tasks(template_path = nil)
+  desc "generators TEMPLATE_PATH?", "Lists all registered generators\nNeeds your TEMPLATE_PATH to include your own generators."
+  def generators(template_path = nil)
     
     load_templates template_path
     
-    say "Registered render-tasks:"
+    say "Registered Generators:"
     
-    task_table = Tasks::RenderTask.all.map{|task| ["#{task.name}","# #{task.description}"] }.sort
+    gen_table = Generator::Generator.all.map{|gen| ["#{gen.name}","# #{gen.description}"] }.sort
     
-    print_table task_table, :ident => 2, :colwidth => 20    
+    print_table gen_table, :ident => 2, :colwidth => 40    
   end 
 end
 

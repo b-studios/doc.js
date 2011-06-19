@@ -1,6 +1,6 @@
-module Tasks
+module Generator
 
-  class ApiIndexTask < RenderTask
+  class ApiIndexGenerator < Generator
 
     describe     'renders the api_index.html file containing all documented elements as alphabetic listing'
     layout       'application'
