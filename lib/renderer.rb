@@ -58,6 +58,8 @@ class Renderer
         # create directories recursive
         FileUtils.mkpath File.dirname opt[:to_file]
 
+        # Working with Thor-Actions would be nice, but it seems to be too much overhead for this small
+        # renderer
         File.open(opt[:to_file], "w+") do |f|
           f.write view
         end

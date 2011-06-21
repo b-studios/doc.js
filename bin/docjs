@@ -30,10 +30,10 @@ class DocJs < Thor
     
   desc "CONFIG_FILE", "Starts documentation process"
   set_options :files =>
-                  { :type => :array,  :aliases => '-f', :default => [], :required => true },
+                  { :type => :array,  :aliases => '-f', :default => [] },
                
               :docs =>
-                  { :type => :array,  :aliases => '-d', :default => ['README.md'], :required => true },
+                  { :type => :array,  :aliases => '-d', :default => ['README.md'] },
   
               :output =>
                   { :type => :string, :aliases => '-o', :default => 'out' },

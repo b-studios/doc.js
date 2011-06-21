@@ -15,6 +15,13 @@ module Generator
                
         render_document doc        
       end
+      
+      
+      readme = Dom.docs.find('README')
+      in_context readme do
+        @document = readme
+        render 'doc_page', :to_file => "index.html"
+      end
     end
 
     def render_document(document)       

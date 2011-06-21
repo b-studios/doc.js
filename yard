@@ -1,2 +1,2 @@
 #!/bin/bash
-yardoc --hide-void-return --markup markdown lib/**/*.rb lib/*.rb bin/jsdoc templates/**/*.rb templates/*.rb - CONCEPT.md DOCUMENTATION.md
+yardoc --hide-void-return --markup markdown lib/**/*.rb lib/*.rb bin/jsdoc templates/**/*.rb templates/*.rb - CONCEPT.md DOCUMENTATION.md TRY.md USE.md ARCHITECTURE.md CUSTOMIZE.md

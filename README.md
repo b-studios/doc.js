@@ -4,11 +4,30 @@ Bad news first: **You still have to write documentation**
 
 Good news: **It will look awesome!!**
 
+Doc.js is a JavaScript-Documentation tool which detects `tokens` in your comments and 
+generates documentation out of it. Doc.js could be ported pretty easy to any other
+language, because the most of it's parts are language agnostic.
+
+If you read this, you may belong to one of the following four groups:
+
+1. You want to **try out Doc.js** for the first time
+2. You need some more **information, how to use Doc.js**
+3. You want to **customize Doc.js**, to exactly fit your needs
+4. You are interested in the **architectural insides** of Doc.js
 
 Supported Ruby-Version
 ======================
-Currently **only ruby > 1.9** is supported. I am working on supporting > 1.8.7, though this is not 
-my target platform.
+Currently **only ruby > 1.9.x is supported. Support for 1.8.x is not planned, 
+because there are some problems:
+
+- UTF-8 Support in parser
+- Intensive use of require_relative
+- Named captures in RegularExpressions
+
+For the last two a rewrite could solve the compatibility issues. Sadly enough
+currently i don't find the time to fix thoses and the first problem in 1.8.x so
+only 1.9 is supported. If you have the time to work on 1.8 compatibility you would
+make me (and possibly some other 1.8 users) very happy.
 
 
 Installation
@@ -23,59 +42,6 @@ installed while installing docjs:
 
   - thor
   - rdiscount
-  
-
-Basic Usage
-===========
-
-Configuration
--------------
-Before you can use Doc.js you may create your own **Configuration-File**. This 
-can easily be done, using the built-in 
-configuration-generator:
-
-    docjs configure
-    
-You optionally can specify the filename of your configuration file. If no file 
-is specified the configs will be written to `build.yml`.
-
-    docjs configure my_config_file.yml
-
-The configuration is an interactive one - simply answer the questions you will 
-be asked.
-
-
-Start documenting your code
----------------------------
-To make jsdoc recognize your documentation you have to use some special tokens.
-Let's write a documented function `hello_doc`:
-    
-    /**
-     * @function hello_doc
-     *
-     * Innovative function to greet a Person.
-     *
-     * @param [String] name the person you want to greet
-     * @return void
-     */
-    function hello_doc(name) {
-      console.log("Hello " + name + "!");
-    }
-    
-The symbols `@function`, `@param` and `@return` are called **tokens** in Doc.js. 
-There are many more by default. To see which one you can use simply type:
-
-    docjs tokens
-  
-
-Run the documentation and enjoy!
---------------------------------
-Now it's time to kickoff the documentation-process by typing:
-
-    docjs your_config.yml
-
-You will find the docs in the output-directory you have specified in your 
-config-file.
 
 
 Legal Notice

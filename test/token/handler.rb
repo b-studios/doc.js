@@ -2,6 +2,9 @@
 require_relative '../../lib/parser/comment'
 require_relative '../../lib/code_object/function'
 
+# Warning! This Tests have some sideeffects. All registered Tokens will create Classes, that are not
+# removed on unregister
+
 describe Token::Handler, ".register" do
   
   before :each do
@@ -36,7 +39,7 @@ describe Token::Handler, ".register" do
   context "using a typed handler" do    
   
     before do 
-      Token::Handler.register :test_handler, :typed
+      Token::Handler.register :test_handler, :handler => :typed
       token = Parser::Tokenline.new :test_handler, "[MyType] This is some content"
       @object.process_token(token)
     end
@@ -56,7 +59,7 @@ describe Token::Handler, ".register" do
   context "using a typed_with_name handler" do    
   
     before do 
-      Token::Handler.register :test_handler, :typed_with_name
+      Token::Handler.register :test_handler, :handler => :typed_with_name
       token = Parser::Tokenline.new :test_handler, "[Foo, Bar, Baz] MyName This is some content"
       @object.process_token(token)
     end
@@ -76,7 +79,7 @@ describe Token::Handler, ".register" do
   
   context "processing a token without handler" do
     
-    token = Parser::Tokenline.new :test_handler, "[Foo, Bar, Baz] MyName This is some content"
+    token = Parser::Tokenline.new :some_not_known_handler, "[Foo, Bar, Baz] MyName This is some content"
     
     it "should raise an error" do
       should_raise Token::NoTokenHandler do
@@ -111,24 +114,24 @@ describe Token::Handler, ".register" do
   context "using a user-defined block as token-handler" do
     
     before do
-      Token::Handler.register(:test_handler) do |token, content|
+      Token::Handler.register(:test) do |tokenklass, content|
         define_singleton_method :test_token do 
-          token
+          tokenklass
         end
         
         define_singleton_method :test_content do 
           content
         end
       end
-      @object.process_token Parser::Tokenline.new :test_handler, "This is some content"
+      @object.process_token Parser::Tokenline.new :test, "This is some content"
     end
     
     it "should be added to the list of handlers" do
-      Token::Handler.handlers.include?(:test_handler).should == true
+      Token::Handler.handlers.include?(:test).should == true
     end
     
     it "should be evaled in CodeObject context" do
-      @object.test_token.should == :test_handler
+      @object.test_token.should == Token::Token::TestToken
       @object.test_content.should == "This is some content"
     end
     

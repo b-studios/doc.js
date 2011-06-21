@@ -21,7 +21,7 @@ describe CodeObject::Converter, "#to_code_object" do
       subject { @objects[0] }
       
       it "should be a function named 'say_hello'" do
-        subject.class.should == CodeObject::Function
+        subject.is_a?(CodeObject::Function).should == true
         subject.name.should == "say_hello"
       end
       
@@ -45,7 +45,7 @@ describe CodeObject::Converter, "#to_code_object" do
       subject { @objects[1] }
     
       it "should be an Object named 'FOO'" do
-        subject.class.should == CodeObject::Object
+        subject.is_a?(CodeObject::Object).should == true
         subject.name.should == "FOO"
       end    
     end
@@ -54,7 +54,7 @@ describe CodeObject::Converter, "#to_code_object" do
       subject { @objects[2] }
     
       it "should be an Function named 'some_function'" do
-        subject.class.should == CodeObject::Function
+        subject.is_a?(CodeObject::Function).should == true
         subject.name.should == "some_function"
       end
       
