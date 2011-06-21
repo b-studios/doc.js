@@ -52,12 +52,34 @@ In a configuration file, you can use a simple yml-list:
     - first_file.js
     - others/*.js
      
+Types
+=====
+Types specify the `type` of the documented CodeObject. There are a only a few types available per 
+default:
+
+- `@object`
+- `@function`
+- `@prototype`
+
+The first two are considered primitives of the JavaScript language. Advanced concepts like classes, 
+mixins, pseudoclassical inheritence and so on can easily be added by {file:CUSTOMIZE.md creating 
+your own template} or modifying the existing one.
+
 
 Available Tokens
 ================
 
 @author
 -------
+| Handler          | Area       | Template
+|:-----------------|:-----------|:-------------
+| :default         | :sidebar   | :default
+
+Can be used multiple times for many authors like:
+
+    @author Jon Foo
+    @author Peter Bar (Editor)
+    
 
 @constructor
 ------------
@@ -120,3 +142,19 @@ Available Tokens
 -----
 
 
+The Default Tokenhandlers
+=========================
+
+ :default
+ 
+ :typed
+ 
+ ...
+ 
+
+Areas
+=====
+
+
+Token-Templates
+===============

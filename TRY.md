@@ -5,17 +5,19 @@ Prerequisites: You need Ruby >= 1.9 to run Doc.js
     gem install docjs  
 
 After installing the gem, you can start by typing `docjs` in your console. This
-will bring up an overview of all available commands. To retreive some more
-information about one specific command simply type `docjs help COMMAND_NAME`.
-    
+will bring up a small introduction and an overview of all available commands. 
+To retreive some more information about one specific command simply type 
+
+    docjs help COMMAND_NAME
+
+
 Basic Usage
 ===========
 
 Configuration
 -------------
 Before you can use Doc.js you may create your own **Configuration-File**. This 
-can easily be done, using the built-in 
-configuration-generator:
+can easily be done, using the built-in configuration-generator:
 
     docjs configure
     

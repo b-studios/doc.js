@@ -10,10 +10,10 @@ language, because the most of it's parts are language agnostic.
 
 If you read this, you may belong to one of the following four groups:
 
-1. You want to **try out Doc.js** for the first time
-2. You need some more **information, how to use Doc.js**
-3. You want to **customize Doc.js**, to exactly fit your needs
-4. You are interested in the **architectural insides** of Doc.js
+1. You want to {file:TRY.md try out Doc.js} for the first time
+2. You need some more {file:USE.md information, how to use Doc.js}
+3. You want to {file:CUSTOMIZE.md customize Doc.js}, to exactly fit your needs
+4. You are interested in the {file:ARCHITECTURE.md architectural insides} of Doc.js
 
 Supported Ruby-Version
 ======================
@@ -24,7 +24,7 @@ because there are some problems:
 - Intensive use of require_relative
 - Named captures in RegularExpressions
 
-For the last two a rewrite could solve the compatibility issues. Sadly enough
+For the last two, a rewrite could solve the compatibility issues. Sadly enough
 currently i don't find the time to fix thoses and the first problem in 1.8.x so
 only 1.9 is supported. If you have the time to work on 1.8 compatibility you would
 make me (and possibly some other 1.8 users) very happy.
@@ -34,17 +34,19 @@ Installation
 ============
     gem install docjs    
 
-
-Required Gems
-=============
+Dependencies
+============
 The following Gems are required to make docjs work and should automatically be 
 installed while installing docjs:
 
-  - thor
-  - rdiscount
+- thor
+- rdiscount
 
 
-Legal Notice
-============
+Legal Notice & Contact
+======================
 docjs is released under MIT-License. See LICENSE.md for more information.
-The used icons, are part of the legendary famfamfam-silk-iconset. (http://www.famfamfam.com/lab/icons/silk/)
+The used icons, are part of the legendary [famfamfam-silk-iconset](http://www.famfamfam.com/lab/icons/silk/).
+
+For further information about contacting me, please visit my personal [blog](http://b-studios.de).
+Of course you are also invited to [follow me on twitter](http://twitter.com/#!/__protected).
