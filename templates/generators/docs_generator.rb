@@ -21,7 +21,7 @@ module Generator
       in_context readme do
         @document = readme
         render 'doc_page', :to_file => "index.html"
-      end
+      end unless readme.nil?
     end
 
     def render_document(document)       

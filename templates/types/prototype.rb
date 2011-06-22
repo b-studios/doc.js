@@ -1,8 +1,7 @@
 class CodeObject::Prototype < CodeObject::Object
   
-  def initialize(*args)
-    super(*args)
-    @path += '.prototype'
+  def initialize(path)
+    super(path.strip + '.prototype')
   end
   
   # get the constructor, for which this prototype is used

@@ -60,11 +60,58 @@ default:
 - `@object`
 - `@function`
 - `@prototype`
+- (`@constructor`)
 
 The first two are considered primitives of the JavaScript language. Advanced concepts like classes, 
-mixins, pseudoclassical inheritence and so on can easily be added by {file:CUSTOMIZE.md creating 
-your own template} or modifying the existing one.
+mixins, pseudoclassical inheritence and so on can easily be added by {file:CUSTOMIZE.md creating your own template} 
+or modifying the existing one.
 
+Types classify the piece of code, you are documenting - so adding a type is essential and always 
+required.
+
+    /**
+     * @function sayHello
+     */
+
+Creates a documentation-element named `sayHello` with the type {CodeObject::Function}.
+
+Namespacing
+===========
+Because writing documentation takes enough time, there is a shorthand to express namespaces **relative**
+to the parent in the surrounding scope. 
+
+    /**
+     * @object some.namespace
+     */
+    var some.namespace = {
+      
+      /**
+       * @function some.namespace.sayHello
+       */
+       sayHello: function() {...}
+    }
+
+can be rewritten as:
+
+    /**
+     * @object some.namespace
+     */
+    var some.namespace = {
+      
+      /**
+       * @function .sayHello
+       */
+       sayHello: function() {...}
+    }
+    
+This only works, because the JavaScript-Parser of Doc.js is working scope-aware. So you always can 
+use the dot-notation if your comment is in the lexical-scope of the parent comment.
+
+The dot-notation (`.sayHello`) was inspired by file-system, where one dot refers to the current
+directory. It also fit's into the JavaScript context, because the child can be accessed by using
+the dot.
+
+Please note: **If relative naming results in errors you still can use absolute naming**.
 
 Available Tokens
 ================
@@ -83,36 +130,87 @@ Can be used multiple times for many authors like:
 
 @constructor
 ------------
+Simply creates a function-type and makes it answer `fun.constructor?` with `true`.
+
 
 @deprecated 
 -----------
+| Handler          | Area           | Template
+|:-----------------|:---------------|:-------------
+| :default         | :notification  | :default
 
 @event
 ------
+| Handler                  | Area    | Template
+|:-------------------------|:--------|:-------------
+| :named_nested_shorthand  | :body   | :default
 
 @example
 --------
+| Handler          | Area   | Template
+|:-----------------|:-------|:-------------
+| :named_multiline | :body  | :example
 
 @function
 ---------
+Type
+
 
 @method
 -------
+Type
 
 @note
 -----
+| Handler          | Area           | Template
+|:-----------------|:---------------|:-------------
+| :default         | :notification  | :default
 
 @object
 -------
+Using @object set's the type of the documented CodeObject to {CodeObject::Object}. No token will be
+added. See {file:USE.md#Types types} for further information about the types in Doc.js.
 
 @overload
 ---------
+| Handler      | Area   | Template
+|:-------------|:-------|:----------
+| :custom      | :none  | :default
+
+You can use overloads, if your **function requires multiple signatures**.
+So instead of adding your `@param`'s and `@return`'s directly to the function's documentation you 
+specify overloads like:
+
+    /**
+     * @function non.sense
+     *
+     * @overload
+     *   Your description of this overload. Every line, not starting with `@` or intended by  2 spaces
+     *   (Which indicate linecontinuation) is treated as documentation for the overload.
+     *   
+     *   @param [String] name your name. We can continuate this line, by simply intending it
+     *     two spaces. You see? Simple, hu?
+     *   @param [Array<String>] collegues Your coworkers
+     *   @return [Void] Returns nothing!
+     *
+     * @overload
+     *   This is another way to use this function. It only requires one parameter.
+     *   @param [Object] person 
+     *   @return [String] The name of the person
+     */
+     
+Please note, that in line 7 of this example the continuation of @overload is achieved due intending
+the empty line with some spaces.
+
 
 @param
 ------
 
 @private
 --------
+| Handler          | Area       | Template
+|:-----------------|:-----------|:-------------
+| :default         | :sidebar   | :default
 
 @prop
 -----
@@ -122,6 +220,9 @@ Can be used multiple times for many authors like:
 
 @public
 -------
+| Handler          | Area       | Template
+|:-----------------|:-----------|:-------------
+| :default         | :sidebar   | :default
 
 @return
 -------
@@ -134,12 +235,21 @@ Can be used multiple times for many authors like:
 
 @todo
 -----
+| Handler          | Area           | Template
+|:-----------------|:---------------|:-------------
+| :default         | :notification  | :default
 
 @version
 --------
+| Handler          | Area       | Template
+|:-----------------|:-----------|:-------------
+| :default         | :sidebar   | :default
 
 @warn
 -----
+| Handler          | Area           | Template
+|:-----------------|:---------------|:-------------
+| :default         | :notification  | :default
 
 
 The Default Tokenhandlers
