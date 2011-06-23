@@ -1,7 +1,7 @@
 Configuration Options
 =====================
 You can run Doc.js with your custom configuration by either adding the desired
-options as command-line parameter or by writing them in a configuration-file.
+options as **command-line** parameter or by writing them in a **configuration**-file.
 All available options are listed if you type:
 
     docjs help docjs
@@ -22,22 +22,23 @@ Then simply run:
 
     docjs docjs.yml
 
-
-**TODO: describe docjs configure **
+**Please note that all paths you specify will be resolved relative to the current working 
+directory!**
 
 
 List of Config-options
 ----------------------
 
 | Option       | Default    | Usage            
-|--------------|------------|------------------
-| `appname`    | MyAppName  |
+|--------------|------------|-----------------------------------------------------------------------
+| `appname`    | MyAppName  | The appname, which is stored in `Configs.options[:appname]` and can be used in the view-templates.
 | `docs`       | README.md  | List of Markdown-documents. You can use wildcards like `docs/**/*.md`
-| `files`      | ---        |                  
-| `logfile`    | ---        |                  
-| `loglevel`   | info       |
-| `output`     | out        |
-| `templates`  | *internal* |
+| `files`      | ---        | List of JavaScript-Files. Just like the docs, you can use wildcards in the paths.
+| `logfile`    | ---        | Use this path if you want the log-messages to be written to a file.       
+| `loglevel`   | info       | All the messages lower then the specified level will not be printed. Available levels are (in that order): `debug`, `info`, `warn`, `error`
+|              |            | 
+| `output`     | out        | The generated documentation will be saved at this path. Please double-check it to prevent files to be overriden. 
+| `templates`  | *internal* | If you used `scaffold` or created your own templates by hand, you have to specify this path to make docjs use them.
 
 
 Note
@@ -46,12 +47,13 @@ Commandline lists like `docs` and `files` are whitespace separated.
 
     --files="first_file.js" "others/*.js"
     
-In a configuration file, you can use a simple yml-list:
+In a configuration file, you can use a simple YAML-list:
 
     files: 
     - first_file.js
     - others/*.js
-     
+
+
 Types
 =====
 Types specify the `type` of the documented CodeObject. There are a only a few types available per 
@@ -63,11 +65,13 @@ default:
 - (`@constructor`)
 
 The first two are considered primitives of the JavaScript language. Advanced concepts like classes, 
-mixins, pseudoclassical inheritence and so on can easily be added by {file:CUSTOMIZE.md creating your own template} 
-or modifying the existing one.
+mixins, pseudoclassical inheritence and so on can easily be added by 
+{file:CUSTOMIZE.md creating your own template} or modifying the existing one. `@prototype` is added
+as type, so you can see how to create your own custom-types. More information about the `@prototype`
+- type can be found in {file:PATTERNS.md#Prototypal_Inheritance the documentation-pattern-list}.
 
-Types classify the piece of code, you are documenting - so adding a type is essential and always 
-required.
+Types classify the piece of code, you are documenting - so adding a type is essential and **always 
+required**.
 
     /**
      * @function sayHello
@@ -77,8 +81,8 @@ Creates a documentation-element named `sayHello` with the type {CodeObject::Func
 
 Namespacing
 ===========
-Because writing documentation takes enough time, there is a shorthand to express namespaces **relative**
-to the parent in the surrounding scope. 
+Because writing documentation takes enough time, there is a shorthand to express namespaces 
+**relative** to the parent in the surrounding scope. 
 
     /**
      * @object some.namespace
@@ -185,8 +189,8 @@ specify overloads like:
      * @function non.sense
      *
      * @overload
-     *   Your description of this overload. Every line, not starting with `@` or intended by  2 spaces
-     *   (Which indicate linecontinuation) is treated as documentation for the overload.
+     *   Your description of this overload. Every line, not starting with `@` or intended by  2 
+     *   spaces (Which indicate linecontinuation) is treated as documentation for the overload.
      *   
      *   @param [String] name your name. We can continuate this line, by simply intending it
      *     two spaces. You see? Simple, hu?
@@ -250,21 +254,3 @@ the empty line with some spaces.
 | Handler          | Area           | Template
 |:-----------------|:---------------|:-------------
 | :default         | :notification  | :default
-
-
-The Default Tokenhandlers
-=========================
-
- :default
- 
- :typed
- 
- ...
- 
-
-Areas
-=====
-
-
-Token-Templates
-===============

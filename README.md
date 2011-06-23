@@ -17,7 +17,7 @@ If you read this, you may belong to one of the following four groups:
 
 Supported Ruby-Version
 ======================
-Currently **only ruby > 1.9.x is supported. Support for 1.8.x is not planned, 
+Currently **only ruby > 1.9.x is supported**. Support for 1.8.x is not planned, 
 because there are some problems:
 
 - UTF-8 Support in parser

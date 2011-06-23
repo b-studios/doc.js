@@ -56,7 +56,11 @@ module Helper
       else        
         # use context dependent resolving functionality as specified in {Tasks::RenderTask}
         obj = resolve target
-        to_relative path_to obj unless obj.nil?  
+        unless obj.nil?
+          to_relative path_to obj
+        else
+          nil
+        end  
       end
         
       text ||= target 

@@ -128,7 +128,7 @@ module Dom
       path = path.split(NS_SEP_STRING)
       child = @children[path.shift.to_sym]
       
-      raise WrongPath.new(path) if child.nil?
+      return nil if child.nil?
       
       # decend recursive
       child[path.join(NS_SEP_STRING)]

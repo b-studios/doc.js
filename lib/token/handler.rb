@@ -55,6 +55,9 @@ module Token
     IDENTIFIER = /(?:[^\s])*/
     TYPELIST = /\[(?<types>#{IDENTIFIER}(?:,#{NO_BR}*#{IDENTIFIER})*)\]/
     
+    # Tokens with name and content
+    NAME = /#{NO_BR}*(?<name>#{IDENTIFIER})#{NO_BR}*(?<content>#{ALL}*)/
+    
     # Token with type and content
     TOKEN_W_TYPE = /#{NO_BR}*#{TYPELIST}#{NO_BR}*(?<content>#{ALL}*)/
     
@@ -78,6 +81,11 @@ module Token
         types = typestring.split /,\s*/
         
         tokenklass.new(:types => types, :content => content)
+      },
+      
+      :named => ->(tokenklass, content) {
+        name, content = NAME.match(content).captures        
+        tokenklass.new(:name => name, :content => content)
       },
 
       :typed_with_name => ->(tokenklass, content) {

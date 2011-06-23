@@ -5,14 +5,14 @@ module Token::Handler
   register :private, :area => :sidebar
   register :version, :area => :sidebar
   
-  register :see, :area => :footer
+  register :see, :area => :footnote
 
   register :deprecated, :area => :notification  
   register :todo, :area => :notification
   register :note, :area => :notification
   register :warn, :area => :notification
   
-  register :example, :template => 'examples', :handler => :named_multiline
+  register :example, :template => :examples, :handler => :named_multiline
    
   # Every @overload can contain **text-documentation**, **@param**- and **@return**-tokens
   #

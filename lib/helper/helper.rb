@@ -4,12 +4,12 @@ require 'rdiscount'
 
 require_relative 'linker'
 
-# The Helpers are 'mixed' into your {Tasks::RenderTask} and therefore can be used in all 
+# The Helpers are 'mixed' into your {Generator::Generator generator} and therefore can be used in all 
 # template-views.
 # If you are searching for a method and don't know, where it may be implemented i suggest the 
 # following inheritence chain as your search-strategy:
 #
-#     Helper::IncludedHelpers → Tasks::YourTask → Tasks::RenderTask → Renderer
+#     Helper::IncludedHelpers → Generator::YourGenerator → Generator::Generator → Renderer
 #
 # Somewhere at that chain you will find your desired function.
 module Helper
