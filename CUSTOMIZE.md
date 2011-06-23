@@ -97,7 +97,7 @@ markdown and contain links) to html.
 
 Last thing we have to do is to make the renderer use our new template for `@requires` tokens
 
-    register :requires, :area => :sidebar, :handler => :named, :template => 'requires'
+    register :requires, :area => :sidebar, :handler => :named, :template => :requires
 
 2. Example - Writing your own token-handler
 ===========================================
