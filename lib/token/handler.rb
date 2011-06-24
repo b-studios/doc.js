@@ -1,7 +1,7 @@
 require_relative 'token'
 
-# This module contains all required mixins and modules to register customized
-# tokens, that will be further processed and added to the {CodeObject::Base}.
+# This module contains all required mixins and modules to register customized tokens, that will be 
+# further processed and added to the {CodeObject::Base}.
 #
 # The {CodeObject::Converter converter} starts the {Parser::Tokenline tokenline}-processing, by 
 # calling the mixed-in function {Token::Container#process_token}.
@@ -40,7 +40,7 @@ module Token
   # After creating the right type of {CodeObject::Base CodeObjects} (either an
   # {CodeObject::Object Object}, {CodeObject::Object Function} or a custom type) the 
   # {CodeObject::Converter converter} will trigger the conversion to an appropriate subclass of
-  # {Token::Handler::Token} by calling {Token::Container#process_token #process_token}
+  # {Token::Token} by calling {Token::Container#process_token #process_token}
   # on the CodeObject.
   #
   #     code_object.process_token(my_tokenline)
@@ -48,6 +48,13 @@ module Token
   #     #=> [#<Token::FooToken content="this is a default tokenline">]
   #
   # Tokens are always stored in an array to make multiple usage in one comment possible.
+  # For example one function-comment can contain many `@param`s:
+  #    
+  #     /**
+  #      * @function foo
+  #      * @param [Number] bar
+  #      * @param [String] baz
+  #      */
   #
   # Default Handlers
   # ================
@@ -65,8 +72,12 @@ module Token
   #
   # :typed
   # ------
-  # Typed tokens look like `@return [Foo, Bar] This is the description` - Additional
-  # to their **default content** they specify the possible Types as a comma seperated list.
+  # Typed tokens look like 
+  #
+  #     @return [Foo, Bar] This is the description
+  #
+  # Additional to their default **content** they specify the possible **types** as a commaseperated 
+  # list.
   #  
   # To register a typed-token, you only need to add the `:handler` option
   #  
@@ -75,12 +86,15 @@ module Token
   # This line implicitly generates a class `Token::ReturnToken` which extends {Token::Token},
   # content and types will be filled to access them later:
   #
-  #   my_return_token.content #=> "This is the description"
-  #   my_return_token.types   #=> ["Foo", "Bar]
+  #     my_return_token.content #=> "This is the description"
+  #     my_return_token.types   #=> ["Foo", "Bar]
   #
   # :named
   # ------
-  # Named tokenlines like `@mixin Foo.bar The description of this mixin-usage` could be, 
+  # Named tokenlines like
+  #
+  #     @mixin Foo.bar The description of this mixin-usage
+  #
   # interpret the first part (`Foo.bar`) as **name** and the rest as **content**
   #
   #     Token::Handler.register :mixin, :handler => :named
@@ -106,8 +120,11 @@ module Token
   # :typed_with_name
   # ----------------
   # The typed_with_name handler is much like the **Typed-Token-Handler**. It is neccessary for
-  # tokenlines, like `@param [String] my_param This is a param`. Additional to `content` and
-  # `types` the generated class will contain a `name` property.
+  # tokenlines, like
+  #
+  #     @param [String] my_param This is a param
+  #
+  # Additional to **content** and **types** the generated class will contain a **name** property.
   #
   #     Token::Handler.register :param, :handler => :typed_with_name   
   #     
@@ -124,7 +141,7 @@ module Token
   #       [String] name the name
   #       [Number] age the age of the person
   #
-  # It is called shorthand, because "[String] name the name" is not a full tokenline. (The 
+  # It is called shorthand, because "`[String] name the name`" is not a full tokenline. (The 
   # `@param` is missing.)
   #
   #     Token::Handler.register :param, :handler => :named_nested_shorthand 
@@ -140,8 +157,7 @@ module Token
   # :noop
   # ----- 
   # Can be used, if you don't want to do anything with that token
-  #
-  #
+  # 
   # @see .register
   module Handler
   
@@ -236,51 +252,49 @@ module Token
       @@defaults[default_handler].call(*args)
     end
     
-    # Registering a new Tokenhandler
-    # ==============================
-    # It is possible to register your own Tokenhandlers and therefore extend the
-    # capabilities of this documentation-program.
+    def self.add_default_handler(name, &block)
+      @@defaults[name] = block;
+    end
+    
+    # It is possible to register your own Tokenhandlers and therefore extend the capabilities of 
+    # this documentation-tool (See: {file:CUSTOMIZE.md CUSTOMIZE}).
     #
-    # There are different types of handlers which can be used:
+    # There are different types of handlers which can be used out of the box. Further documentation
+    # about the default handlers can be found {Token::Handler in the introduction}.
     #
-    #   1. Default-handler `:text_only`
-    #   2. Typed-Tokens `:typed`
-    #   3. Tokens with a name and content `:named`
-    #   4. Tokens with name, types and content `:typed_with_name`
-    #   5. Tokens with a name and multiline content 
-    #   6. Named token with nested typed_with_name children `named_nested_shorthand`
-    #   7. Handler, which does nothing `noop`
-    #   8. Your custom handler (see second overload)
+    # Writing your own custom Token-Handler
+    # -------------------------------------
+    # By adding the optional block you easily can build your own Tokenhandler:
     #
+    #      Token::Handler.register(:my_own) do |token_klass, stringcontent|
+    #        # Do something with token_klass and stringcontent
+    #        # but don't forget to add the token like, if you want to access it from the templates:
+    #        # token_klass will be Token::MyOwnToken, which is dynamically created during registration
     #
-    # @overload self.register(tokenname, options={})
-    #  
-    #  Tokens with one of the default handlers can be registered with this overload.
+    #        self.add_token(token_klass.new(:content => stringcontent)
+    #      end
     #
-    # @overload self.register(tokenname, options={}, &handler)
-    #  
-    #  Writing your own custom Token-Handler
-    #  -------------------------------------
-    #  By adding a block in the Tokenregistration you easily can build your own
-    #  Tokenhandler:
+    # Because the token processing is done in the **context of the CodeObject** you
+    # can easily extend or manipulate the Object.
     #
-    #       Token::Handler.register(:my_own) do |token_klass, stringcontent|
-    #         # Do something with token_id and stringcontent
-    #         # but don't forget to add the token like:
-    #         self.add_token(token_klass.new(:content => stringcontent)
-    #       end
+    # @param [String, Symbol] tokenname
+    # @param [Hash] options
+    # @option options [Symbol] :handler (:text_only)
+    # @option options [Symbol, String] :template (:default) The template for this token-collection
+    # @option options [Hash] :html ({}) Attributes which can be added to the html-representation of 
+    #   this token. For example use 
+    #       :html => { :class => 'big_button' } 
+    #   to add the class `.big_button` to the html-element. Please note, that your template has to 
+    #   render the html-attributes explicilty. For example by adding 
+    #       <div <%= attributize token.html %>>...</div>
+    # @option options [Symbol] :area (:body) The area the tokens will be rendered in. The default 
+    #   templates make use of (:notification|:body|:sidebar|:footnote), but you can use any symbol 
+    #   here.
+    # @option options [String] :description ("") The description specified here will appear in the
+    #   command-line output of `docjs tokens`
     #
-    #  Because the token processing is done in the **context of the CodeObject** you
-    #  can easily extend or manipulate the Objects.
-    #  
-    #  If you want to assure, that the object you are working on has a specific type
-    #  (for example a Function) add the following line to your handler:
-    #
-    #       has_to_be_a CodeObject::Function
-    #
-    #  @param [String, Symbol] tokenname
-    #  @yield [tokenklass, stringcontent] Your custom tokenhandler
-    # 
+    # @yield [tokenklass, stringcontent] Your custom tokenhandler
+    # @see Token::Token
     def self.register(tokenname, options = {}, &handler)
       
       tokenname = tokenname.to_sym   
@@ -297,7 +311,8 @@ module Token
       end      
       
       # Dynamically create Class named TokennameToken
-      klass = Token.const_set "#{tokenname.to_s.capitalize}Token", Class.new(Token)
+      camelcased = tokenname.to_s.capitalize.gsub(/_\w/){|w| w[1].capitalize}
+      klass = Token.const_set "#{camelcased}Token", Class.new(Token)
       
       klass.process_options options.merge({
       
@@ -309,7 +324,9 @@ module Token
       @@handlers[tokenname] = klass
     end
     
-    # Remove a registered handler from the list
+    # Remove a registered handler from the list.
+    # 
+    # @todo remove symbol `Token::TokennameToken`
     #
     # @example
     #   Token::Handler.register :foo
@@ -318,11 +335,7 @@ module Token
     # @param [String, Symbol] tokenname
     def self.unregister(tokenname)
       @@handlers.delete(tokenname.to_sym)
-    end
-    
-    def self.add_default_handler(name, &block)
-      @@defaults[name] = block;
-    end
+    end    
     
     protected
     

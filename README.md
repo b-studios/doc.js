@@ -8,6 +8,8 @@ Doc.js is a JavaScript-Documentation tool which detects `tokens` in your comment
 generates documentation out of it. Doc.js could be ported pretty easy to any other
 language, because the most of it's parts are language agnostic.
 
+Guides
+======
 If you read this, you may belong to one of the following four groups:
 
 1. You want to {file:TRY.md try out Doc.js} for the first time

@@ -52,7 +52,8 @@ module Token
     
       # try to find matching tokenklass for token i.e. Token::Token::ParamToken for :param
       begin
-        tokenklass = Token.const_get "#{tokenline.token.capitalize.to_s}Token"
+        camelcased = tokenline.token.to_s.capitalize.gsub(/_\w/){|w| w[1].capitalize}
+        tokenklass = Token.const_get "#{camelcased}Token"
         instance_exec(tokenklass, tokenline.content, &(tokenklass.handler))
       rescue Exception => error
         raise NoTokenHandler.new("No Tokenhandler for: @#{tokenline.token}

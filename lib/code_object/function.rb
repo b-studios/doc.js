@@ -56,6 +56,6 @@ Token::Handler.register :throws, :handler => :typed
 class CodeObject::Method < CodeObject::Function; end
 Token::Handler.register :method, :handler => :noop, :area => :none
 
-# @constructor Foo.bar
+# ConstructorAlias
 class CodeObject::Constructor < CodeObject::Function; end
 Token::Handler.register(:constructor) { |token, content| @constructor = true }

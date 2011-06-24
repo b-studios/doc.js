@@ -6,7 +6,7 @@ example) will be collected and can be rendered in the view-templates with the
 
     render_tokens :of => @code_object, :in => :sidebar
 
-While registering a new token you can use any symbol for `area`. But your tokens may not appear in 
+While {Token::Handler.register registering a new token} you can use any symbol for `area`. But your tokens may not appear in 
 the rendered html-documentation, unless you explicitly call `render_tokens` for each area.
 
 The default-templates make use of the following areas:
