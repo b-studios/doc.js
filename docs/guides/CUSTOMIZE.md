@@ -108,11 +108,44 @@ Last thing we have to do, is to make the renderer use our new template for `@req
 
 2. Example - Writing your own token-handler
 ===========================================
-There are a few handlers, which can be used to process the tokenlines.
+There are a {Token::Handler few handlers}, which can be used to process the tokenlines. But sometimes
+one of the existing handlers isn't enough to process your token.
 
-text_only
-:    This is the default handler. It saves all of the tokenline-contents to `content` 
+Let's say we need a tokenhandler to parse something like
 
+    /**
+     * @special [String] my_name (default) description
+     */
+
+We could get pretty close using the :typed_with_name handler. But this handler doesn't recognizes
+defaults, so we need to write our own handler.
+
+First of all we register our token in `tokens/tokens.rb`.
+
+    register :special do |tokenklass, content|
+      # currently the textual content is only stored as `content`
+      self.add_token token_klass.new(:content => stringcontent)
+    end
+    
+Next let's write a Regexp, that recognizes our parts. (Ok, that regular expression may not be the
+most beautiful one, but it may work)
+    
+    register :special do |token_klass, content|
+    
+      TYPED_NAMED_WITH_DEFAULTS = /\[([^\]\n]+)\]\s*([\w_.:]+)\s(?:\(([^\)]+)\))?\s*(.*)/
+      
+      types, name, default, content = TYPED_NAMED_WITH_DEFAULTS.match(content).captures
+      token = token_klass.new(:name => name, :types => types.split(','), :content => content)
+      token.define_singleton_method(:default) { default }
+      
+      self.add_token token
+    end
+    
+Because :default isn't a default property of token, we have to add it manually by defining a
+method which returns the value (`define_singleton_method`).
+
+The last thing, we would have to do is to create a custom template and use it. See 
+{file:CUSTOMIZE.md#Creating_a_custom_template above} for tipps how to achieve this.
 
 3. Example - Creating the custom type `class`
 =============================================

@@ -292,7 +292,7 @@ module Token
     #   here.
     # @option options [String] :description ("") The description specified here will appear in the
     #   command-line output of `docjs tokens`
-    #
+    # 
     # @yield [tokenklass, stringcontent] Your custom tokenhandler
     # @see Token::Token
     def self.register(tokenname, options = {}, &handler)
