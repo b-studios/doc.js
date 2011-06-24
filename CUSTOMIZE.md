@@ -6,15 +6,20 @@ example) will be collected and can be rendered in the view-templates with the
 
     render_tokens :of => @code_object, :in => :sidebar
 
-While registering a new token you can use any symbol for `area`. Your tokens may not appear in the
-rendered html-documentation, unless you explicitly call `render_tokens` for each area.
+While registering a new token you can use any symbol for `area`. But your tokens may not appear in 
+the rendered html-documentation, unless you explicitly call `render_tokens` for each area.
 
 The default-templates make use of the following areas:
 
-- :body
 - :notification
+- :body
 - :sidebar
 - :footnote
+
+If you don't want your token to be rendered at all, you can use `:none` as value for `area`.
+
+    register :your_token, :area => :none
+
 
 
 1. Example - Adding a simple token
@@ -27,8 +32,9 @@ Let's say we want to add a new innovative token `@requires` to specify dependenc
      * @requires console.log
      */
 
-If we start Doc.js without making any changes to the templates this will result in an error like
-**ERROR No Tokenhandler for: @requires**. So let's register our tokenhandler to `tokens/tokens.rb`:
+If we start Doc.js without making any changes to the templates this documentation will result in an 
+error like **ERROR No Tokenhandler for: @requires**. 
+So let's register our tokenhandler to `tokens/tokens.rb`:
 
     register :requires
   
@@ -41,8 +47,8 @@ section (it contains meta-information about the object) we place it there with
 
     register :requires, :area => :sidebar
     
-Now our token should be displayed nicely in the sidebar-area on the rightside (depending on which 
-template you use).
+Now our token should be displayed nicely in the sidebar-area on the right side (if you are using the
+default template).
 
 
 Using another tokenhandler
@@ -55,13 +61,13 @@ information about the dependency like:
      * @requires console.log for printing the message to the console
      */
 
-So we have to change the tokenhandler to `:named` because our tokenline, now consists of a `name`
+So we have to change the tokenhandler to `:named` because our tokenline now consists of a `name`
 and the description-`content`.
 
     register :requires, :area => :sidebar, :handler => :named
     
-The template, which renders the token now can access the `name` and the `content` of the token seperatly
-and display them somehow like:
+The template, which renders the token now can access the `name` and the `content` of the token 
+seperatly and displays them somehow like:
 
     <h4>console.log</h4>
     <p>for printing the message to the console</p>
@@ -93,14 +99,20 @@ Because all tokens of one type are rendered as a collection by default, we have 
 local-variable `tokens`. We use the {Helper::Linker#link_to link_to} helper to create a link to the
 referenced dependency if it exists in our documentation. Additionally we use the 
 {Helper::Helper#to_html to_html} helper to convert the description (which could be written using
-markdown and contain links) to html.
+markdown and contain links we need to generate) to html.
 
-Last thing we have to do is to make the renderer use our new template for `@requires` tokens
+Last thing we have to do, is to make the renderer use our new template for `@requires` tokens
 
     register :requires, :area => :sidebar, :handler => :named, :template => :requires
 
+
 2. Example - Writing your own token-handler
 ===========================================
+There are a few handlers, which can be used to process the tokenlines.
+
+text_only
+:    This is the default handler. It saves all of the tokenline-contents to `content` 
+
 
 3. Example - Creating the custom type `class`
 =============================================

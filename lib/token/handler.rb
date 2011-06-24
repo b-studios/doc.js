@@ -3,8 +3,8 @@ require_relative 'token'
 # This module contains all required mixins and modules to register customized
 # tokens, that will be further processed and added to the {CodeObject::Base}.
 #
-# The {CodeObject::Converter converter} starts the {Parser::Tokenline tokenline}-processing, by calling
-# the mixed-in function {Token::Container#process_token}.
+# The {CodeObject::Converter converter} starts the {Parser::Tokenline tokenline}-processing, by 
+# calling the mixed-in function {Token::Container#process_token}.
 #
 # ![Token UML](../uml/Tokens.svg)
 #
@@ -15,37 +15,132 @@ require_relative 'token'
 #       individual token-{Token::Container#add_token container} and 
 #       {Token::Container#process_token -processing} functionality to all CodeObjects.
 #
+# Tokenprocessing means analysing the tokenline (plain textual content associated with a token) by
+# applying a tokenhandler to it. The tokenhandler should parse the tokenline into it's contents and
+# afterwards create an instance of the token-class.
 module Token
 
   # @note This module is **not** built to be used as a mixin! It should be seen as
   #  a **global singleton** instead.
   # 
   # The {Token::Handler} is meant to be the global store for all Token-handlers.
-  # Token-handlers are needed to process incoming {Parser::Tokenline tokenlines}
-  # of each comment. The following sample, shows a comment including a token line:
+  # Token-handlers are needed to process all {Parser::Tokenline tokenlines} associated with
+  # each comment. The following sample, shows a comment including a token line:
   #
   #     /**
-  #      * @token this is a default tokenline
+  #      * @foo this is a default tokenline
   #      */
   #
-  # This Comment will be transformed by the {Parser::CommentParser} into a
+  # This comment will be transformed by the {Parser::CommentParser} into a
   # {Parser::Tokenline tokenline} like the following:
   #
   #     puts my_tokenline
-  #     #=> <struct Parser::Tokenline token="token", content="this is a default tokenline"> 
+  #     #=> <struct Parser::Tokenline token="foo", content="this is a default tokenline"> 
   #
-  # After creating the right type of {CodeObject::Base CodeObjects} (either a
-  # {CodeObject::Object Object} or {CodeObject::Object Function}) the 
-  # {CodeObject::Converter converter} will trigger the conversion to a 'real' 
-  # {Token::Handler::Token token} by calling {Token::Container#process_token #process_token}
+  # After creating the right type of {CodeObject::Base CodeObjects} (either an
+  # {CodeObject::Object Object}, {CodeObject::Object Function} or a custom type) the 
+  # {CodeObject::Converter converter} will trigger the conversion to an appropriate subclass of
+  # {Token::Handler::Token} by calling {Token::Container#process_token #process_token}
   # on the CodeObject.
   #
   #     code_object.process_token(my_tokenline)
   #     code_object.token(:token)
-  #     #=> [#<struct Token::Handler::Token content="this is a default tokenline">]
+  #     #=> [#<Token::FooToken content="this is a default tokenline">]
   #
-  # Tokens are always stored in an array to make multiple usage in one comment
-  # possible.
+  # Tokens are always stored in an array to make multiple usage in one comment possible.
+  #
+  # Default Handlers
+  # ================
+  # 
+  # :text_only
+  # ----------
+  # The default Header :text_only cannot parse typelists or tokennames, it
+  # only saves the content of the token to an instance of {Token::Token}
+  # Being the default handler we can use it without explicitly specifying it:
+  #
+  #      Token::Handler.register :token
+  # 
+  # This Default Handler is enough for tokens like `@todo` or `@note`. But for
+  # more complex Tokens we need some other handlers.
+  #
+  # :typed
+  # ------
+  # Typed tokens look like `@return [Foo, Bar] This is the description` - Additional
+  # to their **default content** they specify the possible Types as a comma seperated list.
+  #  
+  # To register a typed-token, you only need to add the `:handler` option
+  #  
+  #     Token::Handler.register :return, :handler => :typed
+  #  
+  # This line implicitly generates a class `Token::ReturnToken` which extends {Token::Token},
+  # content and types will be filled to access them later:
+  #
+  #   my_return_token.content #=> "This is the description"
+  #   my_return_token.types   #=> ["Foo", "Bar]
+  #
+  # :named
+  # ------
+  # Named tokenlines like `@mixin Foo.bar The description of this mixin-usage` could be, 
+  # interpret the first part (`Foo.bar`) as **name** and the rest as **content**
+  #
+  #     Token::Handler.register :mixin, :handler => :named
+  #     
+  #     mixin_token.name    #=> "Foo.bar"
+  #     mixin_token.content #=> "The description of this mixin-usage"
+  #
+  # :named_multiline
+  # ----------------
+  # Named multiline are similiar to named tokenlines. But instead of taking the first word as
+  # name they are using the first line:
+  #
+  #     @example this is the name
+  #       function() {...}
+  #
+  # To register a named-multiline token just add the handler like:
+  # 
+  #     Token::Handler.register :example, :handler => :named_multiline
+  #
+  #     my_example.name    #=> "this is the name"
+  #     my_example.content #=> "function() {...}"
+  #
+  # :typed_with_name
+  # ----------------
+  # The typed_with_name handler is much like the **Typed-Token-Handler**. It is neccessary for
+  # tokenlines, like `@param [String] my_param This is a param`. Additional to `content` and
+  # `types` the generated class will contain a `name` property.
+  #
+  #     Token::Handler.register :param, :handler => :typed_with_name   
+  #     
+  #     param_token.name     #=> "my_param"
+  #     param_token.types    #=> ["String"]
+  #     param_token.content  #=> "This is a param"
+  #     param_token.class    #=> Token::ParamToken
+  #
+  # :named_nested_shorthand
+  # -----------------------
+  # named_nested_shorthand can be used to parse nested `:typed_with_name` tokens.
+  # 
+  #     @param person
+  #       [String] name the name
+  #       [Number] age the age of the person
+  #
+  # It is called shorthand, because "[String] name the name" is not a full tokenline. (The 
+  # `@param` is missing.)
+  #
+  #     Token::Handler.register :param, :handler => :named_nested_shorthand 
+  #
+  # The instance of `Token::ParamToken` can look like:
+  # 
+  #     param_token.name     #=> "person"
+  #     param_token.children # [<Token::ParamToken name="name"><Token::ParamToken name="age">]
+  #
+  # It also can parse typed_with_name tokenlines like `@param [String] name`. In this case it
+  # behaves exaclty like :typed_with_name
+  #
+  # :noop
+  # ----- 
+  # Can be used, if you don't want to do anything with that token
+  #
   #
   # @see .register
   module Handler
@@ -69,9 +164,8 @@ module Token
       (?<content>#{ALL}*)
     /x
     
-    
-    # @note It would be nice, if those defaults could be used without self.add_token
     @@defaults = {
+
       :text_only => ->(tokenklass, content) {
         tokenklass.new(:content => content)
       },
@@ -87,14 +181,7 @@ module Token
         name, content = NAME.match(content).captures        
         tokenklass.new(:name => name, :content => content)
       },
-
-      :typed_with_name => ->(tokenklass, content) {
-        typestring, name, content = TOKEN_W_TYPE_NAME.match(content).captures
-        types = typestring.split /,\s*/
-        
-        tokenklass.new(:name => name, :types => types, :content => content)
-      },
-      
+       
       :named_multiline => ->(tokenklass, content) { 
         rows = content.split(/\n/)
               
@@ -104,10 +191,17 @@ module Token
               
         tokenklass.new(:name => name, :content => content)
       },
+
+      :typed_with_name => ->(tokenklass, content) {
+        typestring, name, content = TOKEN_W_TYPE_NAME.match(content).captures
+        types = typestring.split /,\s*/
+        
+        tokenklass.new(:name => name, :types => types, :content => content)
+      },
       
       :named_nested_shorthand => ->(tokenklass, content) {
           
-        # First remove linebreaks with 2-times intendation    
+        # First remove linebreaks with 2-times intendation (= continuation)    
         lines         = content.gsub(/\n((?!\n)\s){2}/, ' ').split(/\n/)
         name          = lines.shift.strip
         documentation = []
@@ -115,7 +209,7 @@ module Token
         
         lines.each do |line|          
           if TOKEN_W_TYPE_NAME.match(line)
-            # apply default-handler :typed_with_name to each child-line
+            # apply handler :typed_with_name to each child-line
             # @todo maybe we need a special way to select Children's Class?
             children << Handler.apply(:typed_with_name, tokenklass, line)
           else
@@ -149,64 +243,21 @@ module Token
     #
     # There are different types of handlers which can be used:
     #
-    #   1. Default-handler
-    #   2. A handler for Typed-Token
-    #   3. A handler for Named-Typed-Tokens
-    #   4. Your custom handler (see second overload)
+    #   1. Default-handler `:text_only`
+    #   2. Typed-Tokens `:typed`
+    #   3. Tokens with a name and content `:named`
+    #   4. Tokens with name, types and content `:typed_with_name`
+    #   5. Tokens with a name and multiline content 
+    #   6. Named token with nested typed_with_name children `named_nested_shorthand`
+    #   7. Handler, which does nothing `noop`
+    #   8. Your custom handler (see second overload)
     #
     #
-    # @overload self.register(tokenname, type=nil)
+    # @overload self.register(tokenname, options={})
     #  
-    #  The first three of the handlers above can be registered with this
-    #  overload.
-    #  
-    #  The Default Handler
-    #  -------------------
-    #  The Default Header can be used for tokens like the one in the example above.
-    #  Trying to add a token like `@token` without adding a handler, you may get
-    #  an `exception` like:
-    #  
-    #       #=> Token::NoTokenHandler: No Tokenhandler for: token
-    #       #     from lib/token/container.rb:41:in process_token
-    #  
-    #  So we better register a handler for that token:
-    #  
-    #      Token::Handler.register :token
-    #  
-    #  As you can see **the second argument can be ommitted** to use a **default 
-    #  handler**. This default handler cannot parse typelists or tokennames, it
-    #  only saves the content of the token to the struct {Token::Handler::Token Token}.
-    #  
-    #  This Default Handler is enough for tokens like `@todo` or `@note`. But for
-    #  more complex Tokens we need some other handlers.
-    #  
-    #  Handler for Typed-Tokens
-    #  ------------------------
-    #  Typed tokens look like `@return [Foo, Bar] This is the description` - Additional
-    #  to their **default content** they specify the possible Types.
-    #  
-    #  To register a typed-token, you only need to add a second argument:
-    #  
-    #       Token::Handler.register :return, :typed
-    #  
-    #  The {Token::Handler::TypedToken typed-token struct}, pretty much looks like 
-    #  the default one.
-    #  
-    #       #=> #<struct Token::Handler::TypedToken types=["Foo", "Bar"], content="This is the description\n">
+    #  Tokens with one of the default handlers can be registered with this overload.
     #
-    #  Handler for Typed-Named-Tokens
-    #  ------------------------------
-    #  They are much like **Typed-Token-Handlers**. They are needed for Tokenlines
-    #  like `@param [String] my_param This is a param`. They are registered with
-    #  `:typed_with_name` as the second argument:
-    #  
-    #       Token::Handler.register :param, :typed_with_name
-    #  
-    #  @param [String, Symbol] tokenname
-    #  @param [:typed, :typed_with_name, nil] type
-    #
-    #
-    # @overload self.register(tokenname, &handler)
+    # @overload self.register(tokenname, options={}, &handler)
     #  
     #  Writing your own custom Token-Handler
     #  -------------------------------------
