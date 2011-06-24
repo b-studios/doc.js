@@ -7,7 +7,7 @@ require_relative 'logger'
 require_relative 'configs'
 require_relative 'parser/parser'
 require_relative 'token/handler'
-require_relative 'code_object/function'
+require_relative 'code_object/base'
 require_relative 'dom/dom'
 require_relative 'processor'
 

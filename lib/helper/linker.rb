@@ -29,8 +29,7 @@ module Helper
       elsif target.is_a? CodeObject::Base
       
         if text.nil? and target.parent == context and context != Dom.root
-          text = ".#{target.name}"
-          text += "()" if target.is_a? CodeObject::Function
+          text = target.display_name
         elsif text.nil?
           text = target.qualified_name
         end
@@ -124,14 +123,5 @@ module Helper
         link_to(name, title)
       end
     end
-    
-    def link_on_page(object)
-      if object.is_a? CodeObject::Function
-         link_to "#method-#{object.name}", ".#{object.name}()"
-      else
-        link_to "#object-#{object.name}", ".#{object.name}"
-      end
-    end
-  end
-  
+  end  
 end

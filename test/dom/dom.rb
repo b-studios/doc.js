@@ -1,13 +1,13 @@
 # ../data.img#1811393:1
 require_relative '../../lib/dom/dom'
-require_relative '../../lib/code_object/function'
+require_relative '../../lib/code_object/base'
 
 describe Dom, ".add_child" do
 
   before do
     Dom.clear
-    @o1 = CodeObject::Object.new
-    @o2 = CodeObject::Object.new
+    @o1 = CodeObject::Base.new
+    @o2 = CodeObject::Base.new
   end
   
   it "should add absolute nodes" do

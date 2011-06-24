@@ -1,6 +1,6 @@
 # ../data.img#1771563:1
 require_relative '../../lib/parser/comment'
-require_relative '../../lib/code_object/function'
+require_relative '../../templates/types/function'
 
 # Warning! This Tests have some sideeffects. All registered Tokens will create Classes, that are not
 # removed on unregister

@@ -1,6 +1,5 @@
-require_relative '../../lib/dom/dom'
-require_relative '../../lib/code_object/function'
-require_relative '../../lib/processor'
+require_relative '../../lib/boot'
+require_relative '../../templates/application'
 
 describe Dom, ".add_child" do
   

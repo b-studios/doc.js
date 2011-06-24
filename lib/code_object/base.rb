@@ -43,6 +43,11 @@ module CodeObject
     def docs=(docstring)
       @docs = docstring.strip
     end
+    
+    # can be overriden by subclasses
+    def display_name
+      @name
+    end
           
     protected
     

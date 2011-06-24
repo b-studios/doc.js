@@ -1,4 +1,6 @@
 # Load CodeObject::Types
+require_relative 'types/object'
+require_relative 'types/function'
 require_relative 'types/prototype'
 
 # Load Default Tokens

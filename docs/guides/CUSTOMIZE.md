@@ -146,6 +146,13 @@ method which returns the value (`define_singleton_method`).
 
 The last thing, we would have to do is to create a custom template and use it. See 
 {file:CUSTOMIZE.md#Creating_a_custom_template above} for tipps how to achieve this.
+The template could make use of `token.default` to access the default value parsed by our cool
+token-handler.
 
 3. Example - Creating the custom type `class`
 =============================================
+If you want to create your own Domain specific language (DSL) it's often not enough to add new tokens
+and manipulate the templates. Sometimes you need to create your own custom types of objects. For 
+example maybe you could need classes, packages or mixins. So in this example we will create a type
+called `class`. 
+

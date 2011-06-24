@@ -1,15 +1,15 @@
 # ../data.img#1772233:1
 require_relative '../../lib/dom/dom'
-require_relative '../../lib/code_object/function'
+require_relative '../../lib/code_object/base'
 
 describe Dom::Node, "#resolve" do
 
   before do
     Dom.clear
-    @o1 = CodeObject::Object.new 
-    @o2 = CodeObject::Object.new
-    @o3 = CodeObject::Object.new
-    @o4 = CodeObject::Object.new
+    @o1 = CodeObject::Base.new 
+    @o2 = CodeObject::Base.new
+    @o3 = CodeObject::Base.new
+    @o4 = CodeObject::Base.new
     
     Dom.add_node "Foo.bar" , @o1
     @o1.add_node ".baz"    , @o2  
@@ -33,10 +33,10 @@ describe Dom::Node, "#qualified_name" do
 
   before do
     Dom.clear
-    @o1 = CodeObject::Object.new "bar"
-    @o2 = CodeObject::Object.new "baz"
-    @o3 = CodeObject::Object.new "bam"
-    @o4 = CodeObject::Object.new "poo"
+    @o1 = CodeObject::Base.new "bar"
+    @o2 = CodeObject::Base.new "baz"
+    @o3 = CodeObject::Base.new "bam"
+    @o4 = CodeObject::Base.new "poo"
     
     Dom.add_node "Foo.bar" , @o1
     @o1.add_node ".baz"    , @o2  

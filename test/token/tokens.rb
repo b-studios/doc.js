@@ -1,5 +1,5 @@
 require_relative '../../lib/parser/comment'
-require_relative '../../lib/code_object/function'
+require_relative '../../templates/types/function'
 
 require_relative '../../templates/tokens/tokens'
 

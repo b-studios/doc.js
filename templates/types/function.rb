@@ -1,5 +1,3 @@
-require_relative 'object'
-
 module CodeObject
 
   class Function < CodeObject::Object
@@ -16,6 +14,10 @@ module CodeObject
       children[:prototype]
     end
   
+    def display_name
+      @name + '()'
+    end
+    
   end 
   
 end

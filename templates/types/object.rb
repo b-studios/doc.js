@@ -1,5 +1,3 @@
-require_relative 'base'
-
 module CodeObject
 
   class Object < CodeObject::Base
