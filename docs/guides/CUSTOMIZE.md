@@ -129,8 +129,29 @@ token-handler.
 
 3. Example - Creating the custom type `class`
 =============================================
-If you want to create your own Domain specific language (DSL) it's often not enough to add new tokens
-and manipulate the templates. Sometimes you need to create your own custom types of objects. For 
-example maybe you could need classes, packages or mixins. So in this example we will create a type
-called `class`. 
+If you want to create your own Domain specific language (DSL) it's often not enough to add new 
+tokens and manipulate the templates. Sometimes you need to create your own custom types of objects. 
+For example maybe you could need classes, packages or mixins. So in this example we will create a 
+type called `class`. 
 
+The template-folder `types/` contains 3 items by default:
+
+    types/
+      function.rb
+      object.rb
+      prototype.rb
+
+We will create a fourth one and call it `class.rb`, which at first only consists of 
+
+    class CodeObject::Class < CodeObject::Base
+    end
+    
+Then we need to `require` it from `application.rb`
+
+    require_relative 'types/class.rb'
+    
+We get serious problems here, because in ruby we cannot redefine `Class` without getting into 
+troubles. With all other Type-Names everything wents fine, but for `Class` we need something 
+different.
+
+TODO --- --- TODO

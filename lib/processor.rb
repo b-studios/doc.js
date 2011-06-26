@@ -46,7 +46,7 @@ module Processor
     comments.each do |comment|    
       code_object = comment.to_code_object            # convert to code_object
       Logger.debug "Adding to Dom: #{code_object}"
-      Dom.add_node(code_object.path, code_object)     # add to dom
+      Dom.add_node(code_object.path, code_object) unless code_object.nil?     # add to dom
     end
   end
   
