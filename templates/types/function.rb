@@ -1,30 +1,27 @@
-module CodeObject
+class CodeObject::Function < CodeObject::Object
+ 
+  token_reader :params, :param
+  token_reader :returns, :return
 
-  class Function < CodeObject::Object
-   
-    token_reader :params, :param
-    token_reader :returns, :return
+  def constructor?
+    @constructor || false
+  end
   
-    def constructor?
-      @constructor || false
-    end
-    
-    # @todo i need a @prototype token in object
-    def prototype
-      children[:prototype]
-    end
+  # @todo i need a @prototype token in object
+  def prototype
+    children[:prototype]
+  end
+
+  def display_name
+    @name + '()'
+  end
   
-    def display_name
-      @name + '()'
-    end
-    
-  end 
-  
-end
+end 
 
 Token::Handler.register :function, 
          :handler => :noop, 
          :area => :none,
+         :type => CodeObject::Function,         
          :description => "Type-Token to categorize all kind of JavaScript-Functions"
 
 
@@ -38,7 +35,9 @@ Token::Handler.register :function,
 #    [Bar] bar and another one
 #
 # @note this can also be utilized for JavaScript-Event-Triggers or Callbacks with Parameters
-Token::Handler.register :param, :area => :none, :description => "Token for Function-Parameters like '@param [String] name your name'" do |tokenklass, content|
+Token::Handler.register :param, 
+          :area => :none, 
+          :description => "Token for Function-Parameters like '@param [String] name your name'" do |tokenklass, content|
 
   # it's @param [String] name some content
   if content.lines.first.match Token::Handler::TOKEN_W_TYPE_NAME
@@ -55,9 +54,7 @@ Token::Handler.register :return, :handler => :typed, :area => :none, :descriptio
 Token::Handler.register :throws, :handler => :typed
 
 # MethodAlias
-class CodeObject::Method < CodeObject::Function; end
-Token::Handler.register :method, :handler => :noop, :area => :none
+Token::Handler.register :method, :handler => :noop, :area => :none, :type => CodeObject::Function
 
 # ConstructorAlias
-class CodeObject::Constructor < CodeObject::Function; end
-Token::Handler.register(:constructor) { |token, content| @constructor = true }
+Token::Handler.register(:constructor, :type => CodeObject::Function) { |token, content| @constructor = true }

@@ -45,7 +45,7 @@ module CodeObject
     def find_type_for(tokenlines)
     
       # all_types returns a hash like {:object => CodeObject::Object ...}
-      available_types = CodeObject.all_types
+      available_types = Token::Handler.types
     
       types = tokenlines.select {|t| available_types.has_key? t.token }
       

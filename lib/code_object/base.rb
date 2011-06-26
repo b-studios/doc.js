@@ -9,18 +9,6 @@ require_relative '../parser/meta_container'
 #
 module CodeObject
 
-  # Find all CodeObject-Types, that inherit from Base
-  # @return [Hash] like {:object => CodeObject::Object, :function => CodeObject::Function }
-  def self.all_types
-    Hash[self.constants
-             .map { |c| self.const_get(c) }
-             .select { |klass| klass.class == Class and klass.ancestors.include? Base }
-             .map { |klass| [klass.token, klass] 
-             }
-        ]
-  end  
-
-
   class Base
 
     include Token::Container
@@ -49,19 +37,6 @@ module CodeObject
     # can be overriden by subclasses
     def display_name
       @name
-    end
-    
-    # @return [Symbol] type-token for this class. (For example :function or :object)
-    def self.token
-      if class_variable_defined? :@@type_token 
-        class_variable_get(:@@type_token).to_sym
-      else
-        self.name.split('::').last.downcase.to_sym
-      end
-    end
-    
-    def self.type_token(token_name)
-      class_variable_set(:@@type_token, token_name.to_sym)
     end
           
     protected

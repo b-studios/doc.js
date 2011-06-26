@@ -240,11 +240,22 @@ module Token
     } 
     @@handlers = {}    
     
+    # Hash for all registered CodeObject-Types. 
+    # For example: 
+    #     { :function => CodeObject::Function }
+    @@types = {}
+    
     # Attribute-Reader for all registered `@@handlers`
     #
     # @return [Hash<Symbol, Block>]
     def self.handlers
       @@handlers
+    end
+    
+    # @return [Hash<Symbol, CodeObject::Base> with symbol beeing the token and CodeObject::Base any
+    #   subclass
+    def self.types
+      @@types
     end
     
     # Use a default handler
@@ -321,6 +332,8 @@ module Token
       
       });  
       
+      
+      @@types[tokenname] = options[:type] unless options[:type].nil?      
       @@handlers[tokenname] = klass
     end
     

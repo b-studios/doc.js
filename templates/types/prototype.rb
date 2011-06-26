@@ -11,4 +11,4 @@ class CodeObject::Prototype < CodeObject::Object
   
 end
 
-Token::Handler.register :prototype, :handler => :noop, :area => :none
+Token::Handler.register :prototype, :handler => :noop, :area => :none, :type => CodeObject::Prototype

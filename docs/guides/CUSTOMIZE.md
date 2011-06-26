@@ -151,7 +151,105 @@ Then we need to `require` it from `application.rb`
     require_relative 'types/class.rb'
     
 We get serious problems here, because in ruby we cannot redefine `Class` without getting into 
-troubles. With all other Type-Names everything wents fine, but for `Class` we need something 
-different.
+troubles. With nearly all other Type-Names everything wents fine, but for `Class` we need something 
+different. Maybe we can simply call it `Klass` or `ClassType `to bypass any trouble. It's up to you.
 
-TODO --- --- TODO
+    class CodeObject::Klass < CodeObject::Base
+    end
+
+Based on the name you choosed, we now have to register our token, to be a Type-Creating Token.
+Every Comment needs exactly one of these type-specificating tokens. With the following line (either
+in `tokens.rb` or in `class.rb`, after defining our type) we make our token work:
+
+    Token::Handler.register :class, :type => CodeObject::Klass
+    
+Using `@class` in a comment will create an instance of CodeObject::Klass and fill it with all 
+details of that comment.
+
+If we don't want our type-token to appear in any token-listing like :body or :sidebar we can 
+specify :none for the rendering-area.
+
+    Token::Handler.register :class, :type => CodeObject::Klass, :area => :none
+
+If we test our customized template with something like
+
+    /** 
+     * @class Collection
+     */
+    var Collection = function() { ... };
+    Collection.prototype = Array.prototype;
+    
+we may notice, that nothing is really different from using `@object` instead. That's only because
+our template is not yet specialised to work with classes.
+
+Modifying a Generator
+---------------------
+We learned how to create our own templates. But now we need to switch between different templates
+before rendering starts. To understand where rendering starts, we need to inspect the generators.
+{Generator::Generator Generators} in Doc.js are pretty much like `Controllers` in Rails. They
+decide which template to use and where to save the result. So let's take a look at the
+{Generator::ApiPagesGenerator generators/api_pages_generator.rb}. We can see that every generator
+is able to choose which layout it want's to render the pages in.
+
+We may notice, that the ApiPagesGenerator is nothing more than a switch for CodeObject-Types. By
+default it only differs between {CodeObject::Function functions} and those, that are not functions.
+
+We can add some code, to use own templates for classes.
+
+    Dom.root.each_child do |node| 
+      next if node.is_a? Dom::NoDoc 
+        
+      if node.is_a? CodeObject::Function
+        render_function node
+      elsif node.is_a? CodeObject::Klass
+        render_class node
+      else
+        render_object node
+      end
+    end
+
+We invoke a method, which is not yet defined '`render_class`'. This method get's the node as the
+only parameter and needs to create html-output from it.
+
+    def render_class(code_object)       
+    
+      Logger.info "Rendering Class: '#{code_object.name}'"
+      
+      # This is needed to eventually resolve relative links included in the documentation
+      in_context code_object do
+        
+        # The instance-variables are also available in the template
+        @class = code_object
+        @methods = @object.children.values.select {|c| c.is_a? CodeObject::Function }
+        
+        # Here we call our new template, stored under `views/class/index.html.erb`
+        render 'class/index', :to_file => path_to(code_object, :format => :html)
+      end
+    end
+    
+The last thing (and granted, this may be the biggest part) is to create a template, which is 
+optimzed regarding our new type `class`.
+
+Combination with a custom handler
+---------------------------------
+Often classes are used in context of the classical inheritance. Once class extends another.
+So we may add a new token `@extends`, which is a text-only token-handler, maybe with a custom 
+template. (See first example above)
+
+It would be much more interesting to add a documentation syntax like:
+
+    /**
+     * @class Student < Person
+     */
+     
+This is way easiert, than it may look like at first glance. We only have to write a custom handler:
+
+    Token::Handler.register :class, :type => CodeObject::Klass, :area => :none do |tokenklass, content|
+      extends = /\s*[^\s]+\s*(?:<\s*([^\s]+))/.match(content)
+      
+      self.add_token Token::Token::ExtendsToken.new(:content => extends.captures.first) unless extends.nil?
+    end
+    
+What is this doing? We first match our token-content against a regular expression like `(Word (< Word)?)`
+the inner word is captured. If this matches we use the second part (after the `<`) to create an 
+`@extends` token.
