@@ -58,8 +58,7 @@ module Parser
   
     attr_reader :filepath, :offset
   
-    # A new StringScanner instance will be used to {#parse parse} the given
-    # `input`.
+    # A new StringScanner instance will be used to {#parse parse} the given `input`.
     #
     # @param [String] input
     def initialize(input, args = {})
@@ -79,8 +78,8 @@ module Parser
     end  
     
     
-    # Recursivly parses the {#initialize given input} and thereby ignores
-    # strings.
+    # Recursivly parses the {#initialize given input} and thereby ignores strings.
+    #
     # @todo Rewrite to use skip_intelligent_until
     # @return [Array<Parser::Comment>] the parsed comment-stream
     def parse()
@@ -220,8 +219,7 @@ class StringScanner
     return content
   end
   
-  # will stop to scan at the specified pattern or at eos and returns the
-  # consumed string.
+  # will stop to scan at the specified pattern or at eos and returns the consumed string.
   # 
   # @param [Regexp] pattern the pattern to scan for
   # @return [String] the String before `pattern`

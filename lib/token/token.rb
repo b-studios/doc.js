@@ -1,7 +1,6 @@
 module Token
 
-  # Serves as Base-Class for all registered tokens.
-  # Registering a token with 
+  # Serves as Base-Class for all registered tokens. Registering a token with 
   #     
   #     Token:Handler.register :awesome, :template => :foo, :description => "Description"
   #
@@ -28,8 +27,8 @@ module Token
     #
     #     Token:Handler.register :awesome, :template => :foo, :description => "Description"
     # 
-    # This will create a class Token::AwesomeToken, which extends {Token::Token}. After creating the class
-    # {.process_options} will be called with all provided options to apply those to the class.
+    # This will create a class Token::AwesomeToken, which extends {Token::Token}. After creating the 
+    # class {.process_options} will be called with all provided options to apply those to the class.
     #
     # Because the options are valid for all instances of a tokenclass, the contents are stored in 
     # class-variables and class-methods are defined as accessors:

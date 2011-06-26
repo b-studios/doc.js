@@ -2,8 +2,6 @@ module Generator
 
   class ApiPagesGenerator < Generator
 
-    # @todo those methods and therefore all class-variables @@configs are shared with all inheriting
-    #   classes. i.e. The last change will be applied to all
     describe     'renders documented objects type-dependant (Functions and Objects)'
     layout       'application'
     
@@ -23,7 +21,6 @@ module Generator
       end
     end
 
-    # @todo switch on registered Types to enable dynamic view-changing
     def render_object(code_object)       
     
       Logger.info "Rendering CodeObject '#{code_object.name}'"

@@ -4,14 +4,13 @@ require_relative 'exceptions'
 # Storing {CodeObject::Base Objects}
 # ==================================
 #
-# The datastructure is based on a treelike concept. Every new inserted 
-# {CodeObject::Base object} is represented by a {Dom::Node node} of the tree. 
+# The datastructure is based on a treelike concept. Every new inserted {CodeObject::Base object} is 
+# represented by a {Dom::Node node} of the tree. 
 # There are three types of nodes:
 #
 #   1. {Dom::NoDoc Not documented nodes} that contain other nodes
 #   2. {Dom::Node Documented nodes}, that contain other nodes
-#   3. Leafs of the tree, without children. (Those leafs have to be 
-#       {Dom::Node documented nodes})
+#   3. Leafs of the tree, without children. (Those leafs have to be {Dom::Node documented nodes})
 #  
 # The architecure of the Dom looks pretty much like this:
 #
@@ -49,8 +48,8 @@ require_relative 'exceptions'
 #       / \
 #     bar baz
 #      
-# Now all nodes are documented (i.e. a CodeObject exists for every node) and `Foo`
-# contains two other CodeObjects. `bar` and `baz` are leafs of the tree.
+# Now all nodes are documented (i.e. a CodeObject exists for every node) and `Foo` contains two 
+# other CodeObjects. `bar` and `baz` are leafs of the tree.
 # 
 # Adding a new node to the tree is as simple as:
 # 
@@ -58,8 +57,8 @@ require_relative 'exceptions'
 #
 # Traversing the Tree
 # -------------------
-# There are several method, which you can use to navigate throught the dom. The
-# most important is the {Dom::Node#[] children selector}.
+# There are several method, which you can use to navigate throught the dom. The most important is 
+# the {Dom::Node#[] children selector}.
 # 
 # The tree above could be traversed using the following operations:
 # 
@@ -72,15 +71,14 @@ require_relative 'exceptions'
 #
 # The Root Node
 # -------------
-# The Dom inherits functionality from it's **root-node**. So all method's
-# invoked on the root node, can be expressed equivalent as member of the Dom.
+# The Dom inherits functionality from it's **root-node**. So all method's invoked on the root node, 
+# can be expressed equivalent as member of the Dom.
 #     
 #     Dom.root[:some_child] <=> Dom[:some_child]
 #     Dom.root.children <=> Dom.children
 #     Dom.root.print_tree <=> Dom.print_tree
 #
-# Please note, that some methods of the root-node are hidden behind direct
-# implementations.
+# Please note, that some methods of the root-node are hidden behind direct implementations.
 # 
 #     Dom.add_node != Dom.root.add_node 
 #
@@ -137,33 +135,38 @@ module Dom
   # Reset the Dom to it's initial state by creating an empty {.root root-node}
   def self.clear
     @@root = NoDoc.new('__ROOT__')
+    @@docs = NoDoc.new('__DOCUMENTS__')
   end
   
   # @group Caching Methods
   
-  # Serializes and dumps the complete Domtree (but without last_position) to the 
-  # specified `path`. If no `path` is given, the default `@@cache_path` will be 
-  # used instead.
+  # Serializes and dumps the complete Domtree to the specified `path`. If no `path` is given, the 
+  # default `@@cache_path` will be used instead.
   #
-  # This Method can be useful, to save a specific state of the Domtree to disk
-  # and reuse it later, without the need to reconstruct it from zero.
+  # This Method can be useful, to save a specific state of the Domtree to disk and reuse it later, 
+  # without the need to reconstruct it from zero.
   #
   # @note To recreate the Dom from the dump-file, use {.load}.
   #
   # @param [String] file the filepath, where to write the serialized data
   def self.dump(file = @@cache_path)
     File.open(file, 'w') do |f|
-      f.write Marshal.dump @@root
+      f.write Marshal.dump({ 
+        :root => @@root,
+        :docs => @@docs
+      })
     end
   end
   
-  # Loads the {.dump serialized Dom} and replaces the current root node with
-  # the one created from the file.
+  # Loads the {.dump serialized Dom} and replaces the current root node with the one created from 
+  # the file.
   #
   # @see .dump
   # @param [String] file the filepath from which to load the Dom
   def self.load(file = @@cache_path)
-    @@root = Marshal.load(File.read(file))
+    dom = Marshal.load(File.read(file))
+    @@root = dom[:root]
+    @@docs = dom[:docs]
   end
   
   # @group Document Objects

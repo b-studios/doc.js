@@ -11,10 +11,10 @@ module CodeObject
 
     def to_code_object
 
-      # 1. Create a new CodeObject from Type-Token   
+      # 1. Create a new CodeObject from Type-Token like @function → CodeObject::Function 
       @code_object = find_type_for(@tokenlines) or return nil
             
-      # join all documentation-contents
+      # join all documentation-contents and make them one text again
       @code_object.docs = @doclines.join ''     
       
       # move meta-information from comment to code_object

@@ -4,8 +4,8 @@ require 'rdiscount'
 
 require_relative 'linker'
 
-# The Helpers are 'mixed' into your {Generator::Generator generator} and therefore can be used in all 
-# template-views.
+# The Helpers are 'mixed' into your {Generator::Generator generator} and therefore can be used in 
+# all template-views.
 # If you are searching for a method and don't know, where it may be implemented i suggest the 
 # following inheritence chain as your search-strategy:
 #
@@ -15,7 +15,7 @@ require_relative 'linker'
 module Helper
 
   # The Helper-methods in this module are globally used one and should not depend on the template
-  # you are using. You will find many html-helpers around here.
+  # you are using. You will find many html-helpers around here, that are inspired by rails.
   module Helper
  
     include Linker

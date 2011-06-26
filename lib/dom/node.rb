@@ -3,14 +3,13 @@ require_relative 'exceptions'
 
 module Dom
 
-  # Node can be seen as an **aspect** or feature of another Object. Therefore it can
-  # be mixed in to add node-functionality to a class.
+  # Node can be seen as an **aspect** or feature of another Object. Therefore it can be mixed in to 
+  # add node-functionality to a class.
   # Such functionality is used by {CodeObject::Base code-objects} and {Document::Document documents}.
   #
   # Instance Variables
   # ------------------
-  # The following instance-variables will be set while including Dom::Node into
-  # your class:
+  # The following instance-variables will be set while including Dom::Node into your class:
   #
   # - `@name` (should be already set in your including class)
   # - `@parent`
@@ -39,8 +38,9 @@ module Dom
   #   #  -foo
   #   #  -bar
   #  
-  # @note including Class should implement instance-variable @name
+  # @note including Class should set instance-variable @name
   # @see CodeObject::Base
+  # @see Document::Document
   # @see Dom
   module Node
 
@@ -55,8 +55,8 @@ module Dom
     
     # @group Initialization
     
-    # The 'constructor' of {Dom::Node}. It initializes all required 
-    # instance-variables (see {Dom::Node above}).
+    # The 'constructor' of {Dom::Node}. It initializes all required instance-variables. 
+    # (see {Dom::Node above}).
     def initialize
       super
       @children, @parent = {}, nil
@@ -65,9 +65,8 @@ module Dom
     
     # @group Traversing
     
-    # `node.parent` returns the parent {Dom::Node node}, if there is one.
-    # If no parent exists `nil` is returned. In this case `node` can be
-    # considered either as loose leave or root of the {Dom}.
+    # `node.parent` returns the parent {Dom::Node node}, if there is one. If no parent exists `nil` 
+    # is returned. In this case `node` can be considered either as loose leave or root of the {Dom}.
     #
     # @return [Dom::Node] the parent node, if one exists
     def parent
@@ -75,9 +74,8 @@ module Dom
     end
     
     
-    # searches all parents recursivly and returns an array, starting with the
-    # highest order parent (excluding the {Dom.root}) and ending with the  
-    # immediate parent.
+    # searches all parents recursivly and returns an array, starting with the highest order parent 
+    # (excluding the {Dom.root}) and ending with the immediate parent.
     #
     # @example
     #   o1 = CodeObject::Base.new :foo
@@ -105,7 +103,8 @@ module Dom
     end
     
     
-    # Get's the child of this node, which is identified by `path`
+    # Get's the child of this node, which is identified by `path`. Returns `nil? , if no matching 
+    # child was found.
     # 
     # @example childname
     #   Dom[:Core]             #=> #<CodeObject::Object:Core @parent=__ROOT__ …>
@@ -116,11 +115,11 @@ module Dom
     #
     # @overload [](childname)
     #   @param [String, Symbol] childname
-    #   @return <Dom::Node>
+    #   @return [Dom::Node, nil]
     #
     # @overload [](path)
     #   @param [String] path The path to the desired node
-    #   @return <Dom::Node>
+    #   @return [Dom::Node, nil]
     def [](path)
       return @children[path] if path.is_a? Symbol
       return @children[path.to_sym] if path.split(NS_SEP_STRING).size == 1
@@ -148,8 +147,7 @@ module Dom
       not (@children.nil? or @children.size == 0)
     end
     
-    # Finds all siblings of the current node. If there is no parent, it will 
-    # return `nil`.
+    # Finds all siblings of the current node. If there is no parent, it will return `nil`.
     #
     # @return [Array<Dom::Node>, nil]
     def siblings
@@ -239,14 +237,15 @@ module Dom
     # @group Manipulation
     
     # There are three different cases
-    #   1. Last Childnode i.e. ".foo"
-    #      -> Append node as child
-    #   2. absolute path i.e. "Foo"
-    #      -> delegate path resolution to Dom.root
-    #   3. relative path i.e. ".bar.foo"
-    #         a. if there is a matching child for first element, delegate
-    #            adding to this node
-    #         b. create NoDoc node and delegate rest to this NoDoc
+    #
+    # 1. Last Childnode i.e. ".foo"
+    #    -> Append node as child
+    # 2. absolute path i.e. "Foo"
+    #    -> delegate path resolution to Dom.root
+    # 3. relative path i.e. ".bar.foo"  
+    #    a. if there is a matching child for first element, delegate
+    #       adding to this node  
+    #    b. create NoDoc node and delegate rest to this NoDoc
     #
     #
     # @overload add_node(path, node)

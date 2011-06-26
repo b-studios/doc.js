@@ -97,5 +97,5 @@ reveal only the public ones. This can be documented like the following:
      
       }
       
-Ommiting the comment of the private function `eatPizza` would exclude it from the documentation. This
-may be the disired way of documenting for example a API-Documentation.
+Ommiting the comment of the private function `eatPizza` would exclude it from the documentation. 
+This may be the disired way of documenting for example a API-Documentation.

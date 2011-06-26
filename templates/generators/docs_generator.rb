@@ -14,8 +14,7 @@ module Generator
         next if doc.is_a? Dom::NoDoc 
                
         render_document doc        
-      end
-      
+      end      
       
       readme = Dom.docs.find('README')
       in_context readme do

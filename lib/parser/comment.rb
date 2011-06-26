@@ -3,22 +3,22 @@ require_relative '../code_object/converter'
 
 module Parser
 
-  # Together with {Parser::Coment} it acts as an **Interface** between {Parser} 
-  # and {CodeObject}. Parser::Comment creates instances of Tokenline, which are
-  # then analysed by {Token::Container#process_token} 
+  # Together with {Parser::Coment} it acts as an **Interface** between {Parser} and {CodeObject}. 
+  # Parser::Comment creates instances of Tokenline, which are then analysed by 
+  # {Token::Container#process_token} 
   #
   # @see Parser::Comment
   # @see Parser::CommentParser
   Tokenline = Struct.new :token, :content
   
   # Comment contains all **tokenlines** and **doclines**, which are created by the
-  # {Parser::Parser parser}. The tokenlines are stored as {Tokenline}. Because
-  # of this Comment and Tokenline act as **Interface** for {CodeObject::Base}.
+  # {Parser::Parser parser}. The tokenlines are stored as {Tokenline}. Because of this Comment and 
+  # Tokenline act as **Interface** for {CodeObject::Base}.
   #
-  # The tokens will further be processed by {Token::Container}, which 
-  # is mixed in to CodeObject::Base).
+  # The tokens will further be processed by {Token::Container}, which is mixed in to 
+  # {CodeObject::Base}).
   #
-  # @example creating of an comment
+  # @example creating an comment
   #   c = Parser::Comment.new "the original string of the comment, with all tokens and doclines"
   #   c.add_tokenline :param "[String] first_parameter this is the description for param1"
   #   c.add_docline "Some documentation of the comment"
@@ -56,6 +56,7 @@ module Parser
       @children += comments
     end
     
+    # @return [Boolean]    
     def has_tokens?
       not @tokenlines.empty?
     end    

@@ -4,9 +4,9 @@ Bad news first: **You still have to write documentation**
 
 Good news: **It will look awesome!!**
 
-Doc.js is a JavaScript-Documentation tool which detects `tokens` in your comments and 
-generates documentation out of it. Doc.js could be ported pretty easy to any other
-language, because the most of it's parts are language agnostic.
+Doc.js is a JavaScript-Documentation tool which detects `tokens` in your comments and generates 
+documentation out of it. Doc.js could be ported pretty easy to any other language, because the most 
+of it's parts are language agnostic.
 
 Guides
 ======
@@ -19,17 +19,17 @@ If you read this, you may belong to one of the following four groups:
 
 Supported Ruby-Version
 ======================
-Currently **only ruby > 1.9.x is supported**. Support for 1.8.x is not planned, 
-because there are some problems:
+Currently **only ruby > 1.9.x is supported**. Support for 1.8.x is not planned, because there are 
+some problems:
 
 - UTF-8 Support in parser
 - Intensive use of require_relative
 - Named captures in RegularExpressions
 
-For the last two, a rewrite could solve the compatibility issues. Sadly enough
-currently i don't find the time to fix thoses and the first problem in 1.8.x so
-only 1.9 is supported. If you have the time to work on 1.8 compatibility you would
-make me (and possibly some other 1.8 users) very happy.
+For the last two, a rewrite could solve the compatibility issues. Sadly enough currently i don't 
+find the time to fix thoses and the first problem in 1.8.x so only 1.9+ is supported. If you have 
+the time to work on 1.8 compatibility you would make me (and possibly some other 1.8 users) very 
+happy.
 
 
 Installation
@@ -38,8 +38,8 @@ Installation
 
 Dependencies
 ============
-The following Gems are required to make docjs work and should automatically be 
-installed while installing docjs:
+The following Gems are required to make docjs work and should automatically be installed while 
+installing docjs:
 
 - thor
 - rdiscount

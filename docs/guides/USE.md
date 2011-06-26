@@ -111,7 +111,7 @@ can be rewritten as:
 This only works, because the JavaScript-Parser of Doc.js is working scope-aware. So you always can 
 use the dot-notation if your comment is in the lexical-scope of the parent comment.
 
-The dot-notation (`.sayHello`) was inspired by file-system, where one dot refers to the current
+The dot-notation (`.sayHello`) was inspired by file-systems, where one dot refers to the current
 directory. It also fit's into the JavaScript context, because the child can be accessed by using
 the dot.
 
