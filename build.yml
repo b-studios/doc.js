@@ -1,11 +1,9 @@
 files:
   - "test/js-files/core-doc.js"
-  - "test/js-files/nested_with_strings.js"
   
-docs:
-  - "test/docs/FOO.md"  
+docs: 
   - "test/docs/*.md"
 
 loglevel: "debug"
 output: "out"
-appname: "MyAwesomeApp"
+appname: "Doc.js"

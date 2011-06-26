@@ -97,6 +97,44 @@ module Helper
       path.relative_path_from(base).to_s
     end
     
+    
+
+    # To visually group the tokens you can specify an area. All tokens for one area (`:sidebar` in this
+    # example) will be collected and can be rendered in the view-templates with the 
+    # {Helper::Helper#render_tokens render_tokens} helper-method. 
+    # 
+    #     render_tokens :of => @code_object, :in => :sidebar
+    #
+    # While {Token::Handler.register registering a new token} you can use any symbol for `area`. But your tokens may not appear in 
+    # the rendered html-documentation, unless you explicitly call `render_tokens` for each area.
+    # 
+    # The default-templates make use of the following areas:
+    #
+    # - :notification
+    # - :body
+    # - :sidebar
+    # - :footnote
+    #
+    # If you don't want your token to be rendered at all, you can use `:none` as value for `area`.
+    # 
+    #     register :your_token, :area => :none
+    #
+    # @example render tokens of notification-area
+    #   render_tokens :of => code_object, :in => :notification
+    #
+    # @example exclude `@deprecated`-Tokens from output
+    #   render_tokens :of => code_object, :in => :body, :without => [:deprecated]
+    #
+    # @example use special default-template
+    #   render_tokens :of => code_object, :in => :sidebar, :template => 'sidebar' 
+    #
+    # @param [Hash] opts
+    # @option opts [CodeObject::Base] :of The object, which contains the tokens, to be rendered
+    # @option opts [Symbol] :area The area to filter the tokens for
+    # @option opts [Array<Symbol>, nil] :without Tokennames to be excluded from the output
+    # @option opts [Symbol, String, nil] :template If you wan't to overwrite the default template
+    #   you can use this option. (Note: templates, specified at token-registration have higher
+    #   precedence, than this option)  
     def render_tokens(opts = {})
     
       code_object = opts[:of] or raise Exception.new("Parameter :of (CodeObject) required")

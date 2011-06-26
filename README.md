@@ -8,8 +8,17 @@ Doc.js is a JavaScript-Documentation tool which detects `tokens` in your comment
 documentation out of it. Doc.js could be ported pretty easy to any other language, because the most 
 of it's parts are language agnostic.
 
+Features
+--------
+- One command to install
+- Use markdown in your documentation
+- Easy to customize (Create your own DSL in a sec!)
+- Nice and clean default template
+- Integrates well with your existing deployment
+- For ruby lovers - it's written in ruby
+
 Guides
-======
+------
 If you read this, you may belong to one of the following four groups:
 
 1. You want to {file:TRY.md try out Doc.js} for the first time
@@ -18,7 +27,7 @@ If you read this, you may belong to one of the following four groups:
 4. You are interested in the {file:ARCHITECTURE.md architectural insides} of Doc.js
 
 Supported Ruby-Version
-======================
+----------------------
 Currently **only ruby > 1.9.x is supported**. Support for 1.8.x is not planned, because there are 
 some problems:
 
@@ -33,11 +42,11 @@ happy.
 
 
 Installation
-============
+------------
     gem install docjs    
 
 Dependencies
-============
+------------
 The following Gems are required to make docjs work and should automatically be installed while 
 installing docjs:
 
@@ -46,9 +55,10 @@ installing docjs:
 
 
 Legal Notice & Contact
-======================
+----------------------
 docjs is released under MIT-License. See LICENSE.md for more information.
 The used icons, are part of the legendary [famfamfam-silk-iconset](http://www.famfamfam.com/lab/icons/silk/).
+The font used in title and headlines is a Google-Webfont
 
 For further information about contacting me, please visit my personal [blog](http://b-studios.de).
 Of course you are also invited to [follow me on twitter](http://twitter.com/#!/__protected).

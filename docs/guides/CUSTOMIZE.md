@@ -1,27 +1,3 @@
-Areas
-=====
-To visually group the tokens you can specify an area. All tokens for one area (`:sidebar` in this
-example) will be collected and can be rendered in the view-templates with the 
-{Helper::Helper#render_tokens render_tokens} helper-method. 
-
-    render_tokens :of => @code_object, :in => :sidebar
-
-While {Token::Handler.register registering a new token} you can use any symbol for `area`. But your tokens may not appear in 
-the rendered html-documentation, unless you explicitly call `render_tokens` for each area.
-
-The default-templates make use of the following areas:
-
-- :notification
-- :body
-- :sidebar
-- :footnote
-
-If you don't want your token to be rendered at all, you can use `:none` as value for `area`.
-
-    register :your_token, :area => :none
-
-
-
 1. Example - Adding a simple token
 ==================================
 You can extend Doc.js on different levels. The easiest way of customization is to add a simple token.
@@ -49,6 +25,8 @@ section (it contains meta-information about the object) we place it there with
     
 Now our token should be displayed nicely in the sidebar-area on the right side (if you are using the
 default template).
+
+You can find more information about areas in {Helper::Helper#render_tokens the Helper-doc}
 
 
 Using another tokenhandler

@@ -86,11 +86,12 @@ $element-margin: 1.33em;
   @if $terminal == true {
     @include terminal;
   }
+  @include border-radius($radius/2);
   display: block;
   background: $color;
   border: 1px solid darken($color, 8%);
   color: darken($fontcolor, 40%);
-  border-radius: $radius/2;
+  
   padding: 0.4em 1em;
 }
 
@@ -140,10 +141,11 @@ div#main {
   @include page-center;
   @include typography;
   @include clearfix;
+  @include border-radius(10px 10px 0 0);
 
   margin-top: -$page-indent;
 
-  border-radius: 10px 10px 0 0;
+  
   box-shadow: 0px -0px 5px rgba(0,0,0,0.1);
 
   border-top: 1px solid #eee;
@@ -169,10 +171,10 @@ div#main nav.sidebar {
 
   @include float(right);
   @include code-box;
+  @include border-radius(5px);
       
   margin: 2*$page-padding 0 $box-spacing $box-spacing;
-  padding: 0;
-  border-radius: 5px;
+  padding: 0;  
   font-size: 8pt;
   color: #999;
   

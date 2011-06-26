@@ -2,7 +2,8 @@
   /*@include double-border(1px, #fff, #ccc);*/
   @include gradient(#333, #555);
   @include reset-fonts;
-    
+  @include border-radius($radius/2);
+   
   display: none;
   position: absolute;
   padding: 0.5em;
@@ -12,7 +13,6 @@
   font-size: 9pt;
   color: #eee;
   border: 1px solid #fff;
-  border-radius: $radius/2;
   box-shadow: 0 0 10px rgba(0,0,0,0.15);
   
   a {

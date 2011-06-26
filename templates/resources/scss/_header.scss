@@ -34,7 +34,7 @@
     }
     
     input#search {
-      border-radius: $radius;
+      @include border-radius($radius);
       outline: none;
       padding: 0.2em 0.5em;
     }
@@ -48,8 +48,8 @@
         @include float(left);
         
         /* rounded corners */
-        &:first-child a { border-radius: 0 0 0 $radius; }
-        &:last-child a { border-radius: 0 0 $radius 0; }        
+        &:first-child a { @include border-radius(0 0 0 $radius); }
+        &:last-child a { @include border-radius(0 0 $radius 0); }        
       }
             
       a {
@@ -87,9 +87,8 @@
       
       > ul {
         @include scrollbars; 
-        
+        @include border-radius($radius);
         border: 1px solid #eee;
-        border-radius: $radius;
         padding: 0; margin: 0;
         
         overflow: hidden; 

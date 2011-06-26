@@ -85,6 +85,12 @@ $golden_ratio: 1.618;
   }
 }
 
+@mixin border-radius($radius) {
+  -moz-border-radius: $radius; /* Firefox */
+  -webkit-border-radius: $radius; /* Safari, Chrome */
+  border-radius: $radius; /* CSS3 */  
+}
+
 @mixin float($direction) {
   display: block;
   float: $direction;

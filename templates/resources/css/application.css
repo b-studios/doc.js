@@ -292,7 +292,12 @@ input:invalid, textarea:invalid {
       display: block;
       float: right; }
     #header nav input#search {
+      -moz-border-radius: 10px;
+      /* Firefox */
+      -webkit-border-radius: 10px;
+      /* Safari, Chrome */
       border-radius: 10px;
+      /* CSS3 */
       outline: none;
       padding: 0.2em 0.5em; }
     #header nav #page-menu {
@@ -305,9 +310,19 @@ input:invalid, textarea:invalid {
         float: left;
         /* rounded corners */ }
         #header nav #page-menu li:first-child a {
-          border-radius: 0 0 0 10px; }
+          -moz-border-radius: 0 0 0 10px;
+          /* Firefox */
+          -webkit-border-radius: 0 0 0 10px;
+          /* Safari, Chrome */
+          border-radius: 0 0 0 10px;
+          /* CSS3 */ }
         #header nav #page-menu li:last-child a {
-          border-radius: 0 0 10px 0; }
+          -moz-border-radius: 0 0 10px 0;
+          /* Firefox */
+          -webkit-border-radius: 0 0 10px 0;
+          /* Safari, Chrome */
+          border-radius: 0 0 10px 0;
+          /* CSS3 */ }
       #header nav #page-menu a {
         background: #4a8fd3;
         /* Old browsers */
@@ -360,8 +375,13 @@ input:invalid, textarea:invalid {
       padding: 0 0 0 0.5em;
       margin-bottom: 0.5em; }
     #header .col50 section > ul {
-      border: 1px solid #eee;
+      -moz-border-radius: 10px;
+      /* Firefox */
+      -webkit-border-radius: 10px;
+      /* Safari, Chrome */
       border-radius: 10px;
+      /* CSS3 */
+      border: 1px solid #eee;
       padding: 0;
       margin: 0;
       overflow: hidden;
@@ -483,6 +503,12 @@ input:invalid, textarea:invalid {
   /* W3C */
   font-family: Arial, sans-serif;
   font-size: 10pt;
+  -moz-border-radius: 5px;
+  /* Firefox */
+  -webkit-border-radius: 5px;
+  /* Safari, Chrome */
+  border-radius: 5px;
+  /* CSS3 */
   display: none;
   position: absolute;
   padding: 0.5em;
@@ -491,7 +517,6 @@ input:invalid, textarea:invalid {
   font-size: 9pt;
   color: #eee;
   border: 1px solid #fff;
-  border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); }
   .tooltip a {
     color: #8eb5db; }
@@ -634,8 +659,13 @@ div#main {
   max-width: 1000px;
   display: block;
   overflow: hidden;
-  margin-top: -20px;
+  -moz-border-radius: 10px 10px 0 0;
+  /* Firefox */
+  -webkit-border-radius: 10px 10px 0 0;
+  /* Safari, Chrome */
   border-radius: 10px 10px 0 0;
+  /* CSS3 */
+  margin-top: -20px;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
   border-top: 1px solid #eee; }
   div#main h1 {
@@ -656,11 +686,16 @@ div#main {
     padding-right: 20px; }
   div#main header h1 .flag {
     font-family: "Consolas", "monospace";
+    -moz-border-radius: 5px;
+    /* Firefox */
+    -webkit-border-radius: 5px;
+    /* Safari, Chrome */
+    border-radius: 5px;
+    /* CSS3 */
     display: block;
     background: #fcded1;
     border: 1px solid #f9c2ab;
     color: #5490c8;
-    border-radius: 5px;
     padding: 0.4em 1em;
     display: block;
     float: right;
@@ -675,9 +710,14 @@ div#main nav.sidebar {
   font-family: "Consolas", "monospace";
   display: block;
   background: #f3f3f3;
+  -moz-border-radius: 5px;
+  /* Firefox */
+  -webkit-border-radius: 5px;
+  /* Safari, Chrome */
+  border-radius: 5px;
+  /* CSS3 */
   margin: 40px 0 12px 12px;
   padding: 0;
-  border-radius: 5px;
   font-size: 8pt;
   color: #999; }
   div#main nav.sidebar > * {
@@ -727,11 +767,16 @@ div#main .body .summary {
     float: left; }
   div#main .body .summary a {
     font-family: "Consolas", "monospace";
+    -moz-border-radius: 5px;
+    /* Firefox */
+    -webkit-border-radius: 5px;
+    /* Safari, Chrome */
+    border-radius: 5px;
+    /* CSS3 */
     display: block;
     background: #eff4fa;
     border: 1px solid #d0e0f0;
     color: #5490c8;
-    border-radius: 5px;
     padding: 0.4em 1em;
     margin: 0.25em; }
     div#main .body .summary a:hover {
@@ -763,11 +808,16 @@ div#main .body h3.source {
     margin-bottom: 1.33em; }
 div#main .body .signature {
   font-family: "Consolas", "monospace";
+  -moz-border-radius: 5px;
+  /* Firefox */
+  -webkit-border-radius: 5px;
+  /* Safari, Chrome */
+  border-radius: 5px;
+  /* CSS3 */
   display: block;
   background: #eff4fa;
   border: 1px solid #d0e0f0;
   color: #5490c8;
-  border-radius: 5px;
   padding: 0.4em 1em;
   color: #000;
   font-size: 12pt;
@@ -775,11 +825,16 @@ div#main .body .signature {
   margin-bottom: 1.33em; }
   div#main .body .signature.constructor {
     font-family: "Consolas", "monospace";
+    -moz-border-radius: 5px;
+    /* Firefox */
+    -webkit-border-radius: 5px;
+    /* Safari, Chrome */
+    border-radius: 5px;
+    /* CSS3 */
     display: block;
     background: #fcded1;
     border: 1px solid #f9c2ab;
     color: #5490c8;
-    border-radius: 5px;
     padding: 0.4em 1em;
     color: #000; }
   div#main .body .signature .name {
@@ -795,33 +850,53 @@ div#main .body .overload {
 div#main .notification {
   display: table; }
   div#main .notification section {
+    -moz-border-radius: 5px;
+    /* Firefox */
+    -webkit-border-radius: 5px;
+    /* Safari, Chrome */
+    border-radius: 5px;
+    /* CSS3 */
     display: block;
     background: #f3f3f3;
     border: 1px solid #dfdfdf;
     color: #666666;
-    border-radius: 5px;
     padding: 0.4em 1em;
     margin-bottom: 0.5em; }
     div#main .notification section.deprecated {
+      -moz-border-radius: 5px;
+      /* Firefox */
+      -webkit-border-radius: 5px;
+      /* Safari, Chrome */
+      border-radius: 5px;
+      /* CSS3 */
       display: block;
       background: #cccccc;
       border: 1px solid #b8b8b8;
       color: #666666;
-      border-radius: 5px;
       padding: 0.4em 1em; }
     div#main .notification section.todo {
+      -moz-border-radius: 5px;
+      /* Firefox */
+      -webkit-border-radius: 5px;
+      /* Safari, Chrome */
+      border-radius: 5px;
+      /* CSS3 */
       display: block;
       background: #fef377;
       border: 1px solid #feef4e;
       color: #4e4e07;
-      border-radius: 5px;
       padding: 0.4em 1em; }
     div#main .notification section.warn {
+      -moz-border-radius: 5px;
+      /* Firefox */
+      -webkit-border-radius: 5px;
+      /* Safari, Chrome */
+      border-radius: 5px;
+      /* CSS3 */
       display: block;
       background: #ff5544;
       border: 1px solid #ff301b;
       color: #4e1a07;
-      border-radius: 5px;
       padding: 0.4em 1em; }
     div#main .notification section ul {
       list-style: none;
