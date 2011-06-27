@@ -57,7 +57,7 @@ Legal Notice & Contact
 ----------------------
 docjs is released under MIT-License. See LICENSE.md for more information.
 The used icons, are part of the legendary [famfamfam-silk-iconset](http://www.famfamfam.com/lab/icons/silk/).
-The font used in title and headlines is a Google-Webfont
+The font used in title and headlines is a Google-Webfont called `TerminalDosis-Light`.
 
 For further information about contacting me, please visit my personal [blog](http://b-studios.de).
 Of course you are also invited to [follow me on twitter](http://twitter.com/#!/__protected).
