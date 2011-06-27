@@ -51,7 +51,8 @@ The symbols `@function`, `@param` and `@return` are called **tokens** in Doc.js.
 There are many more by default. To see which one you can use simply type:
 
     docjs tokens
-  
+
+or simply search in {file:USE.md#Available_Tokens this list}.
 
 Run the documentation and enjoy!
 --------------------------------

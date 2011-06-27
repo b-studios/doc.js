@@ -64,11 +64,9 @@ default:
 - `@prototype`
 - (`@constructor`)
 
-The first two are considered primitives of the JavaScript language. Advanced concepts like classes, 
-mixins, pseudoclassical inheritence and so on can easily be added by 
-{file:CUSTOMIZE.md creating your own template} or modifying the existing one. `@prototype` is added
-as type, so you can see how to create your own custom-types. More information about the `@prototype`
-- type can be found in {file:PATTERNS.md#Prototypal_Inheritance the documentation-pattern-list}.
+Advanced concepts like classes, mixins, pseudoclassical inheritence and so on can easily be added by 
+{file:CUSTOMIZE.md creating your own template} or modifying the existing one. More information about 
+the `@prototype`-type can be found in {file:PATTERNS.md#Prototypal_Inheritance the documentation-pattern-list}.
 
 Types classify the piece of code, you are documenting - so adding a type is essential and **always 
 required**.
@@ -120,67 +118,92 @@ Please note: **If relative naming results in errors you still can use absolute n
 Available Tokens
 ================
 
-@author
--------
+
+Meta-Information Tokens
+-----------------------
 | Handler          | Area       | Template
 |:-----------------|:-----------|:-------------
 | :default         | :sidebar   | :default
 
-Can be used multiple times for many authors like:
+All meta-information tokens appear, along hierachy and file-information, in the sidebar on the right
+side. (That area is called `:sidebar`)
+All contents is parsed as one string and can be accessed via the content-accessor-method:
 
-    @author Jon Foo
-    @author Peter Bar (Editor)
-    
+    code_object.tokens[:author].first.content #=> Jonathan
 
-@constructor
-------------
+### @author #
+### @public #
+### @private #
+### @version #
+
+
+Notification Tokens
+-------------------
+| Handler          | Area          | Template
+|:-----------------|:--------------|:-------------
+| :default         | :notification | :default
+The notification tokens are all rendered within the default-template, but can be distinguished with
+css, because the token is added as class.
+
+    /**
+     * @warn This is a warning
+     * @note Please note this
+     */
+     
+will result in a markup similar to:
+
+    <section class="warn subsection">
+      <h3>Warn</h3>
+      <ul>
+        <li><p>This is a warning</p></li>  
+      </ul>
+    </section>
+    <section class="note subsection">
+      <h3>Note</h3>
+      <ul>
+        <li><p>Please note this</p></li>  
+      </ul>
+    </section>
+
+### @deprecated #
+### @note #
+### @todo #
+### @warn #
+
+
+Type-Creating Tokens
+--------------------
+| Handler          | Area  | Template
+|:-----------------|:------|:-------------
+| :noop            | :none | :default
+
+Using type-tokens like `@object` set's the type of the documented CodeObject to {CodeObject::Object}
+in this case. No token will be added to the codeobject, because the token-types are registered with
+:noop as token-handler. See {file:USE.md#Types types} for further information about the types in Doc.js.
+
+All type-tokens take the first word as path of the described object:
+
+    /**
+     * @function Core.extend
+     */
+
+`@function Core.extend` describes the function `extend` in the namespace `Core`.
+### @constructor #
 Simply creates a function-type and makes it answer `fun.constructor?` with `true`.
 
-
-@deprecated 
------------
-| Handler          | Area           | Template
-|:-----------------|:---------------|:-------------
-| :default         | :notification  | :default
-
-@event
-------
-| Handler                  | Area    | Template
-|:-------------------------|:--------|:-------------
-| :named_nested_shorthand  | :body   | :default
-
-@example
---------
-| Handler          | Area   | Template
-|:-----------------|:-------|:-------------
-| :named_multiline | :body  | :example
-
-@function
----------
-Type
+### @function #
+### @method #
+### @object #
+### @prototype #
 
 
-@method
--------
-Type
+Function-Specific Tokens
+-----------------------
+Of course there are the Function-{file:USE.md#Type-Creating_Tokens Type creating tokens} like 
+`@constructor`, `@function` and  `@method`. But there are some more tokens, which are designed to
+work with functions.
 
-@note
------
-| Handler          | Area           | Template
-|:-----------------|:---------------|:-------------
-| :default         | :notification  | :default
-
-@object
--------
-Using @object set's the type of the documented CodeObject to {CodeObject::Object}. No token will be
-added. See {file:USE.md#Types types} for further information about the types in Doc.js.
-
-@overload
----------
-| Handler      | Area   | Template
-|:-------------|:-------|:----------
-| :custom      | :none  | :default
-
+### @overload #
 You can use overloads, if your **function requires multiple signatures**.
 So instead of adding your `@param`'s and `@return`'s directly to the function's documentation you 
 specify overloads like:
@@ -206,51 +229,78 @@ specify overloads like:
 Please note, that in line 7 of this example the continuation of @overload is achieved due intending
 the empty line with some spaces.
 
+### @param #
+The @param-token supports two ways of usage. The first one is for default tokens like:
 
-@param
-------
+    /**
+     * @param [Foo] barname some description
+     */
 
-@private
---------
-| Handler          | Area       | Template
-|:-----------------|:-----------|:-------------
-| :default         | :sidebar   | :default
+The second one you can use to describe config-objects, which can be passed as an parameter  
 
-@prop
------
+    /**
+     * @param configs
+     * Some configuration Object with following properties:
+     * [String] foo some string
+     * [Bar] bar and another one
+     */
+     
+### @return #
+### @throws #
 
-@prototype
-----------
 
-@public
--------
-| Handler          | Area       | Template
-|:-----------------|:-----------|:-------------
-| :default         | :sidebar   | :default
+Miscellaneous Tokens
+----------------------
+### @event #
+| Handler                  | Area    | Template
+|:-------------------------|:--------|:-------------
+| :named_nested_shorthand  | :body   | :default
 
-@return
--------
+Basically the event token was created to document which events an object could fire.
+Because events often contain data with them, there is the possibility to document the format of this
+data. (this is why the :named_nested_shorthand-handler is used)
 
-@see
-----
+    /**
+     * @event MyCustomEvent
+     *   This event will be triggered, if something special happens. The registered handler will be
+     *   called with a data-object
+     *   [Object] obj This object
+     *   [String] msg Some message attached to this event
+     */
+     
+### @example #
+| Handler          | Area   | Template
+|:-----------------|:-------|:-------------
+| :named_multiline | :body  | :example
 
-@throws
--------
+Examples can be used with and without a title:
 
-@todo
------
-| Handler          | Area           | Template
-|:-----------------|:---------------|:-------------
-| :default         | :notification  | :default
+    /**
+     * @example no parameters
+     *   person.say_hello();
+     *
+     * @example with parameters
+     *   person.say_hello({
+     *     be_friendly: true 
+     *   });
+     */
 
-@version
---------
-| Handler          | Area       | Template
-|:-----------------|:-----------|:-------------
-| :default         | :sidebar   | :default
 
-@warn
------
-| Handler          | Area           | Template
-|:-----------------|:---------------|:-------------
-| :default         | :notification  | :default
+### @prop #
+| Handler           | Area    | Template
+|:------------------|:--------|:-------------
+| :typed_with_name  | :body   | :default
+Prop-tokens are designed to be used to describe properties of objects, which are not objects 
+themselves.
+
+    /**
+     * @object parameters
+     * @prop [String] foo
+     * @prop [Number] bar
+     */
+    var parameters = {
+      foo: "Hello World",
+      bar: 42      
+    }
+    
+### @see #

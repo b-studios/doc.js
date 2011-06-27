@@ -1,19 +1,50 @@
 module Token::Handler
 
-  register :author, :area => :sidebar
-  register :public, :area => :sidebar
+  # @group Metainfo-Tokens
+  register :author,  :area => :sidebar
+  register :public,  :area => :sidebar
   register :private, :area => :sidebar
   register :version, :area => :sidebar
   
-  register :see, :area => :footnote
-
+  # @group Notification Tokens
   register :deprecated, :area => :notification  
-  register :todo, :area => :notification
-  register :note, :area => :notification
-  register :warn, :area => :notification
-  
-  register :example, :template => :examples, :handler => :named_multiline
+  register :todo,       :area => :notification
+  register :note,       :area => :notification
+  register :warn,       :area => :notification
+    
+  # @group Function specific Tokens
+
+  # We want to support either named-typed-tokens like
+  #  @param [Foo] barname some description
+  #
+  # or multiline tokens like:
+  #  @param configs
+  #    Some configuration Object with following properties:
+  #    [String] foo some string
+  #    [Bar] bar and another one
+  register :param, 
+            :area => :none, 
+            :description => "Token for Function-Parameters like '@param [String] name your name'" do |tokenklass, content|
+
+    # it's @param [String] name some content
+    if content.lines.first.match Token::Handler::TOKEN_W_TYPE_NAME
+      self.add_token Token::Handler.apply(:typed_with_name, Token::Token::ParamToken, content)
+    
+    # it maybe a multiline
+    else
+      self.add_token Token::Handler.apply(:named_nested_shorthand, Token::Token::ParamToken, content)
+    end   
+  end
+
+  register :return, :handler => :typed, :area => :none, :description => "Returnvalue of a Function"
+  register :throws, :handler => :typed
    
+  # MethodAlias
+  register :method, :handler => :noop, :area => :none, :type => CodeObject::Function
+
+  # ConstructorAlias
+  register(:constructor, :type => CodeObject::Function) { |token, content| @constructor = true }
+  
   # Every @overload can contain **text-documentation**, **@param**- and **@return**-tokens
   #
   # It may look like:
@@ -62,6 +93,9 @@ module Token::Handler
     self.add_token token_klass.new :content => documentation.join("\n"), :children => children, :name => self.name
   end
   
+  
+  # @group Miscellaneous Tokens
+  
   # Example:
   #     @event MyCustomEvent
   #       This event will be triggered, if something special happens. The registered handler will be
@@ -69,5 +103,9 @@ module Token::Handler
   #       [Object] obj This object
   #       [String] msg Some message 
   register :event, :area => :body, :handler => :named_nested_shorthand
+  register :example, :template => :examples, :handler => :named_multiline    
+  register :prop, :handler => :typed_with_name
+  register :see, :area => :footnote
   
 end
+

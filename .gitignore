@@ -10,4 +10,6 @@ deploy
 TODO.tasks
 *.gem
 *~
+stats
+
 .sass-cache

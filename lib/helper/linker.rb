@@ -33,8 +33,8 @@ module Helper
     # 
     # @param [String, Document::Document, CodeObject::Base] target for further information see above
     # @param [String] text the link text
-    # @param [Hash] args the arguments, which will be reached trough to {#tag}
     # @return [String] a html-link
+    # @param [Hash] args the arguments, which will be reached through to {Helper#tag}
     def link_to(target, text = nil, args = {})
            
       Logger.debug "Trying to link #{target}"
