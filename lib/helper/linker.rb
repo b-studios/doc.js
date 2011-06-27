@@ -10,13 +10,31 @@ module Helper
     HASH = /^#\S*/
     DOCUMENTATION = /^doc\:([^\s#]+)(#\S+)?/
 
-    # @note link_to - first argument can be
-    #   "file:some/path/to_a.file"
-    #   "Code.object.path"
-    #   ".relative.code_object.path"
-    #   "http://external.address.com"
-    #   instance_of_code_object
+    # link to can link many types of resources, the `target` can be one of:
+    # 
+    # - `"file:some/path/to_a.file"`
+    # - `"doc:Document.path"`
+    # - `"Code.object.path"`
+    # - `".relative.code_object.path"`
+    # - `"http://external.address.com"`
+    # - `"mailto:me@example.com"`
+    # - `instance_of_code_object`
+    # - `instance_of_a_doc_object`
+    # 
+    # Most of the time it will be used by {#replace_links} to automatically convert links in 
+    # documentation like `{Core.some.object see some.object}`
     #
+    # @example
+    #   link_to "doc:README", "see readme"
+    #   link_to Dom.docs[:README], "see readme"
+    # 
+    #   link_to "file:pdf/information.pdf", "pdf-file (1.5MB)"
+    #   link_to "http://b-studios.de", "b-studios"
+    # 
+    # @param [String, Document::Document, CodeObject::Base] target for further information see above
+    # @param [String] text the link text
+    # @param [Hash] args the arguments, which will be reached trough to {#tag}
+    # @return [String] a html-link
     def link_to(target, text = nil, args = {})
            
       Logger.debug "Trying to link #{target}"
@@ -68,10 +86,19 @@ module Helper
         Logger.warn "Could not resolve link to '#{target}'"
         return text 
       end
-     
-      tag :a, text, :href => link      
+      
+      tag :a, text, args.merge({ :href => link })      
     end
     
+    # Creates a link, relative to the current output-path
+    #
+    # @example
+    #   relative_link '/home/me/output/test.html', 'Click me'
+    #   #=> "<a href='../test.html'>Click me</a>"
+    #
+    # @param [String] path absolute path to the resource
+    # @param [String] text the link text
+    # @return [String] html-link
     def relative_link(path, text)
       tag :a, text, :href => to_relative(path)
     end
@@ -104,8 +131,17 @@ module Helper
         object.to_s
       end   
     end
-
-    # (see https://github.com/lsegal/yard/blob/master/lib/yard/templates/helpers/html_helper.rb)
+    
+    # finds any links, that look like `{my_link}` and replaces them with the help of {#link_to}
+    #
+    # @example
+    #   replace_links "This is a text, containing a {some.reference link}"
+    #   #=> "This is a text, containing a <a href='../some/reference.html'>link</a>"
+    #
+    # @param [String] text
+    # @return [String] text containing html-links
+    #
+    # @see https://github.com/lsegal/yard/blob/master/lib/yard/templates/helpers/html_helper.rb#L170
     def replace_links(text)
       code_tags = 0
       text.gsub(/<(\/)?(pre|code|tt)|(\\)?\{(?!\})(\S+?)(?:\s([^\}]*?\S))?\}(?=[\W<]|.+<\/|$)/m) do |str|

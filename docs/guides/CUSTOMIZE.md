@@ -152,7 +152,7 @@ Then we need to `require` it from `application.rb`
     
 We get serious problems here, because in ruby we cannot redefine `Class` without getting into 
 troubles. With nearly all other Type-Names everything wents fine, but for `Class` we need something 
-different. Maybe we can simply call it `Klass` or `ClassType `to bypass any trouble. It's up to you.
+different. Maybe we can simply call it `Klass` or `ClassType` to bypass any trouble. It's up to you.
 
     class CodeObject::Klass < CodeObject::Base
     end
@@ -218,7 +218,7 @@ only parameter and needs to create html-output from it.
       # This is needed to eventually resolve relative links included in the documentation
       in_context code_object do
         
-        # The instance-variables are also available in the template
+        # The instance-variables are also available in the template-views
         @class = code_object
         @methods = @object.children.values.select {|c| c.is_a? CodeObject::Function }
         

@@ -19,12 +19,11 @@ Features
 
 Guides
 ------
-If you read this, you may belong to one of the following four groups:
+If you read this, you may belong to one of the following groups:
 
 1. You want to {file:TRY.md try out Doc.js} for the first time
 2. You need some more {file:USE.md information, how to use Doc.js}
 3. You want to {file:CUSTOMIZE.md customize Doc.js}, to exactly fit your needs
-4. You are interested in the {file:ARCHITECTURE.md architectural insides} of Doc.js
 
 Supported Ruby-Version
 ----------------------

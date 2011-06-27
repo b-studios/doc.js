@@ -29,7 +29,6 @@ module Generator
         @object = code_object
         @methods = @object.children.values.select {|c| c.is_a? CodeObject::Function }
         @children = @object.children.values - @methods
-        # Render has to be documented very well, because it will be used in RenderTasks
         render 'object/index', :to_file => path_to(code_object, :format => :html)
       end
     end
