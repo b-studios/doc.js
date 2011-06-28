@@ -69,7 +69,27 @@ var J = J || jCore;
     };
   
   /**
-   * @function jCore.create
+   * @function J.create
+   *
+   * @example
+   *   J.create("Person", {
+   *     constructor: function(name) {
+   *       this.name = name;
+   *     }, 
+   *     say_name: function() { return this.name; }
+   *   });
+   *
+   * @example Using revealing module pattern
+   *   J.create("Person", {
+   *     constructor: function(name) {
+   *       return {
+   *         say_name: function() { return name; }
+   *       };
+   *     }
+   *   });
+   *
+   * @example Extending an object
+   *   J.create("Student", Person
    *
    * Also mitigates the problem of using 'new' to create new instances. After 
    * creating the class Foo with creat, the following versions of instantiation 
@@ -78,7 +98,22 @@ var J = J || jCore;
    *     Foo("bar");
    *     new Foo("bar");
    *
-   * @overload J.create(path, options) 
+   * @overload
+   *   Creates a class called `path` and extends it with the given options
+   *   
+   *   @param [String] path
+   *   @param options
+   *     All options will be added as property to the object
+   *     [Function] constructor The constructor of the class, which will be called, when
+   *       instantiating a new object
+   * 
+   * @overload
+   *   Creates a class `path`, that inherits from `parent` and will be extended with the given
+   *   options
+   *   
+   *   @param [String] path
+   *   @param [Object] parent
+   *   @param [Hash] options (see other overload)
    */
   J.create = function(path, inherited, options) {   
     

@@ -1,11 +1,7 @@
-@mixin line-height-fix() {
-  font-size: 9pt;
-  line-height: 1.4em;
-}
-
 code.source, code.example {
   @include code-box;
-  @include line-height-fix;
+  font-size: 9pt;
+  line-height: 1.6em;
   padding: 0.5em;
   margin-bottom: $element-margin;  
 }
@@ -34,7 +30,7 @@ code.source, code.example {
     text-align: right;
     
     .line {
-      @include line-height-fix;
+      height: 1.6em;
     }
   }
   
@@ -43,7 +39,8 @@ code.source, code.example {
     width: 100%;
     
     .line {
-      padding: 0 0.5em;
+      height: 1.6em;
+      padding: 0 0.5em;      
       &:hover { background: #f5f5f5; }
     }
   }
