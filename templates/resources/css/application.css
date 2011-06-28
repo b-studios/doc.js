@@ -384,8 +384,8 @@ input:invalid, textarea:invalid {
       border: 1px solid #eee;
       padding: 0;
       margin: 0;
-      overflow: hidden;
-      /*overflow-y: scroll;*/ }
+      overflow: auto;
+      max-height: 450px; }
       #header .col50 section > ul::-webkit-scrollbar {
         width: 7px;
         height: 9px; }
