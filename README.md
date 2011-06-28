@@ -8,6 +8,10 @@ Doc.js is a JavaScript-Documentation tool which detects `tokens` in your comment
 documentation out of it. Doc.js could be ported pretty easy to any other language, because the most 
 of it's parts are language agnostic.
 
+Demo Projects
+-------------
+- [arrayJS](http://b-studios.github.com/arrayJS/)
+
 Features
 --------
 - One command to install
