@@ -3,10 +3,6 @@ require_relative '../token/handler'
 require_relative '../dom/dom'
 require_relative '../parser/meta_container'
 
-#
-# ![Code Object Overview](../uml/CodeObject.svg)
-#
-#
 module CodeObject
 
   class Base

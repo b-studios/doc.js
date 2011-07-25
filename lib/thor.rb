@@ -1,3 +1,5 @@
+# Extension of Thor to merge options from configuration-file and command line
+# @see https://github.com/wycats/thor/wiki
 class Thor
 
   protected

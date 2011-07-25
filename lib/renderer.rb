@@ -1,6 +1,31 @@
 require 'erb'
 require 'fileutils'
 
+# The Renderer is the heart-piece of each {Generator::Generator}, but can also be used without them.
+# It uses ERB-Templates, which are being rendered with a binding to the Renderer-instance.
+#
+# It's only method {#render} can be used in multiple ways, which are explained {#render here}.
+# The Renderer is automatically been set up by the Generator, but to understand how it works we
+# may setup it ourselves like:
+#
+#     my_renderer = Renderer.new 'my/template/path', 'layout/application'
+#     my_renderer.render 'test', :to_file => 'output.html'
+#
+# This will render the template `my/template/path/test.html.erb` in the layout 
+# `my/template/path/layout/application.html.erb` and saved to `output.html`.
+#
+# Most of the time, as with Generators, the renderer will be extended and used like:
+#
+#     class MyRenderer < Renderer
+#  
+#        def initialize
+#          super('my/template/path', 'layout/application')
+#        end
+#
+#        def index
+#          render 'test', :to_file => 'output.html'
+#        end
+#      end
 class Renderer
 
   def initialize(default_path, layout)
@@ -8,7 +33,66 @@ class Renderer
     @_layout = layout
   end
 
-  # Pretty much inspired by Ruby on Rails
+  # @overload render(template, *opts)
+  #   @param [String, Symbol] template Template-file **without** file-extension. (Like `index` => `index.html.erb`)
+  #   @option opts [String] layout (specified in constructor)
+  #   @option opts [String] to_file (nil) Optional file-path to save the output to.   
+  #   @return [String, nil] the rendered output
+  #
+  # @overload render(:partial => template, :collection => [...])
+  #   For each item of `collection`, the partial will be rendered once. The output consists of all
+  #   those concatenated render-passes.
+  #   The value of each item will be bound to a local-variable called like the partial, without leading
+  #   _. (i.e. if partial-name = "_test.html.erb" the variable is called `test`
+  #   
+  #   @param [String, Symbol] template Template-file **without** file-extension. (Like `index` => `index.html.erb`)
+  #   @param [Array] collection 
+  #   @return [String] the rendered output
+  #
+  # @overload render(:partial => template, :locals => {...})
+  #   Each key of `locals` will be set to it's value in the local-binding of the partial.
+  #    
+  #   @param [String, Symbol] template Template-file **without** file-extension. (Like `index` => `index.html.erb`)
+  #   @param [Hash] locals Hash of variables, which will be available via local-variables in the partial-binding    
+  #   @return [String] the rendered output
+  #
+  # @example simple rendering
+  #   render 'test', :layout => nil #=> returns a string, containing the rendered template 'test.html.erb'
+  #
+  # @example rendering within a layout
+  #   # layout/app.html.erb
+  #   <html>
+  #      <%= yield %>
+  #   </html>
+  #   
+  #   # MyCustomRenderer < Renderer
+  #   render 'test', :layout => 'layout/app' #=> renders 'test.html.erb' within 'app.html.erb'
+  #
+  # @example rendering a partial with collections
+  #   # _item.html.erb
+  #   <li><%= item %></li>   
+  #
+  #   # my_view.html.erb
+  #   <ul>
+  #     <%= render :partial => 'item', :collection => ["Foo", "Bar", "Baz"]
+  #   </ul>
+  #   
+  #   #=> <ul><li>Foo</li><li>Bar</li><li>Baz</li></ul>
+  #
+  # @example setting local-variables within a partial
+  #   # _item.html.erb
+  #   <strong><%= foo %></strong> <em><%= bar %></em>
+  #
+  #   # my_view.html.erb
+  #   <%= render :partial => 'item', :locals => { :foo => "Hello", :bar => "World" } %>
+  #   
+  #   #=> <strong>Hello</strong> <em>World</em>
+  #
+  # @example rendering to file
+  #   render 'my_test', :to_file => "test_output.html"
+  #
+  # @note Pretty much inspired by Ruby on Rails
+  # @see http://guides.rubyonrails.org/layouts_and_rendering.html
   def render(opt = nil, extra_options = {})
 
     # Prepare Options

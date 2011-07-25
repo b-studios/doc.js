@@ -2,8 +2,13 @@ require_relative 'comment'
 require_relative 'exceptions'
 
 module Parser
+  
+  # Creates an instance of {Parser::Comment}, then parses the content and adds the contained doc- 
+  # and tokenlines to it.
+  #
+  # @see Comment
   class CommentParser < StringScanner    
-
+  
     def initialize(input)
       super(input)
       @comment = Comment.new(input)
@@ -18,8 +23,7 @@ module Parser
     #
     # All other lines are interpreted as doclines
     #
-    # @return [Parser::Comment] Creates an instance of {Parser::Comment} and attaches all find doc- 
-    #   and tokenlines to it.
+    # @return [Parser::Comment] Attaches all found doc- and tokenlines to the instance of comment
     def parse
       # we don't want the linebreak of the comment start in our first docline
       # i.e. ignore '/**\n' 
@@ -51,7 +55,7 @@ module Parser
       end
     end
     
-    # Parses tokens, if the line begins with an @
+    # Parses tokens, if the line begins with an `@`
     #     @token_one some other text etc.
     #
     # The parser does the following to detect multiline tokens like:

@@ -1,3 +1,18 @@
+# Systemwide Singleton, which can be used to store global configurations, like paths or some other
+# settings
+#
+# @example Usage
+#   Configs.set :foo, 123
+#   Configs.foo #=> 123
+#   
+#   Configs.set :foo => 456, :bar => "Hello World"
+#   Configs.foo #=> 456
+#   Configs.bar #=> "Hello World"
+#   
+#   Configs.baz #=> nil
+#
+# @example List all configs
+#   Configs.attributes #=> { :foo => 456, :bar => "Hello World" }
 module Configs
 
   def self.set(sym_or_hash, value = nil)

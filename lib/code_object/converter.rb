@@ -2,8 +2,6 @@ require_relative 'exceptions'
 
 module CodeObject
 
-  # here the dependencies to {Dom::Node} and {Parser::Comment} should be described
-  #
   # Converts a comment to a code_object and therefor is included in {Parser::Comment}
   module Converter
   
@@ -51,16 +49,17 @@ module CodeObject
       
       if types.size > 1
         raise CodeObject::MultipleTypeDeclarations.new, "Wrong number of TypeDeclarations: #{types}"
-      elsif types.size == 0
+      elsif types.size == 1
+        type = types.first
+        
+        # Get Class and instantiate it with content
+        klass = available_types[type.token]
+        return klass.new(type.content)
+        
+      else
         # it's not possible to create instance
         return nil
-      end
-      
-      type = types.first
-      
-      # Get Class and instantiate it with content
-      klass = available_types[type.token]
-      klass.new(type.content)
+      end      
     end    
   end
 end

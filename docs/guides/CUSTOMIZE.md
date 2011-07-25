@@ -1,3 +1,35 @@
+All of the following Guides require modifications of the default-templates. To start of with your own
+templates simply type:
+
+    docjs scaffold TEMPLATE_PATH
+    
+in your console and replace `TEMPLATE_PATH` with the path you wish the templates to be generated in.
+This command will copy the default templates to `TEMPLATE_PATH`, which results in a structure similiar
+to:
+
+    my_templates/
+      generators/
+      helpers/
+      resources/
+      tokens/
+      types/
+      views/
+      application.rb
+      
+If you take a look at `application.rb` you will see, that all it does is to require
+the files, which are placed within the other template-folders.
+
+generators/
+-----------
+Contains all custom generators, which are needed to create html or json-files from the internal data-
+structure. In section {file:CUSTOMIZE.md#Modifying_a_Generator Modifying a Generator} you can learn
+a bit more about the use of a generator and how to customize it.
+
+helpers/
+--------
+Helpers are, like helpers in Rails, included into your generator (
+
+
 1. Example - Adding a simple token
 ==================================
 You can extend Doc.js on different levels. The easiest way of customization is to add a simple token.

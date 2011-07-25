@@ -3,7 +3,7 @@ require_relative '../code_object/converter'
 
 module Parser
 
-  # Together with {Parser::Coment} it acts as an **Interface** between {Parser} and {CodeObject}. 
+  # Together with {Parser::Comment} it acts as an **Interface** between {Parser} and {CodeObject}. 
   # Parser::Comment creates instances of Tokenline, which are then analysed by 
   # {Token::Container#process_token} 
   #

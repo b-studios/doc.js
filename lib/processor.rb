@@ -9,7 +9,7 @@ module Processor
   
   def self.process_and_render
     process_files_to_dom
-    perform_all_tasks
+    start_generators
   end
   
   def self.process_files_to_dom(files = nil)
@@ -38,7 +38,7 @@ module Processor
   # @group Stage #2 - CommentProcessor
   
   # Processing comment-stream and convert to {CodeObject CodeObjects}
-  # This stage also adds the CodeObjects to Dom.
+  # This stage also adds the CodeObjects to {Dom}.
   def self.process_comments(comments)
     
     comments = [comments] unless comments.is_a? Array
@@ -48,17 +48,14 @@ module Processor
       Logger.debug "Adding to Dom: #{code_object}"
       Dom.add_node(code_object.path, code_object) unless code_object.nil?     # add to dom
     end
-  end
+  end  
   
+  # @group Stage #3 - Document Processor
   
-  # @group Stage #3 - TemplateProcessor  
-
-  def self.perform_all_tasks
-    Generator::Generator.all.each { |task| task.new.perform }
-  end
-  
-  # @group Stage #4 - Document Processor
-    
+  # For each specified Markdown-Document a new instance of {Document::Document} is created and filled
+  # with it's contents. Afterwards the document-nodes are added as children to `Dom.docs`.
+  #
+  # ![Document Processing](img/process_documents.png)
   def self.prepare_documents
     # underscores will be replaced with whitespaces as title
     Configs.docs.each do |doc|
@@ -74,6 +71,12 @@ module Processor
       
       # The docs can be accessed via Dom later on
     end
+  end
+  
+  # @group Stage #4 - TemplateProcessor  
+
+  def self.start_generators
+    Generator::Generator.all.each { |task| task.new.perform }
   end
  
 end

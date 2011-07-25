@@ -244,6 +244,34 @@ describe Parser::Parser, ".parse" do
   end
   
   
+  context "parsing regular expressions" do
+  
+    before do
+      
+      @comments = Parser::Parser.new("/**
+ * @function _dispatchResponse    
+ */       
+function _dispatchResponse(response) {
+  var code = response.statusCode;
+  var data = response.data || response.rawData;
+
+  _respond(code.toString().replace(/\d{2}$/, 'XX'), data, response);
+}").parse
+    end
+    
+    subject { @comments.first }
+  
+    it "should find the correct source" do
+      subject.source.should == "function _dispatchResponse(response) {
+  var code = response.statusCode;
+  var data = response.data || response.rawData;
+
+  _respond(code.toString().replace(/\d{2}$/, 'XX'), data, response);
+}"
+    end
+  end
+  
+  
   context "parsing multibyte character" do
 
     before do  

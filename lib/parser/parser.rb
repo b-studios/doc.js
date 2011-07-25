@@ -1,10 +1,8 @@
 require 'strscan'
 require_relative 'comment_parser'
 
-#
-# ![Parser Overview](../uml/Parser.svg)
-#
-#
+# @see Parser::Parser
+# @see Parser::CommentParser
 module Parser
 
   NO_BR = /((?!\n)\s)/
@@ -53,7 +51,35 @@ module Parser
     D_STRING     => D_STRING,
     REGEXP_START => REGEXP_END    
   } 
-   
+  
+  # ![Parser Overview](../img/parse_js.png)
+  #
+  # Turns the incoming javascript-source into a stream of {Parser::Comment comments}. Those comments 
+  # contain the parsed doclines, which are simply all lines found in the comment and all tokenlines.
+  #
+  # A tokenline starts with a token like `@token` and can span over multiple lines, if it is intended
+  # by two spaces.
+  # 
+  # The comment-scope (i.e. the javascript-language-scope beginning in the next line) will be preserved
+  # as `source` of the comment as well.
+  #
+  # For example it extracts to Comments from the following source
+  #     
+  #     /**
+  #      * @object Person
+  #      */
+  #     var Person = {}
+  #      
+  #     /**
+  #      * Some documentation here, and there
+  #      *
+  #      * @object Person.config
+  #      */
+  #     Person.config = {};
+  #     
+  #     #=> [#<Parser::Comment tokenlines=1 doclines=0>, #<Parser::Comment tokenlines=1 doclines=2>]
+  #
+  # @see Parser::CommentParser
   class Parser
   
     attr_reader :filepath, :offset
@@ -78,9 +104,10 @@ module Parser
     end  
     
     
-    # Recursivly parses the {#initialize given input} and thereby ignores strings.
+    # Recursivly parses the {#initialize given input} and thereby ignores strings and regular-
+    # expressions.
     #
-    # @todo Rewrite to use skip_intelligent_until
+    # @todo Rewrite to use {StringScanner#intelligent_skip_until}
     # @return [Array<Parser::Comment>] the parsed comment-stream
     def parse()
       @scanner.skip /\s/
@@ -108,6 +135,7 @@ module Parser
       end
     end
     
+    # Reads the contents of `path`, creates a new `Parser` and starts parsing all at once
     def self.parse_file(path)
       stream = File.read path
       Parser.new(stream, :filepath => path).parse
