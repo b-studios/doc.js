@@ -1,3 +1,5 @@
+Customization
+=============
 All of the following Guides require modifications of the default-templates. To start of with your own
 templates simply type:
 
@@ -16,8 +18,8 @@ to:
       views/
       application.rb
       
-If you take a look at `application.rb` you will see, that all it does is to require
-the files, which are placed within the other template-folders.
+If you take a look at `application.rb` you will see, that all it does is to require the files, which 
+are placed within the other template-folders.
 
 generators/
 -----------
@@ -27,7 +29,32 @@ a bit more about the use of a generator and how to customize it.
 
 helpers/
 --------
-Helpers are, like helpers in Rails, included into your generator (
+Helpers are, like helpers in Rails, included into your generator and can be used there and in the views
+aswell. (See Section Helpers in {Generator::Generator})
+
+resources/
+----------
+Contains all static template resources like **css**, **js** and **img** files
+
+tokens/
+-------
+Only consists of one file `tokens.rb`, which contains all the registered Tokens. You may find some more 
+information about the tokens in the {file:USE.md Usage-Guide}.
+
+types/
+------
+Types are special tokens. They categorize the Comments respectively CodeObject's by subclassing them.
+Per default these are
+
+- CodeObject::Object (@object)
+- CodeObject::Function (@function, @constructor, @method)
+- CodeObject::Prototype (@prototype)
+
+See {file:USE.md#Types Usage-Guide}
+
+views/
+------
+Contains the `html.erb` template-files and partials, which will be rendered by the {Generator::Generator Generators}
 
 
 1. Example - Adding a simple token

@@ -43,6 +43,9 @@ find the time to fix thoses and the first problem in 1.8.x so only 1.9+ is suppo
 the time to work on 1.8 compatibility you would make me (and possibly some other 1.8 users) very 
 happy.
 
+Architectural Insides
+---------------------
+{DocJs} is a good starting point if you want to get started with information about the structure of DocJs.
 
 Installation
 ------------
