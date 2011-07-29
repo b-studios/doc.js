@@ -1,5 +1,7 @@
 module Generator
 
+  # renders all specified Markdown files to static documentation. The path to each documentation-page
+  # is derived from it's position in the Dom, using {Helper::Linker#path_to}.
   class DocsGenerator < Generator
   
     describe     'renders all specified Markdown files to static documentation'

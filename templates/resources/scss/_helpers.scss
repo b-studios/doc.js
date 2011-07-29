@@ -32,7 +32,8 @@ $golden_ratio: 1.618;
 /* inspired by http://docs.sencha.com/ext-js/4-0/ */
 @mixin scrollbars() {
   &::-webkit-scrollbar { width: 7px; height: 9px; }
-  &::-webkit-scrollbar-button:start:decrement, .iScroll ::-webkit-scrollbar-button:end:increment { display: block; height: 0; background-color: transparent; }
+  &::-webkit-scrollbar-button:start:decrement, 
+  &::-webkit-scrollbar-button:end:increment { display: block; height: 0; background-color: transparent; }
   &::-webkit-scrollbar-track-piece { -webkit-border-radius: 0; -webkit-border-bottom-right-radius: 4px; -webkit-border-bottom-left-radius: 4px; }
   &::-webkit-scrollbar-thumb:vertical { height: 50px; background-color: rgba(0, 0, 0, 0.15); -webkit-border-radius: 4px; }
   &::-webkit-scrollbar-thumb:horizontal { width: 50px; background-color: rgba(0, 0, 0, 0.15); -webkit-border-radius: 4px; }

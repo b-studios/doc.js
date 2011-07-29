@@ -34,27 +34,42 @@ class Renderer
   end
 
   # @overload render(template, *opts)
+  #   Options **opts**:
+  #   
+  #   - :layout (String) Default is specified in constructor. For example `'json'` or `'application'`
+  #   - :to_file (String) Optional file-path to save the output to.   
+  #   
   #   @param [String, Symbol] template Template-file **without** file-extension. (Like `index` => `index.html.erb`)
-  #   @option opts [String] layout (specified in constructor)
-  #   @option opts [String] to_file (nil) Optional file-path to save the output to.   
+  #   @param [Hash] opts
   #   @return [String, nil] the rendered output
+  #
   #
   # @overload render(:partial => template, :collection => [...])
   #   For each item of `collection`, the partial will be rendered once. The output consists of all
   #   those concatenated render-passes.
   #   The value of each item will be bound to a local-variable called like the partial, without leading
   #   _. (i.e. if partial-name = "_test.html.erb" the variable is called `test`
+  #     
+  #   Options **opts**:
   #   
-  #   @param [String, Symbol] template Template-file **without** file-extension. (Like `index` => `index.html.erb`)
-  #   @param [Array] collection 
+  #   - :template (String, Symbol) Template-file **without** file-extension. (Like `index` => `index.html.erb`)
+  #   - :collection (Array)
+  #   
+  #   @param [Hash] opts
   #   @return [String] the rendered output
+  #
   #
   # @overload render(:partial => template, :locals => {...})
   #   Each key of `locals` will be set to it's value in the local-binding of the partial.
   #    
-  #   @param [String, Symbol] template Template-file **without** file-extension. (Like `index` => `index.html.erb`)
-  #   @param [Hash] locals Hash of variables, which will be available via local-variables in the partial-binding    
+  #   Options **opts**:
+  #
+  #   - :template (String, Symbol) Template-file **without** file-extension. (Like `index` => `index.html.erb`)
+  #   - :locals (Hash) Hash of variables, which will be available via local-variables in the partial-binding    
+  #   
+  #   @param [Hash] opts
   #   @return [String] the rendered output
+  #
   #
   # @example simple rendering
   #   render 'test', :layout => nil #=> returns a string, containing the rendered template 'test.html.erb'

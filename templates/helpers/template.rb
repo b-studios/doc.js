@@ -3,6 +3,7 @@
 # They are included in the Typed-RenderTask 
 module Helper::Template
 
+  # Creates the html-signature of a function, including the markup for a tooltip
   def signature(method_or_token)
   
     if method_or_token.is_a? Token::Token
@@ -24,14 +25,16 @@ module Helper::Template
     "(#{return_types || 'Void'}) <span class='name'>#{method_or_token.name}</span>(<span class='params'>#{params}</span>)"
   end
   
-  def subsection(id, opts = {})
-    unless opts[:collection].nil? or opts[:collection].size == 0
-      "<h3>#{opts[:title]}</h3><ul class=\"#{id} subsection\">" +       
-      render(:partial => opts[:partial], :collection => opts[:collection]) +
-      "</ul>"
-    end
-  end
   
+  # Creates an hierarchy-overview, which can be seen in the sidebar. The direct parent and
+  # all children are listed in the overview:
+  # 
+  #     DocJs
+  #       > CurrentNode
+  #           ChildNode1
+  #           ChildNode2
+  #           ...
+  #
   def hierarchy(object) 
     
     children = object.children.values.reject {|c| c.is_a? CodeObject::Function }
@@ -43,6 +46,20 @@ module Helper::Template
     "</ul>" * (parents.size + 2)
   end
   
+  # Creates the markup for the Api-Tree Browser in the heading-section. The JavaScript tree is 
+  # powered by jquery-treeview by Jörn Zaefferer
+  #
+  # @example output
+  #  <ul>
+  #   <li class="object"><a href="api/Core.html"><span>Core</span></a>
+  #     <ul>
+  #       <li class="function"><a href="api/Core/extend.html"><span>extend</span></a>
+  #       <li class="function"><a href="api/Core/extensions.html"><span>extensions</span></a>
+  #     </ul>
+  #  </ul>
+  #
+  # @see http://bassistance.de/jquery-plugins/jquery-plugin-treeview/
+  # @see http://docs.jquery.com/Plugins/Treeview
   def api_browser(root = Dom.root)
     if root == Dom.root
       output = ""

@@ -1,3 +1,18 @@
+/*!
+ * README
+ * ======
+ *
+ * The application.css is generated using SCSS (see http://sass-lang.com/). You can manipulate it
+ * yourself or edit the *.scss template files and afterwards run 
+ *
+ *     sass templates/resources/scss/application.scss:templates/resources/css/application.css`
+ *
+ * All needed partials (like `_print.scss`) will be required automatically through the use of `@import`.
+ *
+ * Please note, that all manual changes to application.css will be lost, by running the command
+ * above.
+ *
+ */
 $default-fonts: Arial, sans-serif;
 $font-size: 10pt;
 

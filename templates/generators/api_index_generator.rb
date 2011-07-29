@@ -1,5 +1,6 @@
 module Generator
 
+  # renders the api_index.html file containing all documented elements as alphabetic listing
   class ApiIndexGenerator < Generator
 
     describe     'renders the api_index.html file containing all documented elements as alphabetic listing'

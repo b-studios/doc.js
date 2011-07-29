@@ -103,6 +103,9 @@ module Helper
     # @param [Hash] opts
     # @option opts [Numeric] :firstline (1) The line-numeration will start with that number 
     # @option opts [String] :class ("block") A optional css-class which can be added
+    #
+    # @see http://alexgorbatchev.com/SyntaxHighlighter
+    #
     # @return [String] the html-code-element 
     def code(source, opts = {})
 

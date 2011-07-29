@@ -1,5 +1,21 @@
 module Generator
 
+  # renders all documented objects to a json file. Objects and Functions are handled seperatly.
+  # Needed for the JavaScript-search / filter. Renders the file `js/apisearch-data.js` which looks
+  # like:
+  #     
+  #     J.data.apisearch = { 
+  #     
+  #       "functions":[
+  #         { "namespace":"Core",
+  #           "fullname":"Core.extend",
+  #           "path":"api/Core/extend.html",
+  #           "name":".extend",
+  #           "constructor":false
+  #         },...],
+  #        
+  #       "objects": [...]
+  #     }
   class JsonGenerator < Generator
 
     describe     'renders all documented objects to a json file. Objects and Functions are handled seperatly'

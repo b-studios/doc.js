@@ -1,5 +1,7 @@
 module Generator
 
+  # renders documented objects type-dependant (Functions and Objects). Each CodeObject is rendered to
+  # it's own page. The path is calculated using {Helper::Linker#path_to}
   class ApiPagesGenerator < Generator
 
     describe     'renders documented objects type-dependant (Functions and Objects)'
