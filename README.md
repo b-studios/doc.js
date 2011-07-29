@@ -29,6 +29,13 @@ If you read this, you may belong to one of the following groups:
 2. You need some more {file:USE.md information, how to use Doc.js}
 3. You want to {file:CUSTOMIZE.md customize Doc.js}, to exactly fit your needs
 
+Useful Information
+------------------
+- List of supported {file:USE.md#Available_Tokens Tokens}
+- Built in {Token::Handler Handlers}
+- Overview about {Generator::Generator Generators}
+
+
 Supported Ruby-Version
 ----------------------
 Currently **only ruby > 1.9.x is supported**. Support for 1.8.x is not planned, because there are 

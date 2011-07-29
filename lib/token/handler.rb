@@ -6,9 +6,7 @@ require_relative 'token'
 # The {CodeObject::Converter converter} starts the {Parser::Tokenline tokenline}-processing, by 
 # calling the mixed-in function {Token::Container#process_token}.
 #
-# ![Token UML](../uml/Tokens.svg)
-#
-# The illustration above shows the **two modules** included in {Token}:
+# There are **two modules** included in {Token}:
 #
 #   1. {Token::Handler}, which can be used to register new token-handlers.
 #   2. {Token::Container}, which is included in {CodeObject::Base} to add 

@@ -8,7 +8,7 @@ Configs.set :root  => Pathname.new(__FILE__).realpath + '../..'
 
 # Program Flow
 # ------------
-# ![Program flow](img/total_flow.svg)
+# ![Program flow](img/md_total_flow.svg)
 #
 # 1. {#setup_application Prepare Doc.js} - Read configurations and setup application environment
 # 2. {Processor.prepare_documents Process Markdown Documents} - Read the optional markdown-documents and add them to the internal 
@@ -19,6 +19,9 @@ Configs.set :root  => Pathname.new(__FILE__).realpath + '../..'
 # 5. Copy static resources - Finalize the output and copy the javascript, images and stylesheets to 
 #    the output-directory
 #
+# The {Processor} is the central module, which controls the workflow described above. It separates
+# the tasks into different stages, which are performed one after another. (You can see this in
+# the source-code of {DocJs#docjs})
 #
 # The Command Line Interface
 # --------------------------
@@ -33,7 +36,19 @@ Configs.set :root  => Pathname.new(__FILE__).realpath + '../..'
 # additional commandline arguments would be parsed by Thor and added to the instance variable 
 # `configs`.
 #
+# The Internal Datastructure
+# --------------------------
+# All parsed CodeObjects (i.e. comments found in your JavaScript-soures) are internally represented
+# as a Dom-Tree. They can be accessed via {Dom.root}
+#
+# Also all Markdown-Documents are stored in the same Dom-tree, but under a different root-node called
+# {Dom.docs}.
+#
+# For more information about storing and retreiving Data in DocJs see {Dom}.
+#
+#
 # @see https://github.com/wycats/thor/wiki
+# @see Processor
 #
 # @note options declared in a docjs.yml will override command-line ones
 # @note for more information about the **instance methods** please type `docjs help` or 
@@ -70,10 +85,12 @@ class DocJs < Thor
     configs = config_file ? merge_options(options, config_file) : options
     
     begin
+      
+      # PREPARE DOCJS
+    
       # Setup Logger and Configs
       setup_application configs
       
-      # Load application specific files
       Logger.info "Loading Application-Templates"
       load_templates
       
@@ -81,21 +98,24 @@ class DocJs < Thor
       DocJs.source_root(Configs.templates)
       self.destination_root = Configs.output
       
-      # Process specified docs and add them to dom-tree
-      Processor.prepare_documents
       
-      # Kickoff js-file-processing
-      Processor.process_files_to_dom
+      # PROCESS MARKDOWN DOCUMENTS
+      Processor.prepare_documents     # Stage #1
       
-      # Render everything using generators
-      Processor.start_generators
+      # PROCESS JAVASCRIPT FILES
+      Processor.process_files_to_dom  # Stage #2
+      
+      # RENDER TEMPLATES
+      Processor.start_generators      # Stage #3
+      
         
-      # Finally copy all
+      # COPY STATIC RESOURCES
       Logger.info "Copying template resources to output"
-      directory 'resources/img', './img' # copy resources
+      directory 'resources/img', './img'
       directory 'resources/css', './css'
       directory 'resources/js', './js'
-      
+    
+    # Print error on console, if something bad happend  
     rescue Exception => error
       Logger.error error.message + "\n" + error.backtrace.map{|l| "  #{l}" }.join("\n")
     end    

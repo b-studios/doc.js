@@ -52,7 +52,7 @@ module Parser
     REGEXP_START => REGEXP_END    
   } 
   
-  # ![Parser Overview](../img/parse_js.png)
+  # ![Parser Overview](../img/md_parse_js.png)
   #
   # Turns the incoming javascript-source into a stream of {Parser::Comment comments}. Those comments 
   # contain the parsed doclines, which are simply all lines found in the comment and all tokenlines.

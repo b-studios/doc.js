@@ -9,7 +9,7 @@ module CodeObject
 
     def to_code_object
 
-      # 1. Create a new CodeObject from Type-Token like @function → CodeObject::Function 
+      # 1. Create a new CodeObject from Type-Token like @function -> CodeObject::Function 
       @code_object = find_type_for(@tokenlines) or return nil
             
       # join all documentation-contents and make them one text again

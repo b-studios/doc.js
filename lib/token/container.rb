@@ -1,7 +1,9 @@
 require_relative 'exceptions'
 
 module Token
-
+  
+  # Each {CodeObject} serves as Token::Container. This module encapsulates all required methods
+  # to {#process_token convert Tokenlines to Tokens}, {#add_token add Tokens} and {#token query the stored tokens}.
   module Container
     
     def initialize
@@ -45,12 +47,14 @@ module Token
       @tokens[tokenid] << token
     end
     
-    # @param [Parser::Tokenline] tokenline consisting of :token and :content
+    # tries to find matching tokenklass for token i.e. Token::Token::ParamToken for :param
     # then calls matching tokenhandler (if exists) with data in `this`-context
-    # @todo only raise error, if config is set to whiny
+    #
+    # @param [Parser::Tokenline] tokenline consisting of :token and :content
+    #
+    # @todo only throw NoTokenHandler, if this really is the problem
     def process_token(tokenline)
-    
-      # try to find matching tokenklass for token i.e. Token::Token::ParamToken for :param
+   
       begin
         camelcased = tokenline.token.to_s.capitalize.gsub(/_\w/){|w| w[1].capitalize}
         tokenklass = Token.const_get "#{camelcased}Token"

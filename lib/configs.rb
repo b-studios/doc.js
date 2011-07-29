@@ -13,6 +13,19 @@
 #
 # @example List all configs
 #   Configs.attributes #=> { :foo => 456, :bar => "Hello World" }
+#
+# @example Real dump of Configs, after setting up DocJs
+#   Configs.attributes #=> [:root, :options, :wdir, :output, :templates, :files, :docs] 
+#   
+#   Configs.root       #=> #<Pathname:/path/to/application/root>
+#   Configs.options    #=>  {:files=>["test/js-files/core-doc.js"], :docs=>["test/docs/*.md"], 
+#                      #     :output=>"out", :templates=>#<Pathname:/path/to/templates>, 
+#                      #     :appname=>"Doc.js", :loglevel=>"debug"} 
+#   Configs.wdir       #=> "/path/to/working/directory"
+#   Configs.output     #=> "/path/to/output/directory"
+#   Configs.templates  #=> "/path/to/used/template/directory"
+#   Configs.files      #=> ["test/js-files/core-doc.js"] 
+#   Configs.docs       #=> ["test/docs/README.md", "test/docs/README.CONCEPT.md"]
 module Configs
 
   def self.set(sym_or_hash, value = nil)

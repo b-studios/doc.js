@@ -27,34 +27,65 @@ Contains all custom generators, which are needed to create html or json-files fr
 structure. In section {file:CUSTOMIZE.md#Modifying_a_Generator Modifying a Generator} you can learn
 a bit more about the use of a generator and how to customize it.
 
+**Contents:**
+
+  - {Generator::ApiIndexGenerator}
+  - {Generator::ApiPagesGenerator}
+  - {Generator::DocsGenerator}
+  - {Generator::JsonGenerator}
+
 helpers/
 --------
 Helpers are, like helpers in Rails, included into your generator and can be used there and in the views
 aswell. (See Section Helpers in {Generator::Generator})
 
+**Contents:**
+
+  - {Helper::Template}
+
 resources/
 ----------
 Contains all static template resources like **css**, **js** and **img** files
+
+**Contents:**
+
+  - `css/application.css`
+  - `scss/application.scss` and all partials (starting with an underscore)
+  - `js/application.js` and all required libraries
+  - `img/object.png` and all other icons
 
 tokens/
 -------
 Only consists of one file `tokens.rb`, which contains all the registered Tokens. You may find some more 
 information about the tokens in the {file:USE.md Usage-Guide}.
 
+**Contents:**
+
+  - `tokens.rb`
+
 types/
 ------
 Types are special tokens. They categorize the Comments respectively CodeObject's by subclassing them.
 Per default these are
 
-- CodeObject::Object (@object)
-- CodeObject::Function (@function, @constructor, @method)
-- CodeObject::Prototype (@prototype)
+**Contents:**
+
+  - {CodeObject::Object} (@object)
+  - {CodeObject::Function} (@function, @constructor, @method)
+  - {CodeObject::Prototype} (@prototype)
 
 See {file:USE.md#Types Usage-Guide}
 
 views/
 ------
 Contains the `html.erb` template-files and partials, which will be rendered by the {Generator::Generator Generators}
+
+**Contents:**
+
+  - `function/` All templates to render {CodeObject::Function @function-documentation}
+  - `object/` All templates to render {CodeObject::Object @object-documentation}
+  - `layouts/` Contains all layouts like `application.html.erb` and `json.html.erb`
+  - `tokens/` All templates, which a necessary to render a token (See {file:CUSTOMIZE.md#Creating_a_custom_template the Guide below})
 
 
 1. Example - Adding a simple token

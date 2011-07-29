@@ -13,7 +13,7 @@ require_relative 'processor'
 
 # `#setup_application` is called during the initialization process of DocJs within {DocJs#docjs}
 #
-# ![Boot Activity Diagram](img/boot.svg)
+# ![Boot Activity Diagram](img/md_boot.svg)
 #
 # It is responsible to configure the two application-wide Singleton Objects {Logger} and {Configs}
 # and fill {Configs} with the given commandline arguments.

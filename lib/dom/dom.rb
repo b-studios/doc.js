@@ -11,10 +11,6 @@ require_relative 'exceptions'
 #   1. {Dom::NoDoc Not documented nodes} that contain other nodes
 #   2. {Dom::Node Documented nodes}, that contain other nodes
 #   3. Leafs of the tree, without children. (Those leafs have to be {Dom::Node documented nodes})
-#  
-# The architecure of the Dom looks pretty much like this:
-#
-# ![Dom Architecture](../uml/Dom.svg)
 #
 # Take the following code-sample:
 #
@@ -82,11 +78,6 @@ require_relative 'exceptions'
 # 
 #     Dom.add_node != Dom.root.add_node 
 #
-# For the example above the full UML-Graph, including the root-node, could look
-# like:
-#
-# ![dom tree sample](../uml/dom_tree_sample.svg)
-# 
 # @example Adding some Nodes
 #   o1 = CodeObject::Object.new "foo"
 #   o2 = CodeObject::Object.new "poo"

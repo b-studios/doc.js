@@ -45,7 +45,7 @@ module Generator
   #
   # The following image should help you to get a general overview, how the components of DocJs interact:
   #
-  # ![Render Flow](../img/render_flow.png)
+  # ![Render Flow](../img/md_render_flow.png)
   #
   # One may notice, that {Renderer} and {Generator::Generator} are not that separable, as shown in this
   # image. In fact the concrete Generator (like {Generator::ApiIndexGenerator}) inherits from 
@@ -175,6 +175,8 @@ module Generator
     
     # @group System-Methods
     
+    # Calls always the specified `:start_method` on this Generator. (Default for :start_method is
+    # 'index')
     def perform
       
       unless self.respond_to? configs(:start_method)

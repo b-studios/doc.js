@@ -1,6 +1,10 @@
 module Parser
 
-  # is included by {CodeObject::Base} and {Parser::Comment}
+  # Is included by {CodeObject::Base} and {Parser::Comment} and stores Metainformation like
+  #
+  # - **filepath** of the JavaScript-File, where the comment is extracted from
+  # - **source** of the JavaScript-Scope, which begins just after the comment ends.
+  # - **line_start** - Linenumber of the first scope-line
   module MetaContainer
   
     attr_reader :filepath, :source, :line_start

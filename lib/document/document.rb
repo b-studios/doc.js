@@ -2,6 +2,27 @@ require_relative '../dom/dom'
 
 module Document
 
+  # Document is used to represent Markdown-Files (which should provied further help to your 
+  # generated docs)
+  # Each given Markdown-File is converted in a {Document::Document} and then added to {Dom.docs}
+  # Like the {file:USE.md#Namespacing namespacing} in JavaScript-Comments there is a 
+  # naming-convention for Markdown-files if you wish to store them in a tree-like structure.
+  #
+  #     docs/README.md
+  #     docs/README.CONCEPT.md
+  #     docs/README.ARCHITECTURE.md
+  #
+  # will result in a tree:
+  #
+  #           Dom.docs
+  #              |
+  #            README
+  #          /        \
+  #     CONCEPT ARCHITECTURE
+  #
+  # @todo it would be much nicer, if a directory is provided in the CLI (like :docs => "/my/docs")
+  #   that this tree-structure is reconstructed from the directory-structure. Naming files like
+  #   `My.Awesome.File.md` is not that elegant.
   class Document
   
     include Dom::Node

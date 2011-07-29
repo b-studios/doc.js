@@ -12,6 +12,8 @@ module Token
   #       :template    => :foo,
   #       :description => "Description" 
   #     })
+  #
+  # (That's basically everything, that is done internally while registering a Token)
   class Token
 
     attr_reader :name, :content, :types, :children
