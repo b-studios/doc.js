@@ -264,8 +264,6 @@ class StringScanner
     
     raise end_of_string_error(pattern) if self.matched.nil?
     
-    return if found.match pattern
-    
     Parser::NON_CODE_PATTERNS.each do |start_pattern, end_pattern|    
       if found.match start_pattern
         self.skip_escaping_until end_pattern
@@ -287,7 +285,7 @@ class StringScanner
     
     raise end_of_string_error(pattern) if self.matched.nil?
 
-    if self.matched.match /\\/
+    if self.matched.match /\\/ 
       self.getch
       skip_escaping_until(pattern)
     end    

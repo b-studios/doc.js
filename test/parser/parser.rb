@@ -271,6 +271,22 @@ function _dispatchResponse(response) {
     end
   end
   
+  context "parsing strings and lineends correctly for scope" do
+    before do
+      @comments = Parser::Parser.new("/**
+ * @object someString
+ */
+var string =  \"1234567\";
+").parse
+    end
+    
+    subject { @comments.first }
+    
+    it "should parse the string correctly" do
+      subject.source.should == "var string =  \"1234567\";\n"
+    end
+  end
+  
   
   context "parsing multibyte character" do
 

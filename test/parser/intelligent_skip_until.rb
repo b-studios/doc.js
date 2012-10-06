@@ -40,6 +40,16 @@ describe StringScanner, "#intelligent_skip_until" do
     end  
   end
   
+  context "strings as code context (pattern from scope search)" do
+    before do
+      @scanner = StringScanner.new "var string = \"1234567\;\"\nsome more"
+      @scanner.intelligent_skip_until /\{|\(|\}|\)|$/
+    end
+    
+    it "should find linebreak at pos 23" do
+      @scanner.pos.should == 23
+    end  
+  end  
   
   context "regular expressions" do  
     before do
